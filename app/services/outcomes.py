@@ -47,7 +47,16 @@ def performance_summary(repo: Repository, symbol: str) -> list[dict]:
         m = compute_metrics(actual, pred, ref)
         naive = compute_metrics(actual, ref, ref)
         mv = rows[0].model_version
+        with_iv = [p for p in rows if p.interval is not None]
+        coverage = None
+        if with_iv:
+            def hit(p, lo, hi):
+                return getattr(p.interval, lo) <= p.outcome.actual_close <= getattr(p.interval, hi)
+            coverage = {"n": len(with_iv),
+                        **{f"inside_{lv}_pct": sum(hit(p, f"lo{lv}", f"hi{lv}") for p in with_iv)
+                           / len(with_iv) * 100 for lv in (50, 80, 95)}}
         out.append({
+            "live_range_coverage": coverage,
             "model_version_id": mv_id, "model_version": mv.version, "algorithm": mv.algorithm,
             "horizon": mv.horizon, "metrics": m, "naive_metrics": naive,
             "beats_naive_mae": m["mae"] < naive["mae"],

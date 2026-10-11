@@ -211,12 +211,20 @@ with tabs[0]:
             col.metric(f"{p['horizon']}-day forecast (≈ {p['target_date_estimate']})",
                        inr(p["predicted_price"]),
                        f"{p['predicted_change']:+.2f} ₹ ({p['predicted_change_pct']:+.2f}%)")
+            rng = ((p.get("interval") or {}).get("ranges") or {}).get("80")
             col.caption(f"Model: {p['algorithm']}" + (" (baseline)" if p["model_is_baseline"] else ""))
-        st.caption(f"Forecasts made from data through {latest_asof}. Not actual prices.")
+            if rng:
+                col.markdown(f"**80% range:** {inr(rng['lower'])} – {inr(rng['upper'])}  \n"
+                             f"({rng['lower_pct']:+.1f}% … {rng['upper_pct']:+.1f}%)")
+        st.caption(f"Forecasts made from data through {latest_asof}. Not actual prices. The 80% range "
+                   "is where the close should land about 4 times out of 5 (calibrated: 79.9% "
+                   "out-of-sample over 2022-2026); it describes uncertainty, not direction.")
         if any(p["model_is_baseline"] and p["algorithm"] == "naive" for p in cur):
             st.info("**Why is the forecast 'no change'?** For this stock no trained model beat the "
                     "naive baseline (tomorrow = today) in validation, so the validated forecast is "
-                    "flat. That is the honest answer, not a missing prediction.")
+                    "flat. That is the honest answer, not a missing prediction. The **range** below "
+                    "each forecast is the informative part: it shows how far the close is likely to "
+                    "move, and it is calibrated and tested out-of-sample.")
         if exp_by_h:
             with st.expander("Best model's price estimate (NOT validated — treat as unreliable)"):
                 st.warning("These come from the best-scoring trained model, which did **not** beat "
@@ -355,6 +363,13 @@ with tabs[3]:
                            f"{p['predicted_change']:+.2f} ₹ ({p['predicted_change_pct']:+.2f}%)")
                 col.caption(f"≈ {p['target_date_estimate']} · {p['algorithm']} · "
                             f"ref close {inr(p['reference_close'])} on {p['as_of_date']}")
+                rg = ((p.get("interval") or {}).get("ranges") or {})
+                if rg:
+                    col.markdown(f"**50%:** {inr(rg['50']['lower'])} – {inr(rg['50']['upper'])}  \n"
+                                 f"**80%:** {inr(rg['80']['lower'])} – {inr(rg['80']['upper'])}  \n"
+                                 f"**95%:** {inr(rg['95']['lower'])} – {inr(rg['95']['upper'])}")
+                else:
+                    col.caption("No range: ranges are calibrated for 1- and 5-day horizons only.")
             if any(p["model_is_baseline"] for p in fc["predictions"]):
                 st.warning("A baseline model (naive/drift) was selected for some horizons because "
                            "no trained model beat it out-of-sample.")
@@ -467,6 +482,31 @@ with tabs[6]:
             hide_index=True, width="stretch")
         st.caption("Each algorithm applied to every stock. Negative 'MAE vs naive' = worse than naive.")
 
+        try:
+            import json as _json
+            iv = _json.loads((REPORTS / "interval_experiment.json").read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            iv = None
+        if iv:
+            st.subheader("Forecast-range accuracy (out-of-sample)")
+            st.caption(f"{iv['stocks']} stocks, {iv['oos_start']} → {iv['oos_end']}. 'Coverage' = how often the "
+                       "actual return landed inside the range; the target equals the nominal level.")
+            rows = []
+            for h in ("1", "5"):
+                for m, label in (("fhs_xgb", "Shipped (volatility model, calibrated)"),
+                                 ("uncond", "Baseline (historical quantiles)"),
+                                 ("normal_ewma", "Normal curve, EWMA volatility")):
+                    mm = iv["horizons"][h]["methods"][m]
+                    rows.append({"Horizon (d)": int(h), "Method": label,
+                                 "50% range hit %": mm["0.5"]["coverage_pct"],
+                                 "80% range hit %": mm["0.8"]["coverage_pct"],
+                                 "95% range hit %": mm["0.95"]["coverage_pct"],
+                                 "Mean 80% width %": mm["0.8"]["mean_width_pct"]})
+            st.dataframe(pd.DataFrame(rows), hide_index=True, width="stretch")
+            st.caption("The shipped method hits its nominal levels closely and stays calibrated in calm "
+                       "and volatile markets; the normal-curve version over-covers when volatility is "
+                       "high. Gains in sharpness over the simple baseline are modest (about 1–2.5%).")
+
         st.subheader("Latest stored forecasts (all stocks)")
         c1, c2, c3 = st.columns([1, 1, 2])
         hz = c1.radio("Horizon", sorted(bfc["horizon_days"].unique()), horizontal=True, key="bm_h")
@@ -517,7 +557,11 @@ with tabs[5]:
             "Made from (as of)": p["as_of_date"], "Horizon (d)": p["horizon"],
             "Target (est.)": p["target_date_estimate"], "Model": p["algorithm"],
             "Model version": p["model_version"], "Reference ₹": p["reference_close"],
-            "Forecast ₹": p["predicted_price"], "Actual ₹": (p["outcome"] or {}).get("actual_close"),
+            "Forecast ₹": p["predicted_price"],
+            "80% range ₹": (lambda r: f"{r['lower']:,.2f} – {r['upper']:,.2f}" if r else None)(
+                ((p.get("interval") or {}).get("ranges") or {}).get("80")),
+            "Actual ₹": (p["outcome"] or {}).get("actual_close"),
+            "Inside 80%?": (p["outcome"] or {}).get("within_range_80"),
             "Error ₹": (p["outcome"] or {}).get("error"),
             "Error %": (p["outcome"] or {}).get("pct_error"),
             "Direction ✓": (p["outcome"] or {}).get("direction_correct"),
@@ -528,6 +572,13 @@ with tabs[5]:
                          pct_error=p["outcome"]["pct_error"]) for p in hist_preds if p["outcome"]]
         if resolved:
             st.plotly_chart(charts.live_error_chart(pd.DataFrame(resolved)), width="stretch")
+        cov_rows = [r for r in perf["by_model"] if r.get("live_range_coverage")]
+        if cov_rows:
+            n_iv = sum(r["live_range_coverage"]["n"] for r in cov_rows)
+            in80 = sum(r["live_range_coverage"]["inside_80_pct"] * r["live_range_coverage"]["n"]
+                       for r in cov_rows) / n_iv
+            st.metric("Live range check: actual close inside the 80% range", f"{in80:.0f}%",
+                      help=f"{n_iv} matured forecast(s). Target ≈ 80%; small samples are noisy.")
         if perf["by_model"]:
             st.subheader("Realised accuracy by model version")
             st.dataframe(pd.DataFrame([{

@@ -298,6 +298,74 @@ better in walk-forward validation did not hold up on the unseen window, and dire
 coin flip. The pipeline's safeguard (fall back to naive) is doing its job; the forecasts are mostly
 flat by design.
 
+## Pooled-model experiment (one model across all stocks)
+
+`python scripts\pooled_experiment.py` (≈ 6 min; needs the price cache from the benchmark) trains a
+single model on the whole Nifty 200 panel (≈ 342k rows) with 46 features: the 24 per-stock features
+plus market (Nifty, India VIX, USD/INR and crude lagged one day) and cross-sectional features
+(relative strength, ranks, sector averages). Candidates: ridge, XGBoost (L2 loss), XGBoost (L1 loss,
+matches the MAE metric), each with a shrinkage factor chosen on a validation window. Evaluated on
+three consecutive 126-session out-of-sample blocks with purged splits and Newey-West t-statistics.
+Pre-registered criterion: MAE improvement vs naive with t > 2 and positive in ≥ 2 of 3 blocks.
+
+**Result: criterion not met.** Selected system vs naive, MAE: 1-day −0.49 % (t = −1.75, 0/3 blocks
+positive, worse on 148 of 187 stocks); 5-day fell back to naive in every block. Raw pooled models
+are significantly *worse* than naive on absolute error (−0.8 % to −3.7 %). They do carry a small
+cross-sectional *ranking* signal (rank IC ≈ 0.02, t ≈ 3–4; top-minus-bottom-quintile spread ≈ 0.1–0.2 %
+per day gross of costs) which weakened over time and has not been tested net of costs.
+Details: `reports/pooled_experiment.json`.
+
+## Long-short backtest with costs
+
+`python scripts\longshort_backtest.py` (≈ 16 min) turns the pooled signal (rank-average of ridge,
+XGBoost-L2, XGBoost-L1; refit every 126 sessions, no tuning) into a top-quintile-long /
+bottom-quintile-short portfolio over 187 stocks, 2022-01 → 2026-10, daily (1-day signal) and weekly
+(5-day signal) rebalancing. Pre-registered pass criterion: net of 10 bps per unit traded, with
+execution delayed one session, Newey-West t > 2.24 and positive in ≥ 60 % of calendar years.
+
+**Result: criterion not met for either strategy.** A shuffled-signal placebo gave t ≈ 0 (sd ≈ 0.7–0.8),
+so the statistics are sound.
+
+| Strategy (long-short) | Gross / yr | Break-even cost | Net at 10 bps | t |
+|---|---|---|---|---|
+| Daily, trade the *next* close (primary) | −5.8 % | −0.8 bps | −76.9 % | −14.5 |
+| Daily, trade the *same* close as the signal | +45.0 % (Sharpe 3.9) | 6.3 bps | −26.1 % | −5.1 |
+| Weekly, next close (primary) | +3.9 % (t 0.7) | 2.7 bps | −10.7 % | −2.0 |
+| Weekly, same close | +11.4 % (t 2.2) | 7.8 bps | −3.2 % | −0.6 |
+
+The 1-day ranking signal is real but vanishes within a session and needs ~3 round-trips of the
+portfolio per day, so any realistic cost (cash-equity STT alone is 10 bps per side) removes it. Not
+modelled: market impact, shorting restrictions/borrow (retail cannot short cash equities in India),
+survivorship bias (today's index members). `reports/latest_signal_ranking.csv` is the current
+signal ranking — **not validated for trading, do not use as buy/sell advice.**
+Details: `reports/longshort_backtest.json`, `reports/longshort_net_returns.csv`.
+
+## Forecast ranges (calibrated uncertainty)
+
+Every 1- and 5-day forecast now carries 50 %, 80 % and 95 % ranges around the latest close
+(`prediction.interval` in the API; shaded band on the forecast chart; "80 % range" on the cards).
+Direction is not predictable from price history (see the experiments above), but *how far* a stock
+moves is, so the ranges are the informative part of a flat "no change" forecast.
+
+* **Method.** A pooled XGBoost model predicts each stock's daily volatility from its own 24
+  features plus Nifty/India-VIX features; range = predicted σ·√h × empirical quantiles of
+  (realised return ÷ predicted σ) on a held-out 252-session calibration window. If market data
+  cannot be fetched the app falls back to EWMA volatility with the same calibration
+  (`interval.method` says which was used). Horizons other than 1 and 5 get no range.
+* **Selection.** `python scripts\interval_experiment.py` (≈ 4 min) compares six methods
+  walk-forward (2022-01 → 2026-10, 190 stocks, ≈ 211k forecasts per horizon). The selection rule
+  (80 % coverage within ±3 pp overall and ±5 pp in every calendar year, lowest interval score, must
+  beat the unconditional baseline with Newey-West t > 2) was fixed before running.
+* **Result.** Coverage of the shipped method: 50 % → 49.8 %, 80 % → 79.9 %, 95 % → 94.9 % (1-day),
+  similar at 5 days; 79.7–80.0 % in low/medium/high-volatility regimes (the baseline drifts 84.7 →
+  77.3 %; normal-curve versions over-cover when volatility is high). Sharper than the baseline by
+  only 2.5 % (1-day) / 1.4 % (5-day): the gain is reliability, not narrow ranges.
+* **Live tracking.** When a forecast matures the app records whether the actual close fell inside
+  each range (`within_range_80`, per-model `live_range_coverage`, tile in *Prediction History*).
+* **Artifacts.** `python scripts\export_vol_models.py` converts the experiment output into
+  `app/models/pretrained/` (portable XGBoost JSON models + calibration JSON, ≈ 1.2 MB). Re-run the
+  experiment and export periodically to refresh the calibration.
+
 ## Known limitations
 
 * Data is Yahoo Finance end-of-day via an unofficial API: may be delayed, gapped, or rate-limited.

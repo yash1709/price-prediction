@@ -139,6 +139,27 @@ class Prediction(Base):
     outcome: Mapped["Outcome | None"] = relationship(
         back_populates="prediction", uselist=False, cascade="all, delete-orphan"
     )
+    interval: Mapped["PredictionInterval | None"] = relationship(
+        back_populates="prediction", uselist=False, cascade="all, delete-orphan"
+    )
+
+
+class PredictionInterval(Base):
+    """Calibrated forecast ranges (in rupees) around the reference close for one prediction."""
+    __tablename__ = "prediction_intervals"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    prediction_id: Mapped[int] = mapped_column(ForeignKey("predictions.id"), unique=True)
+    method: Mapped[str] = mapped_column(String(20))  # fhs_xgb | fhs_ewma
+    sigma_daily: Mapped[float] = mapped_column(Float)
+    lo50: Mapped[float] = mapped_column(Float)
+    hi50: Mapped[float] = mapped_column(Float)
+    lo80: Mapped[float] = mapped_column(Float)
+    hi80: Mapped[float] = mapped_column(Float)
+    lo95: Mapped[float] = mapped_column(Float)
+    hi95: Mapped[float] = mapped_column(Float)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
+
+    prediction: Mapped[Prediction] = relationship(back_populates="interval")
 
 
 class Outcome(Base):

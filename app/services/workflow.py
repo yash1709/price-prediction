@@ -90,7 +90,8 @@ def run_quick_forecast(ctx: AppContext, symbol: str, horizons: list[int] | None 
             if not cands:
                 continue
             best = min(cands, key=lambda m: m.metrics["rmse"])
-            preds, _ = predict_for_symbol(repo, symbol, [h], best.id)
+            preds, _ = predict_for_symbol(repo, symbol, [h], best.id,
+                                          interval_fn=ctx.intervals.compute)
             for p in preds:
                 p["validated"] = False
                 p["validation_mae_vs_naive_pct"] = best.metrics["vs_naive"]["mae_improvement_pct"]
@@ -113,7 +114,8 @@ def run_prediction(ctx: AppContext, symbol: str, horizons: list[int] | None,
         if repo.get_stock(symbol) is None:
             raise NotFoundError(f"Unknown symbol {symbol}; fetch its data first.")
         resolve_outcomes(repo, symbol)  # settle earlier forecasts whose target day has now passed
-        preds, w = predict_for_symbol(repo, symbol, horizons, model_version_id)
+        preds, w = predict_for_symbol(repo, symbol, horizons, model_version_id,
+                                      interval_fn=ctx.intervals.compute)
         warnings += w
         meta = repo.get_meta(symbol)
         data_info = {"last_bar_date": meta.last_date.isoformat() if meta and meta.last_date else None,

@@ -1,0 +1,3310 @@
+{
+  "stocks": 187,
+  "oos_start": "2022-01-06",
+  "oos_end": "2026-10-09",
+  "cost_grid_bps": [
+    0,
+    5,
+    10,
+    20,
+    30
+  ],
+  "primary": {
+    "cost_bps": 10,
+    "delay": 1,
+    "t_threshold": 2.24
+  },
+  "horizons": {
+    "1": {
+      "variants": {
+        "ensemble|delay0|ls": {
+          "cost_0bps": {
+            "periods": 1171,
+            "ann_return_pct": 45.007736650964894,
+            "ann_vol_pct": 11.655567990986535,
+            "sharpe": 3.8614794822328875,
+            "nw_t": 9.005482355315609,
+            "max_drawdown_pct": -5.435380433705895,
+            "avg_turnover_per_rebalance": 2.8217207234145874,
+            "gross_ann_return_pct": 45.007736650964894,
+            "breakeven_cost_bps": 6.329546651632948,
+            "years_positive": "5/5",
+            "share_years_positive": 1.0,
+            "yearly_ann_return_pct": {
+              "2022": 56.47206582903367,
+              "2023": 36.66207182656985,
+              "2024": 57.66080314803569,
+              "2025": 35.25366728520138,
+              "2026": 37.202034568061194
+            }
+          },
+          "cost_5bps": {
+            "periods": 1171,
+            "ann_return_pct": 9.454055535941091,
+            "ann_vol_pct": 11.649092269864571,
+            "sharpe": 0.8115701478644913,
+            "nw_t": 1.8721173095474781,
+            "max_drawdown_pct": -10.665549028517141,
+            "avg_turnover_per_rebalance": 2.8217207234145874,
+            "gross_ann_return_pct": 45.007736650964894,
+            "breakeven_cost_bps": 6.329546651632948,
+            "years_positive": "5/5",
+            "share_years_positive": 1.0,
+            "yearly_ann_return_pct": {
+              "2022": 20.92505476514866,
+              "2023": 2.1234088370497126,
+              "2024": 21.86460060724072,
+              "2025": 0.10075178713351161,
+              "2026": 0.1077021768362949
+            }
+          },
+          "cost_10bps": {
+            "periods": 1171,
+            "ann_return_pct": -26.09962557908271,
+            "ann_vol_pct": 11.651222224614726,
+            "sharpe": -2.2400761976665287,
+            "nw_t": -5.110159399034311,
+            "max_drawdown_pct": -72.7547182207829,
+            "avg_turnover_per_rebalance": 2.8217207234145874,
+            "gross_ann_return_pct": 45.007736650964894,
+            "breakeven_cost_bps": 6.329546651632948,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -14.621956298736352,
+              "2023": -32.415254152470425,
+              "2024": -13.931601933554258,
+              "2025": -35.05216371093435,
+              "2026": -36.986630214388605
+            }
+          },
+          "cost_20bps": {
+            "periods": 1171,
+            "ann_return_pct": -97.20698780913031,
+            "ann_vol_pct": 11.681261312337751,
+            "sharpe": -8.321617435820931,
+            "nw_t": -18.55907947356205,
+            "max_drawdown_pct": -98.95168234269177,
+            "avg_turnover_per_rebalance": 2.8217207234145874,
+            "gross_ann_return_pct": 45.007736650964894,
+            "breakeven_cost_bps": 6.329546651632948,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -85.71597842650638,
+              "2023": -101.4925801315107,
+              "2024": -85.5240070151442,
+              "2025": -105.35799470707008,
+              "2026": -111.1752949968384
+            }
+          },
+          "cost_30bps": {
+            "periods": 1171,
+            "ann_return_pct": -168.31435003917787,
+            "ann_vol_pct": 11.745421437811311,
+            "sharpe": -14.330209514435461,
+            "nw_t": -31.243214281600412,
+            "max_drawdown_pct": -99.9620161050058,
+            "avg_turnover_per_rebalance": 2.8217207234145874,
+            "gross_ann_return_pct": 45.007736650964894,
+            "breakeven_cost_bps": 6.329546651632948,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -156.8100005542764,
+              "2023": -170.56990611055093,
+              "2024": -157.11641209673414,
+              "2025": -175.66382570320582,
+              "2026": -185.36395977928822
+            }
+          }
+        },
+        "ensemble|delay0|long": {
+          "cost_0bps": {
+            "periods": 1171,
+            "ann_return_pct": 23.24327241012499,
+            "ann_vol_pct": 6.905457509173742,
+            "sharpe": 3.365927946011809,
+            "nw_t": 7.382479972566385,
+            "max_drawdown_pct": -3.111793910677607,
+            "avg_turnover_per_rebalance": 1.4044130089317515,
+            "gross_ann_return_pct": 43.62853852583826,
+            "breakeven_cost_bps": 12.327507651468368,
+            "years_positive": "5/5",
+            "share_years_positive": 1.0,
+            "yearly_ann_return_pct": {
+              "2022": 25.242536996794772,
+              "2023": 25.600808864667535,
+              "2024": 35.36894320549959,
+              "2025": 13.46034824172683,
+              "2026": 14.55205431882275
+            }
+          },
+          "cost_5bps": {
+            "periods": 1171,
+            "ann_return_pct": 5.547668497584926,
+            "ann_vol_pct": 6.906829837284109,
+            "sharpe": 0.8032148798045922,
+            "nw_t": 1.7448869314345248,
+            "max_drawdown_pct": -8.6616038626247,
+            "avg_turnover_per_rebalance": 1.4044130089317515,
+            "gross_ann_return_pct": 43.62853852583826,
+            "breakeven_cost_bps": 12.327507651468368,
+            "years_positive": "3/5",
+            "share_years_positive": 0.6,
+            "yearly_ann_return_pct": {
+              "2022": 7.438455364141718,
+              "2023": 8.368839752698424,
+              "2024": 17.592616790830746,
+              "2025": -4.054087864953053,
+              "2026": -3.7387846853981195
+            }
+          },
+          "cost_10bps": {
+            "periods": 1171,
+            "ann_return_pct": -12.147935414955144,
+            "ann_vol_pct": 6.914094055202908,
+            "sharpe": -1.7569815102260187,
+            "nw_t": -3.7794872063999363,
+            "max_drawdown_pct": -44.4016813216635,
+            "avg_turnover_per_rebalance": 1.4044130089317515,
+            "gross_ann_return_pct": 43.62853852583826,
+            "breakeven_cost_bps": 12.327507651468368,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -10.365626268511344,
+              "2023": -8.863129359270685,
+              "2024": -0.18370962383809492,
+              "2025": -21.56852397163293,
+              "2026": -22.029623689618987
+            }
+          },
+          "cost_20bps": {
+            "periods": 1171,
+            "ann_return_pct": -47.53914324003527,
+            "ann_vol_pct": 6.946209228678692,
+            "sharpe": -6.843897394245088,
+            "nw_t": -14.428630291537557,
+            "max_drawdown_pct": -89.12950935614325,
+            "avg_turnover_per_rebalance": 1.4044130089317515,
+            "gross_ann_return_pct": 43.62853852583826,
+            "breakeven_cost_bps": 12.327507651468368,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -45.97378953381746,
+              "2023": -43.32706758320891,
+              "2024": -35.736362453175786,
+              "2025": -56.5973961849927,
+              "2026": -58.61130169806073
+            }
+          },
+          "cost_30bps": {
+            "periods": 1171,
+            "ann_return_pct": -82.93035106511542,
+            "ann_vol_pct": 7.001479953850506,
+            "sharpe": -11.844688781763542,
+            "nw_t": -24.46910701642609,
+            "max_drawdown_pct": -97.90792190534407,
+            "avg_turnover_per_rebalance": 1.4044130089317515,
+            "gross_ann_return_pct": 43.62853852583826,
+            "breakeven_cost_bps": 12.327507651468368,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -81.58195279912358,
+              "2023": -77.79100580714713,
+              "2024": -71.28901528251347,
+              "2025": -91.62626839835247,
+              "2026": -95.19297970650246
+            }
+          }
+        },
+        "ensemble|delay1|ls": {
+          "cost_0bps": {
+            "periods": 1170,
+            "ann_return_pct": -5.7622200733153,
+            "ann_vol_pct": 11.354136216637272,
+            "sharpe": -0.5074996427180335,
+            "nw_t": -1.0933898307747791,
+            "max_drawdown_pct": -36.43022381866834,
+            "avg_turnover_per_rebalance": 2.821691496969242,
+            "gross_ann_return_pct": -5.7622200733153,
+            "breakeven_cost_bps": -0.810363312092986,
+            "years_positive": "1/5",
+            "share_years_positive": 0.2,
+            "yearly_ann_return_pct": {
+              "2022": -19.984782123939944,
+              "2023": -4.704713138115278,
+              "2024": -7.691196270038457,
+              "2025": 7.360017851447727,
+              "2026": -3.397585402007645
+            }
+          },
+          "cost_5bps": {
+            "periods": 1170,
+            "ann_return_pct": -41.31553293512775,
+            "ann_vol_pct": 11.364286455972088,
+            "sharpe": -3.635558914780424,
+            "nw_t": -7.808065249262064,
+            "max_drawdown_pct": -85.94189061303406,
+            "avg_turnover_per_rebalance": 2.821691496969242,
+            "gross_ann_return_pct": -5.7622200733153,
+            "breakeven_cost_bps": -0.810363312092986,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -55.52428093808679,
+              "2023": -39.21696686122614,
+              "2024": -43.501826583950226,
+              "2025": -27.81015566747927,
+              "2026": -40.492203801525264
+            }
+          },
+          "cost_10bps": {
+            "periods": 1170,
+            "ann_return_pct": -76.8688457969402,
+            "ann_vol_pct": 11.383254641774002,
+            "sharpe": -6.752800338389051,
+            "nw_t": -14.453611262200944,
+            "max_drawdown_pct": -97.3067747754049,
+            "avg_turnover_per_rebalance": 2.821691496969242,
+            "gross_ann_return_pct": -5.7622200733153,
+            "breakeven_cost_bps": -0.810363312092986,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -91.06377975223361,
+              "2023": -73.72922058433701,
+              "2024": -79.312456897862,
+              "2025": -62.98032918640626,
+              "2026": -77.58682220104289
+            }
+          },
+          "cost_20bps": {
+            "periods": 1170,
+            "ann_return_pct": -147.9754715205651,
+            "ann_vol_pct": 11.447449143261258,
+            "sharpe": -12.926501761981923,
+            "nw_t": -27.461087855836567,
+            "max_drawdown_pct": -99.90203718342751,
+            "avg_turnover_per_rebalance": 2.821691496969242,
+            "gross_ann_return_pct": -5.7622200733153,
+            "breakeven_cost_bps": -0.810363312092986,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -162.14277738052732,
+              "2023": -142.75372803055873,
+              "2024": -150.93371752568555,
+              "2025": -133.32067622426024,
+              "2026": -151.77605900007816
+            }
+          },
+          "cost_30bps": {
+            "periods": 1170,
+            "ann_return_pct": -219.08209724418995,
+            "ann_vol_pct": 11.546134685261771,
+            "sharpe": -18.974496939122016,
+            "nw_t": -39.9790947204124,
+            "max_drawdown_pct": -99.9964736615388,
+            "avg_turnover_per_rebalance": 2.821691496969242,
+            "gross_ann_return_pct": -5.7622200733153,
+            "breakeven_cost_bps": -0.810363312092986,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -233.22177500882097,
+              "2023": -211.77823547678045,
+              "2024": -222.5549781535091,
+              "2025": -203.66102326211424,
+              "2026": -225.9652957991134
+            }
+          }
+        },
+        "ensemble|delay1|long": {
+          "cost_0bps": {
+            "periods": 1170,
+            "ann_return_pct": -3.595558934529565,
+            "ann_vol_pct": 6.5518342495592785,
+            "sharpe": -0.5487866141869244,
+            "nw_t": -1.1817894404869889,
+            "max_drawdown_pct": -20.935835722086704,
+            "avg_turnover_per_rebalance": 1.404351409550465,
+            "gross_ann_return_pct": 16.74544031819985,
+            "breakeven_cost_bps": 4.731733064883478,
+            "years_positive": "1/5",
+            "share_years_positive": 0.2,
+            "yearly_ann_return_pct": {
+              "2022": -11.564033649584118,
+              "2023": -2.6425215169508403,
+              "2024": -4.721749700565932,
+              "2025": 3.093282225926299,
+              "2026": -1.8098524186845069
+            }
+          },
+          "cost_5bps": {
+            "periods": 1170,
+            "ann_return_pct": -21.290386694865422,
+            "ann_vol_pct": 6.559179999729965,
+            "sharpe": -3.2458915132290818,
+            "nw_t": -6.968784067831843,
+            "max_drawdown_pct": -63.32756430295947,
+            "avg_turnover_per_rebalance": 1.404351409550465,
+            "gross_ann_return_pct": 16.74544031819985,
+            "breakeven_cost_bps": 4.731733064883478,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -29.364525452862804,
+              "2023": -19.87093850536783,
+              "2024": -22.506295462630952,
+              "2025": -14.424854619634376,
+              "2026": -20.090109116074466
+            }
+          },
+          "cost_10bps": {
+            "periods": 1170,
+            "ann_return_pct": -38.98521445520128,
+            "ann_vol_pct": 6.572728143846543,
+            "sharpe": -5.931359642753467,
+            "nw_t": -12.690394632828802,
+            "max_drawdown_pct": -83.87263194042751,
+            "avg_turnover_per_rebalance": 1.404351409550465,
+            "gross_ann_return_pct": 16.74544031819985,
+            "breakeven_cost_bps": 4.731733064883478,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -47.16501725614149,
+              "2023": -37.09935549378481,
+              "2024": -40.290841224695974,
+              "2025": -31.942991465195053,
+              "2026": -38.37036581346443
+            }
+          },
+          "cost_20bps": {
+            "periods": 1170,
+            "ann_return_pct": -74.374869975873,
+            "ann_vol_pct": 6.618261816195235,
+            "sharpe": -11.237825284257232,
+            "nw_t": -23.850302962886786,
+            "max_drawdown_pct": -96.88959959413333,
+            "avg_turnover_per_rebalance": 1.404351409550465,
+            "gross_ann_return_pct": 16.74544031819985,
+            "breakeven_cost_bps": 4.731733064883478,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -82.76600086269887,
+              "2023": -71.55618947061878,
+              "2024": -75.85993274882601,
+              "2025": -66.9792651563164,
+              "2026": -74.93087920824436
+            }
+          },
+          "cost_30bps": {
+            "periods": 1170,
+            "ann_return_pct": -109.76452549654474,
+            "ann_vol_pct": 6.687932018051942,
+            "sharpe": -16.41232674020465,
+            "nw_t": -34.50771845108332,
+            "max_drawdown_pct": -99.40166963290878,
+            "avg_turnover_per_rebalance": 1.404351409550465,
+            "gross_ann_return_pct": 16.74544031819985,
+            "breakeven_cost_bps": 4.731733064883478,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -118.36698446925624,
+              "2023": -106.01302344745275,
+              "2024": -111.42902427295607,
+              "2025": -102.01553884743775,
+              "2026": -111.49139260302428
+            }
+          }
+        },
+        "pooled_ridge|delay0|ls": {
+          "cost_0bps": {
+            "periods": 1171,
+            "ann_return_pct": 34.647692732513754,
+            "ann_vol_pct": 12.806536800065468,
+            "sharpe": 2.7054693453375025,
+            "nw_t": 6.01425561458752,
+            "max_drawdown_pct": -11.460843944650312,
+            "avg_turnover_per_rebalance": 2.7942278551761666,
+            "gross_ann_return_pct": 34.647692732513754,
+            "breakeven_cost_bps": 4.920530869447422,
+            "years_positive": "5/5",
+            "share_years_positive": 1.0,
+            "yearly_ann_return_pct": {
+              "2022": 46.390431842145446,
+              "2023": 41.12809080469377,
+              "2024": 32.06230660813364,
+              "2025": 42.477092118443096,
+              "2026": 3.995962566179106
+            }
+          },
+          "cost_5bps": {
+            "periods": 1171,
+            "ann_return_pct": -0.5595782427059495,
+            "ann_vol_pct": 12.808739909005698,
+            "sharpe": -0.04368722034183203,
+            "nw_t": -0.09651547407297917,
+            "max_drawdown_pct": -28.378967097700723,
+            "avg_turnover_per_rebalance": 2.7942278551761666,
+            "gross_ann_return_pct": 34.647692732513754,
+            "breakeven_cost_bps": 4.920530869447422,
+            "years_positive": "3/5",
+            "share_years_positive": 0.6,
+            "yearly_ann_return_pct": {
+              "2022": 11.360078900968983,
+              "2023": 6.675411268014235,
+              "2024": -3.543569847590384,
+              "2025": 7.3823967411992335,
+              "2026": -32.05156928818367
+            }
+          },
+          "cost_10bps": {
+            "periods": 1171,
+            "ann_return_pct": -35.766849217925646,
+            "ann_vol_pct": 12.816121308066355,
+            "sharpe": -2.790770183753981,
+            "nw_t": -6.126862730955983,
+            "max_drawdown_pct": -82.20922267557012,
+            "avg_turnover_per_rebalance": 2.7942278551761666,
+            "gross_ann_return_pct": 34.647692732513754,
+            "breakeven_cost_bps": 4.920530869447422,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -23.670274040207488,
+              "2023": -27.7772682686653,
+              "2024": -39.149446303314406,
+              "2025": -27.712298636044636,
+              "2026": -68.09910114254644
+            }
+          },
+          "cost_20bps": {
+            "periods": 1171,
+            "ann_return_pct": -106.18139116836505,
+            "ann_vol_pct": 12.846377009892146,
+            "sharpe": -8.26547368854283,
+            "nw_t": -17.916895045832185,
+            "max_drawdown_pct": -99.31939184050191,
+            "avg_turnover_per_rebalance": 2.7942278551761666,
+            "gross_ann_return_pct": 34.647692732513754,
+            "breakeven_cost_bps": 4.920530869447422,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -93.73097992256042,
+              "2023": -96.68262734202438,
+              "2024": -110.36119921476244,
+              "2025": -97.90168939053237,
+              "2026": -140.19416485127198
+            }
+          },
+          "cost_30bps": {
+            "periods": 1171,
+            "ann_return_pct": -176.59593311880442,
+            "ann_vol_pct": 12.897158427462621,
+            "sharpe": -13.692623387704467,
+            "nw_t": -29.30440891494343,
+            "max_drawdown_pct": -99.97448892895108,
+            "avg_turnover_per_rebalance": 2.7942278551761666,
+            "gross_ann_return_pct": 34.647692732513754,
+            "breakeven_cost_bps": 4.920530869447422,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -163.79168580491336,
+              "2023": -165.58798641538343,
+              "2024": -181.5729521262105,
+              "2025": -168.0910801450201,
+              "2026": -212.28922855999755
+            }
+          }
+        },
+        "pooled_ridge|delay0|long": {
+          "cost_0bps": {
+            "periods": 1171,
+            "ann_return_pct": 20.04275607781153,
+            "ann_vol_pct": 7.775655721259452,
+            "sharpe": 2.57762905101528,
+            "nw_t": 5.737878322438552,
+            "max_drawdown_pct": -6.331101206018053,
+            "avg_turnover_per_rebalance": 1.3736299694196679,
+            "gross_ann_return_pct": 40.42802219352478,
+            "breakeven_cost_bps": 11.679175838445941,
+            "years_positive": "5/5",
+            "share_years_positive": 1.0,
+            "yearly_ann_return_pct": {
+              "2022": 23.494301120884213,
+              "2023": 29.348614536130757,
+              "2024": 20.47183335503969,
+              "2025": 19.33047129810425,
+              "2026": 3.7917851871123407
+            }
+          },
+          "cost_5bps": {
+            "periods": 1171,
+            "ann_return_pct": 2.735018463123713,
+            "ann_vol_pct": 7.780085251240807,
+            "sharpe": 0.351540937509331,
+            "nw_t": 0.7784699083132195,
+            "max_drawdown_pct": -14.503917726655258,
+            "avg_turnover_per_rebalance": 1.3736299694196679,
+            "gross_ann_return_pct": 40.42802219352478,
+            "breakeven_cost_bps": 11.679175838445941,
+            "years_positive": "4/5",
+            "share_years_positive": 0.8,
+            "yearly_ann_return_pct": {
+              "2022": 6.204668467822989,
+              "2023": 12.56622071373694,
+              "2024": 3.0044223464701365,
+              "2025": 1.909569552548758,
+              "2026": -13.866557478061237
+            }
+          },
+          "cost_10bps": {
+            "periods": 1171,
+            "ann_return_pct": -14.572719151564103,
+            "ann_vol_pct": 7.787453014964081,
+            "sharpe": -1.8713074895683748,
+            "nw_t": -4.12202236589689,
+            "max_drawdown_pct": -51.89222992568296,
+            "avg_turnover_per_rebalance": 1.3736299694196679,
+            "gross_ann_return_pct": 40.42802219352478,
+            "breakeven_cost_bps": 11.679175838445941,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -11.084964185238231,
+              "2023": -4.216173108656882,
+              "2024": -14.462988662099407,
+              "2025": -15.511332193006734,
+              "2026": -31.52490014323482
+            }
+          },
+          "cost_20bps": {
+            "periods": 1171,
+            "ann_return_pct": -49.18819438093973,
+            "ann_vol_pct": 7.81096666973464,
+            "sharpe": -6.29732483324126,
+            "nw_t": -13.72270735331106,
+            "max_drawdown_pct": -90.06155459994557,
+            "avg_turnover_per_rebalance": 1.3736299694196679,
+            "gross_ann_return_pct": 40.42802219352478,
+            "breakeven_cost_bps": 11.679175838445941,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -45.66422949136067,
+              "2023": -37.78096075344452,
+              "2024": -49.3978106792385,
+              "2025": -50.353135684117724,
+              "2026": -66.84158547358197
+            }
+          },
+          "cost_30bps": {
+            "periods": 1171,
+            "ann_return_pct": -83.80366961031537,
+            "ann_vol_pct": 7.846091349318576,
+            "sharpe": -10.680944929043378,
+            "nw_t": -23.022347746820966,
+            "max_drawdown_pct": -98.00959741557807,
+            "avg_turnover_per_rebalance": 1.3736299694196679,
+            "gross_ann_return_pct": 40.42802219352478,
+            "breakeven_cost_bps": 11.679175838445941,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -80.24349479748312,
+              "2023": -71.34574839823216,
+              "2024": -84.3326326963776,
+              "2025": -85.1949391752287,
+              "2026": -102.15827080392911
+            }
+          }
+        },
+        "pooled_ridge|delay1|ls": {
+          "cost_0bps": {
+            "periods": 1170,
+            "ann_return_pct": 2.723996156760973,
+            "ann_vol_pct": 11.38642989183278,
+            "sharpe": 0.23923180335171007,
+            "nw_t": 0.4796226312970023,
+            "max_drawdown_pct": -25.364314584040347,
+            "avg_turnover_per_rebalance": 2.7943745287463044,
+            "gross_ann_return_pct": 2.723996156760973,
+            "breakeven_cost_bps": 0.3868310581625926,
+            "years_positive": "4/5",
+            "share_years_positive": 0.8,
+            "yearly_ann_return_pct": {
+              "2022": 2.6318984057119312,
+              "2023": 2.7478938760871308,
+              "2024": -3.6706555948657584,
+              "2025": 7.245655521467744,
+              "2026": 5.239163060158103
+            }
+          },
+          "cost_5bps": {
+            "periods": 1170,
+            "ann_return_pct": -32.485122905442466,
+            "ann_vol_pct": 11.391197835196557,
+            "sharpe": -2.8517740957030733,
+            "nw_t": -5.71082254167093,
+            "max_drawdown_pct": -78.82226113568612,
+            "avg_turnover_per_rebalance": 2.7943745287463044,
+            "gross_ann_return_pct": 2.723996156760973,
+            "breakeven_cost_bps": 0.3868310581625926,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -32.36083544192549,
+              "2023": -31.76069299649974,
+              "2024": -39.21867938084687,
+              "2025": -27.877174340143295,
+              "2026": -30.833632860062245
+            }
+          },
+          "cost_10bps": {
+            "periods": 1170,
+            "ann_return_pct": -67.6942419676459,
+            "ann_vol_pct": 11.401800574354896,
+            "sharpe": -5.937153656230826,
+            "nw_t": -11.875021554890987,
+            "max_drawdown_pct": -95.86471823913494,
+            "avg_turnover_per_rebalance": 2.7943745287463044,
+            "gross_ann_return_pct": 2.723996156760973,
+            "breakeven_cost_bps": 0.3868310581625926,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -67.35356928956291,
+              "2023": -66.26927986908662,
+              "2024": -74.76670316682798,
+              "2025": -63.00000420175432,
+              "2026": -66.9064287802826
+            }
+          },
+          "cost_20bps": {
+            "periods": 1170,
+            "ann_return_pct": -138.11248009205278,
+            "ann_vol_pct": 11.440436622102041,
+            "sharpe": -12.07230848385892,
+            "nw_t": -24.082917847628302,
+            "max_drawdown_pct": -99.84455487156787,
+            "avg_turnover_per_rebalance": 2.7943745287463044,
+            "gross_ann_return_pct": 2.723996156760973,
+            "breakeven_cost_bps": 0.3868310581625926,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -137.33903698483775,
+              "2023": -135.28645361426035,
+              "2024": -145.86275073879017,
+              "2025": -133.24566392497644,
+              "2026": -139.05202062072325
+            }
+          },
+          "cost_30bps": {
+            "periods": 1170,
+            "ann_return_pct": -208.53071821645958,
+            "ann_vol_pct": 11.502103589454618,
+            "sharpe": -18.129789615844288,
+            "nw_t": -36.064444092667,
+            "max_drawdown_pct": -99.99421242207175,
+            "avg_turnover_per_rebalance": 2.7943745287463044,
+            "gross_ann_return_pct": 2.723996156760973,
+            "breakeven_cost_bps": 0.3868310581625926,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -207.32450468011257,
+              "2023": -204.30362735943413,
+              "2024": -216.95879831075243,
+              "2025": -203.49132364819852,
+              "2026": -211.197612461164
+            }
+          }
+        },
+        "pooled_ridge|delay1|long": {
+          "cost_0bps": {
+            "periods": 1170,
+            "ann_return_pct": 3.717472702443396,
+            "ann_vol_pct": 7.109516147384061,
+            "sharpe": 0.522886878006633,
+            "nw_t": 1.0446786337136984,
+            "max_drawdown_pct": -10.319381358464197,
+            "avg_turnover_per_rebalance": 1.373630880012459,
+            "gross_ann_return_pct": 24.058471955172813,
+            "breakeven_cost_bps": 6.9502024303192265,
+            "years_positive": "5/5",
+            "share_years_positive": 1.0,
+            "yearly_ann_return_pct": {
+              "2022": 6.9852658608994425,
+              "2023": 8.090645815666784,
+              "2024": 0.8536406993578369,
+              "2025": 0.5942027464746773,
+              "2026": 1.6280121092535873
+            }
+          },
+          "cost_5bps": {
+            "periods": 1170,
+            "ann_return_pct": -13.590276385713585,
+            "ann_vol_pct": 7.113662184113953,
+            "sharpe": -1.9104472540266308,
+            "nw_t": -3.8096259439114086,
+            "max_drawdown_pct": -47.73547887152837,
+            "avg_turnover_per_rebalance": 1.373630880012459,
+            "gross_ann_return_pct": 24.058471955172813,
+            "breakeven_cost_bps": 6.9502024303192265,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -10.292930860412032,
+              "2023": -8.716226771205799,
+              "2024": -16.580460322395627,
+              "2025": -16.844186804380254,
+              "2026": -16.033857991530294
+            }
+          },
+          "cost_10bps": {
+            "periods": 1170,
+            "ann_return_pct": -30.89802547387057,
+            "ann_vol_pct": 7.121035079732161,
+            "sharpe": -4.338979534283199,
+            "nw_t": -8.635473146122118,
+            "max_drawdown_pct": -76.59664879073897,
+            "avg_turnover_per_rebalance": 1.373630880012459,
+            "gross_ann_return_pct": 24.058471955172813,
+            "breakeven_cost_bps": 6.9502024303192265,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -27.571127581723502,
+              "2023": -25.523099358078383,
+              "2024": -34.014561344149094,
+              "2025": -34.282576355235186,
+              "2026": -33.69572809231418
+            }
+          },
+          "cost_20bps": {
+            "periods": 1170,
+            "ann_return_pct": -65.51352365018455,
+            "ann_vol_pct": 7.145417120984399,
+            "sharpe": -9.168607310241812,
+            "nw_t": -18.174064536399133,
+            "max_drawdown_pct": -95.3189000144614,
+            "avg_turnover_per_rebalance": 1.373630880012459,
+            "gross_ann_return_pct": 24.058471955172813,
+            "breakeven_cost_bps": 6.9502024303192265,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -62.12752102434644,
+              "2023": -59.13684453182356,
+              "2024": -68.88276338765601,
+              "2025": -69.15935545694505,
+              "2026": -69.01946829388194
+            }
+          },
+          "cost_30bps": {
+            "periods": 1170,
+            "ann_return_pct": -100.1290218264985,
+            "ann_vol_pct": 7.182531275821748,
+            "sharpe": -13.940631510169487,
+            "nw_t": -27.518830260791294,
+            "max_drawdown_pct": -99.0658093280301,
+            "avg_turnover_per_rebalance": 1.373630880012459,
+            "gross_ann_return_pct": 24.058471955172813,
+            "breakeven_cost_bps": 6.9502024303192265,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -96.6839144669694,
+              "2023": -92.75058970556873,
+              "2024": -103.75096543116294,
+              "2025": -104.03613455865491,
+              "2026": -104.34320849544969
+            }
+          }
+        },
+        "pooled_xgb_l2|delay0|ls": {
+          "cost_0bps": {
+            "periods": 1170,
+            "ann_return_pct": 50.97209225166789,
+            "ann_vol_pct": 12.941521023985702,
+            "sharpe": 3.9386477182393516,
+            "nw_t": 8.241187364614253,
+            "max_drawdown_pct": -5.565959905275619,
+            "avg_turnover_per_rebalance": 2.832733677022942,
+            "gross_ann_return_pct": 50.97209225166789,
+            "breakeven_cost_bps": 7.140459725831483,
+            "years_positive": "5/5",
+            "share_years_positive": 1.0,
+            "yearly_ann_return_pct": {
+              "2022": 47.37878475644549,
+              "2023": 65.17553062775787,
+              "2024": 65.55841649573692,
+              "2025": 34.323539202832,
+              "2026": 40.0076146537158
+            }
+          },
+          "cost_5bps": {
+            "periods": 1170,
+            "ann_return_pct": 15.279647921178805,
+            "ann_vol_pct": 12.936604557095595,
+            "sharpe": 1.1811173367588232,
+            "nw_t": 2.4501119715518627,
+            "max_drawdown_pct": -12.663461701419276,
+            "avg_turnover_per_rebalance": 2.832733677022942,
+            "gross_ann_return_pct": 50.97209225166789,
+            "breakeven_cost_bps": 7.140459725831483,
+            "years_positive": "4/5",
+            "share_years_positive": 0.8,
+            "yearly_ann_return_pct": {
+              "2022": 11.780894847731192,
+              "2023": 29.816540428058346,
+              "2024": 30.245772336631138,
+              "2025": -1.1770594603562101,
+              "2026": 3.010141795401855
+            }
+          },
+          "cost_10bps": {
+            "periods": 1170,
+            "ann_return_pct": -20.412796409310264,
+            "ann_vol_pct": 12.94211587897465,
+            "sharpe": -1.5772379570849187,
+            "nw_t": -3.242805470098871,
+            "max_drawdown_pct": -64.08684451184156,
+            "avg_turnover_per_rebalance": 2.832733677022942,
+            "gross_ann_return_pct": 50.97209225166789,
+            "breakeven_cost_bps": 7.140459725831483,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -23.816995060983107,
+              "2023": -5.542449771641168,
+              "2024": -5.066871822474631,
+              "2025": -36.67765812354442,
+              "2026": -33.98733106291209
+            }
+          },
+          "cost_20bps": {
+            "periods": 1170,
+            "ann_return_pct": -91.79768507028842,
+            "ann_vol_pct": 12.984343651425231,
+            "sharpe": -7.069874884296692,
+            "nw_t": -14.270613180389846,
+            "max_drawdown_pct": -98.66362768802199,
+            "avg_turnover_per_rebalance": 2.832733677022942,
+            "gross_ann_return_pct": 50.97209225166789,
+            "breakeven_cost_bps": 7.140459725831483,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -95.0127748784117,
+              "2023": -76.26043017104021,
+              "2024": -75.69216014068618,
+              "2025": -107.67885544992085,
+              "2026": -107.98227677954
+            }
+          },
+          "cost_30bps": {
+            "periods": 1170,
+            "ann_return_pct": -163.18257373126656,
+            "ann_vol_pct": 13.067800745143026,
+            "sharpe": -12.487378474294342,
+            "nw_t": -24.736591226662316,
+            "max_drawdown_pct": -99.95186085092422,
+            "avg_turnover_per_rebalance": 2.832733677022942,
+            "gross_ann_return_pct": 50.97209225166789,
+            "breakeven_cost_bps": 7.140459725831483,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -166.2085546958403,
+              "2023": -146.97841057043922,
+              "2024": -146.31744845889773,
+              "2025": -178.6800527762973,
+              "2026": -181.97722249616788
+            }
+          }
+        },
+        "pooled_xgb_l2|delay0|long": {
+          "cost_0bps": {
+            "periods": 1170,
+            "ann_return_pct": 24.80051086637729,
+            "ann_vol_pct": 7.924173784769716,
+            "sharpe": 3.129728289660172,
+            "nw_t": 6.552595125871616,
+            "max_drawdown_pct": -3.706202762463684,
+            "avg_turnover_per_rebalance": 1.4235460274833946,
+            "gross_ann_return_pct": 45.07753638828559,
+            "breakeven_cost_bps": 12.565741409019072,
+            "years_positive": "5/5",
+            "share_years_positive": 1.0,
+            "yearly_ann_return_pct": {
+              "2022": 21.690537996103618,
+              "2023": 38.554071943195396,
+              "2024": 35.35137947392929,
+              "2025": 12.600334331887334,
+              "2026": 13.226066063370162
+            }
+          },
+          "cost_5bps": {
+            "periods": 1170,
+            "ann_return_pct": 6.8638309200865155,
+            "ann_vol_pct": 7.918646976195368,
+            "sharpe": 0.8667933980034992,
+            "nw_t": 1.8033775831899426,
+            "max_drawdown_pct": -9.652538087341778,
+            "avg_turnover_per_rebalance": 1.4235460274833946,
+            "gross_ann_return_pct": 45.07753638828559,
+            "breakeven_cost_bps": 12.565741409019072,
+            "years_positive": "3/5",
+            "share_years_positive": 0.6,
+            "yearly_ann_return_pct": {
+              "2022": 3.75847416082732,
+              "2023": 20.15934599682716,
+              "2024": 17.5773638042905,
+              "2025": -4.81080221873897,
+              "2026": -5.025466829543798
+            }
+          },
+          "cost_10bps": {
+            "periods": 1170,
+            "ann_return_pct": -11.072849026204256,
+            "ann_vol_pct": 7.921070994257051,
+            "sharpe": -1.3978979653423527,
+            "nw_t": -2.888179392910374,
+            "max_drawdown_pct": -41.95224804143659,
+            "avg_turnover_per_rebalance": 1.4235460274833946,
+            "gross_ann_return_pct": 45.07753638828559,
+            "breakeven_cost_bps": 12.565741409019072,
+            "years_positive": "1/5",
+            "share_years_positive": 0.2,
+            "yearly_ann_return_pct": {
+              "2022": -14.173589674448978,
+              "2023": 1.7646200504589267,
+              "2024": -0.1966518653482884,
+              "2025": -22.221938769365277,
+              "2026": -23.276999722457763
+            }
+          },
+          "cost_20bps": {
+            "periods": 1170,
+            "ann_return_pct": -46.94620891878581,
+            "ann_vol_pct": 7.949718562389041,
+            "sharpe": -5.905392568347425,
+            "nw_t": -12.01206914897916,
+            "max_drawdown_pct": -88.8971665523431,
+            "avg_turnover_per_rebalance": 1.4235460274833946,
+            "gross_ann_return_pct": 45.07753638828559,
+            "breakeven_cost_bps": 12.565741409019072,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -50.03771734500157,
+              "2023": -35.02483184227754,
+              "2024": -35.744683204625865,
+              "2025": -57.04421187061788,
+              "2026": -59.780065508285674
+            }
+          },
+          "cost_30bps": {
+            "periods": 1170,
+            "ann_return_pct": -82.81956881136735,
+            "ann_vol_pct": 8.009775823743697,
+            "sharpe": -10.339811080088163,
+            "nw_t": -20.67062477523429,
+            "max_drawdown_pct": -97.90306694188999,
+            "avg_turnover_per_rebalance": 1.4235460274833946,
+            "gross_ann_return_pct": 45.07753638828559,
+            "breakeven_cost_bps": 12.565741409019072,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -85.90184501555416,
+              "2023": -71.814283735014,
+              "2024": -71.29271454390344,
+              "2025": -91.86648497187049,
+              "2026": -96.28313129411362
+            }
+          }
+        },
+        "pooled_xgb_l2|delay1|ls": {
+          "cost_0bps": {
+            "periods": 1169,
+            "ann_return_pct": -2.488952998827584,
+            "ann_vol_pct": 11.877957551085341,
+            "sharpe": -0.20954385365690734,
+            "nw_t": -0.4672642359620571,
+            "max_drawdown_pct": -26.82411193273053,
+            "avg_turnover_per_rebalance": 2.8321658369391036,
+            "gross_ann_return_pct": -2.488952998827584,
+            "breakeven_cost_bps": -0.34873655651003965,
+            "years_positive": "2/5",
+            "share_years_positive": 0.4,
+            "yearly_ann_return_pct": {
+              "2022": -18.430063028664996,
+              "2023": -0.5924862045391244,
+              "2024": 3.974349585281349,
+              "2025": 4.92229334646942,
+              "2026": -2.4552154110893576
+            }
+          },
+          "cost_5bps": {
+            "periods": 1169,
+            "ann_return_pct": -38.17424254426028,
+            "ann_vol_pct": 11.894056644790831,
+            "sharpe": -3.2095225106380534,
+            "nw_t": -7.11454770288496,
+            "max_drawdown_pct": -83.70626031500402,
+            "avg_turnover_per_rebalance": 2.8321658369391036,
+            "gross_ann_return_pct": -2.488952998827584,
+            "breakeven_cost_bps": -0.34873655651003965,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -53.99697362509836,
+              "2023": -35.9315236559262,
+              "2024": -31.38420850839273,
+              "2025": -30.595608798305246,
+              "2026": -39.39098686927805
+            }
+          },
+          "cost_10bps": {
+            "periods": 1169,
+            "ann_return_pct": -73.85953208969299,
+            "ann_vol_pct": 11.921416674826427,
+            "sharpe": -6.195533140424216,
+            "nw_t": -13.6441797066501,
+            "max_drawdown_pct": -96.89251524543498,
+            "avg_turnover_per_rebalance": 2.8321658369391036,
+            "gross_ann_return_pct": -2.488952998827584,
+            "breakeven_cost_bps": -0.34873655651003965,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -89.56388422153174,
+              "2023": -71.27056110731328,
+              "2024": -66.74276660206682,
+              "2025": -66.11351094307992,
+              "2026": -76.32675832746673
+            }
+          },
+          "cost_20bps": {
+            "periods": 1169,
+            "ann_return_pct": -145.2301111805584,
+            "ann_vol_pct": 12.009580018018537,
+            "sharpe": -12.092855117553055,
+            "nw_t": -26.24646023649859,
+            "max_drawdown_pct": -99.88798556323223,
+            "avg_turnover_per_rebalance": 2.8321658369391036,
+            "gross_ann_return_pct": -2.488952998827584,
+            "breakeven_cost_bps": -0.34873655651003965,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -160.69770541439848,
+              "2023": -141.94863601008743,
+              "2024": -137.459882789415,
+              "2025": -137.14931523262925,
+              "2026": -150.19830124384416
+            }
+          },
+          "cost_30bps": {
+            "periods": 1169,
+            "ann_return_pct": -216.6006902714238,
+            "ann_vol_pct": 12.141473782390138,
+            "sharpe": -17.839736275309434,
+            "nw_t": -38.102342922750644,
+            "max_drawdown_pct": -99.99600545866777,
+            "avg_turnover_per_rebalance": 2.8321658369391036,
+            "gross_ann_return_pct": -2.488952998827584,
+            "breakeven_cost_bps": -0.34873655651003965,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -231.8315266072652,
+              "2023": -212.6267109128616,
+              "2024": -208.1769989767631,
+              "2025": -208.18511952217858,
+              "2026": -224.06984416022152
+            }
+          }
+        },
+        "pooled_xgb_l2|delay1|long": {
+          "cost_0bps": {
+            "periods": 1169,
+            "ann_return_pct": -3.3382931795213984,
+            "ann_vol_pct": 7.192564624484554,
+            "sharpe": -0.4641311345548922,
+            "nw_t": -0.9741869863021204,
+            "max_drawdown_pct": -16.241272725356648,
+            "avg_turnover_per_rebalance": 1.4233642139802507,
+            "gross_ann_return_pct": 16.92478353901118,
+            "breakeven_cost_bps": 4.718528032450058,
+            "years_positive": "2/5",
+            "share_years_positive": 0.4,
+            "yearly_ann_return_pct": {
+              "2022": -13.246640350327398,
+              "2023": 1.4752650468040343,
+              "2024": 3.7208892204253616,
+              "2025": -1.9694266450635676,
+              "2026": -7.761380423908255
+            }
+          },
+          "cost_5bps": {
+            "periods": 1169,
+            "ann_return_pct": -21.272682275672558,
+            "ann_vol_pct": 7.199926480509582,
+            "sharpe": -2.954569374181577,
+            "nw_t": -6.180919637031625,
+            "max_drawdown_pct": -63.248474003397405,
+            "avg_turnover_per_rebalance": 1.4233642139802507,
+            "gross_ann_return_pct": 16.92478353901118,
+            "breakeven_cost_bps": 4.718528032450058,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -31.16039297181385,
+              "2023": -16.91211663726912,
+              "2024": -14.0886930075807,
+              "2025": -19.387143403395157,
+              "2026": -25.976757101816617
+            }
+          },
+          "cost_10bps": {
+            "periods": 1169,
+            "ann_return_pct": -39.20707137182372,
+            "ann_vol_pct": 7.216007767706757,
+            "sharpe": -5.433346614077124,
+            "nw_t": -11.318938309513232,
+            "max_drawdown_pct": -84.00955129389564,
+            "avg_turnover_per_rebalance": 1.4233642139802507,
+            "gross_ann_return_pct": 16.92478353901118,
+            "breakeven_cost_bps": 4.718528032450058,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -49.07414559330029,
+              "2023": -35.29949832134227,
+              "2024": -31.898275235586766,
+              "2025": -36.80486016172675,
+              "2026": -44.192133779724976
+            }
+          },
+          "cost_20bps": {
+            "periods": 1169,
+            "ann_return_pct": -75.07584956412605,
+            "ann_vol_pct": 7.274065964496105,
+            "sharpe": -10.321029521943132,
+            "nw_t": -21.271690361011682,
+            "max_drawdown_pct": -96.9805771407969,
+            "avg_turnover_per_rebalance": 1.4233642139802507,
+            "gross_ann_return_pct": 16.92478353901118,
+            "breakeven_cost_bps": 4.718528032450058,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -84.90165083627318,
+              "2023": -72.07426168948857,
+              "2024": -67.5174396915989,
+              "2025": -71.64029367838994,
+              "2026": -80.6228871355417
+            }
+          },
+          "cost_30bps": {
+            "periods": 1169,
+            "ann_return_pct": -110.94462775642835,
+            "ann_vol_pct": 7.365920752634791,
+            "sharpe": -15.061881804354663,
+            "nw_t": -30.632459432269673,
+            "max_drawdown_pct": -99.43127636481198,
+            "avg_turnover_per_rebalance": 1.4233642139802507,
+            "gross_ann_return_pct": 16.92478353901118,
+            "breakeven_cost_bps": 4.718528032450058,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -120.72915607924608,
+              "2023": -108.84902505763489,
+              "2024": -103.13660414761101,
+              "2025": -106.47572719505311,
+              "2026": -117.05364049135842
+            }
+          }
+        },
+        "pooled_xgb_l1|delay0|ls": {
+          "cost_0bps": {
+            "periods": 1133,
+            "ann_return_pct": 29.71097540631491,
+            "ann_vol_pct": 12.826404765889066,
+            "sharpe": 2.316391533606455,
+            "nw_t": 5.038139236188523,
+            "max_drawdown_pct": -12.750667609369671,
+            "avg_turnover_per_rebalance": 3.00364056770023,
+            "gross_ann_return_pct": 29.71097540631491,
+            "breakeven_cost_bps": 3.925259810533094,
+            "years_positive": "5/5",
+            "share_years_positive": 1.0,
+            "yearly_ann_return_pct": {
+              "2022": 29.35125927281474,
+              "2023": 26.75294671581036,
+              "2024": 43.10604196381221,
+              "2025": 16.305054228619326,
+              "2026": 34.543490661778115
+            }
+          },
+          "cost_5bps": {
+            "periods": 1133,
+            "ann_return_pct": -8.134895746707995,
+            "ann_vol_pct": 12.832218477574825,
+            "sharpe": -0.633943052085988,
+            "nw_t": -1.3711313897914477,
+            "max_drawdown_pct": -38.23921696183251,
+            "avg_turnover_per_rebalance": 3.00364056770023,
+            "gross_ann_return_pct": 29.71097540631491,
+            "breakeven_cost_bps": 3.925259810533094,
+            "years_positive": "1/5",
+            "share_years_positive": 0.2,
+            "yearly_ann_return_pct": {
+              "2022": -7.746257348661876,
+              "2023": -10.617512877085723,
+              "2024": 4.58726658258936,
+              "2025": -20.696868629269733,
+              "2026": -5.091770226949175
+            }
+          },
+          "cost_10bps": {
+            "periods": 1133,
+            "ann_return_pct": -45.98076689973089,
+            "ann_vol_pct": 12.848847051079604,
+            "sharpe": -3.5785908818851913,
+            "nw_t": -7.6912189800291895,
+            "max_drawdown_pct": -88.0868860061611,
+            "avg_turnover_per_rebalance": 3.00364056770023,
+            "gross_ann_return_pct": 29.71097540631491,
+            "breakeven_cost_bps": 3.925259810533094,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -44.84377397013849,
+              "2023": -47.98797246998181,
+              "2024": -33.93150879863349,
+              "2025": -57.69879148715879,
+              "2026": -44.72703111567647
+            }
+          },
+          "cost_20bps": {
+            "periods": 1133,
+            "ann_return_pct": -121.67250920577668,
+            "ann_vol_pct": 12.914354511851736,
+            "sharpe": -9.42149366382312,
+            "nw_t": -19.956241138899756,
+            "max_drawdown_pct": -99.59929387629043,
+            "avg_turnover_per_rebalance": 3.00364056770023,
+            "gross_ann_return_pct": 29.71097540631491,
+            "breakeven_cost_bps": 3.925259810533094,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -119.0388072130917,
+              "2023": -122.72889165577396,
+              "2024": -110.96905956107919,
+              "2025": -131.7026372029369,
+              "2026": -123.99755289313106
+            }
+          },
+          "cost_30bps": {
+            "periods": 1133,
+            "ann_return_pct": -197.3642515118225,
+            "ann_vol_pct": 13.022277257287481,
+            "sharpe": -15.155893828122437,
+            "nw_t": -31.57354807552369,
+            "max_drawdown_pct": -99.98694001365655,
+            "avg_turnover_per_rebalance": 3.00364056770023,
+            "gross_ann_return_pct": 29.71097540631491,
+            "breakeven_cost_bps": 3.925259810533094,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -193.23384045604496,
+              "2023": -197.46981084156613,
+              "2024": -188.00661032352488,
+              "2025": -205.70648291871504,
+              "2026": -203.26807467058563
+            }
+          }
+        },
+        "pooled_xgb_l1|delay0|long": {
+          "cost_0bps": {
+            "periods": 1137,
+            "ann_return_pct": 16.258647795789706,
+            "ann_vol_pct": 8.501445776449385,
+            "sharpe": 1.912456801268937,
+            "nw_t": 3.9007852135393897,
+            "max_drawdown_pct": -12.914089025989151,
+            "avg_turnover_per_rebalance": 1.4968500549903259,
+            "gross_ann_return_pct": 35.328774639990115,
+            "breakeven_cost_bps": 9.365904733831005,
+            "years_positive": "5/5",
+            "share_years_positive": 1.0,
+            "yearly_ann_return_pct": {
+              "2022": 7.911250297453931,
+              "2023": 14.67170739247441,
+              "2024": 34.530722426085944,
+              "2025": 7.882085040621968,
+              "2026": 16.425155253390102
+            }
+          },
+          "cost_5bps": {
+            "periods": 1137,
+            "ann_return_pct": -2.601662897088406,
+            "ann_vol_pct": 8.502164406250227,
+            "sharpe": -0.306000069250112,
+            "nw_t": -0.6215179108251194,
+            "max_drawdown_pct": -21.757788164383697,
+            "avg_turnover_per_rebalance": 1.4968500549903259,
+            "gross_ann_return_pct": 35.328774639990115,
+            "breakeven_cost_bps": 9.365904733831005,
+            "years_positive": "1/5",
+            "share_years_positive": 0.2,
+            "yearly_ann_return_pct": {
+              "2022": -10.671437825595651,
+              "2023": -4.279657648585711,
+              "2024": 15.567583569122926,
+              "2025": -10.730601556357541,
+              "2026": -2.8570080617458475
+            }
+          },
+          "cost_10bps": {
+            "periods": 1137,
+            "ann_return_pct": -21.46197358996651,
+            "ann_vol_pct": 8.511533066009083,
+            "sharpe": -2.5215167965069867,
+            "nw_t": -5.096244007026897,
+            "max_drawdown_pct": -63.38307056228785,
+            "avg_turnover_per_rebalance": 1.4968500549903259,
+            "gross_ann_return_pct": 35.328774639990115,
+            "breakeven_cost_bps": 9.365904733831005,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -29.25412594864524,
+              "2023": -23.231022689645826,
+              "2024": -3.395555287840092,
+              "2025": -29.34328815333705,
+              "2026": -22.1391713768818
+            }
+          },
+          "cost_20bps": {
+            "periods": 1137,
+            "ann_return_pct": -59.18259497572272,
+            "ann_vol_pct": 8.556080583132502,
+            "sharpe": -6.917021690094361,
+            "nw_t": -13.815758482474012,
+            "max_drawdown_pct": -93.20420744205332,
+            "avg_turnover_per_rebalance": 1.4968500549903259,
+            "gross_ann_return_pct": 35.328774639990115,
+            "breakeven_cost_bps": 9.365904733831005,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -66.41950219474441,
+              "2023": -61.13375277176606,
+              "2024": -41.32183300176614,
+              "2025": -66.56866134729607,
+              "2026": -60.7034980071537
+            }
+          },
+          "cost_30bps": {
+            "periods": 1137,
+            "ann_return_pct": -96.90321636147895,
+            "ann_vol_pct": 8.634554981224115,
+            "sharpe": -11.222722719606917,
+            "nw_t": -22.10526596145708,
+            "max_drawdown_pct": -98.76664116588037,
+            "avg_turnover_per_rebalance": 1.4968500549903259,
+            "gross_ann_return_pct": 35.328774639990115,
+            "breakeven_cost_bps": 9.365904733831005,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -103.58487844084357,
+              "2023": -99.0364828538863,
+              "2024": -79.24811071569218,
+              "2025": -103.79403454125509,
+              "2026": -99.2678246374256
+            }
+          }
+        },
+        "pooled_xgb_l1|delay1|ls": {
+          "cost_0bps": {
+            "periods": 1133,
+            "ann_return_pct": -5.85058417113951,
+            "ann_vol_pct": 12.175636043437368,
+            "sharpe": -0.4805156913583137,
+            "nw_t": -1.0065050270203684,
+            "max_drawdown_pct": -33.230573620034946,
+            "avg_turnover_per_rebalance": 3.003633101664231,
+            "gross_ann_return_pct": -5.85058417113951,
+            "breakeven_cost_bps": -0.7729507256017564,
+            "years_positive": "1/5",
+            "share_years_positive": 0.2,
+            "yearly_ann_return_pct": {
+              "2022": -7.358821869415092,
+              "2023": -3.9600339666493505,
+              "2024": -13.531854305111345,
+              "2025": 1.4333600900583883,
+              "2026": -6.235319274673548
+            }
+          },
+          "cost_5bps": {
+            "periods": 1133,
+            "ann_return_pct": -43.69636125210882,
+            "ann_vol_pct": 12.196780720926977,
+            "sharpe": -3.5826143186402897,
+            "nw_t": -7.471302494833006,
+            "max_drawdown_pct": -86.67337214221999,
+            "avg_turnover_per_rebalance": 3.003633101664231,
+            "gross_ann_return_pct": -5.85058417113951,
+            "breakeven_cost_bps": -0.7729507256017564,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -44.45868890756977,
+              "2023": -41.33049355954543,
+              "2024": -52.036659888480344,
+              "2025": -35.579535357826344,
+              "2026": -45.86430343684032
+            }
+          },
+          "cost_10bps": {
+            "periods": 1133,
+            "ann_return_pct": -81.54213833307814,
+            "ann_vol_pct": 12.229258197721617,
+            "sharpe": -6.667791047887919,
+            "nw_t": -13.834574272009917,
+            "max_drawdown_pct": -97.55851247041348,
+            "avg_turnover_per_rebalance": 3.003633101664231,
+            "gross_ann_return_pct": -5.85058417113951,
+            "breakeven_cost_bps": -0.7729507256017564,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -81.55855594572445,
+              "2023": -78.70095315244151,
+              "2024": -90.54146547184934,
+              "2025": -72.59243080571109,
+              "2026": -85.49328759900709
+            }
+          },
+          "cost_20bps": {
+            "periods": 1133,
+            "ann_return_pct": -157.23369249501678,
+            "ann_vol_pct": 12.32782202787635,
+            "sharpe": -12.754377224092895,
+            "nw_t": -26.1471945282792,
+            "max_drawdown_pct": -99.91972297060627,
+            "avg_turnover_per_rebalance": 3.003633101664231,
+            "gross_ann_return_pct": -5.85058417113951,
+            "breakeven_cost_bps": -0.7729507256017564,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -155.7582900220338,
+              "2023": -153.44187233823368,
+              "2024": -167.55107663858735,
+              "2025": -146.61822170148056,
+              "2026": -164.75125592334064
+            }
+          },
+          "cost_30bps": {
+            "periods": 1133,
+            "ann_return_pct": -232.9252466569554,
+            "ann_vol_pct": 12.47026193452275,
+            "sharpe": -18.67845662584871,
+            "nw_t": -37.760233117389774,
+            "max_drawdown_pct": -99.9973966817653,
+            "avg_turnover_per_rebalance": 3.003633101664231,
+            "gross_ann_return_pct": -5.85058417113951,
+            "breakeven_cost_bps": -0.7729507256017564,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -229.9580240983432,
+              "2023": -228.18279152402584,
+              "2024": -244.56068780532533,
+              "2025": -220.64401259725005,
+              "2026": -244.00922424767418
+            }
+          }
+        },
+        "pooled_xgb_l1|delay1|long": {
+          "cost_0bps": {
+            "periods": 1136,
+            "ann_return_pct": -1.549455964292607,
+            "ann_vol_pct": 7.65606753634342,
+            "sharpe": -0.20238274504990011,
+            "nw_t": -0.4098691374162215,
+            "max_drawdown_pct": -13.748952527086434,
+            "avg_turnover_per_rebalance": 1.496946377359522,
+            "gross_ann_return_pct": 19.074254535609388,
+            "breakeven_cost_bps": 5.056392626830838,
+            "years_positive": "2/5",
+            "share_years_positive": 0.4,
+            "yearly_ann_return_pct": {
+              "2022": -5.41072770784025,
+              "2023": 4.292031405825758,
+              "2024": -5.745112359595361,
+              "2025": 2.0057999923094436,
+              "2026": -3.452633025733113
+            }
+          },
+          "cost_5bps": {
+            "periods": 1136,
+            "ann_return_pct": -20.41098031902258,
+            "ann_vol_pct": 7.667710954284361,
+            "sharpe": -2.6619391942021338,
+            "nw_t": -5.364787900642646,
+            "max_drawdown_pct": -60.78484870703073,
+            "avg_turnover_per_rebalance": 1.496946377359522,
+            "gross_ann_return_pct": 19.074254535609388,
+            "breakeven_cost_bps": 5.056392626830838,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -23.99488672781361,
+              "2023": -14.659333635234365,
+              "2024": -24.71589298705088,
+              "2025": -16.600555522727923,
+              "2026": -22.73951951736421
+            }
+          },
+          "cost_10bps": {
+            "periods": 1136,
+            "ann_return_pct": -39.27250467375255,
+            "ann_vol_pct": 7.688919886930458,
+            "sharpe": -5.10767510278102,
+            "nw_t": -10.23534244388409,
+            "max_drawdown_pct": -83.2208211276336,
+            "avg_turnover_per_rebalance": 1.496946377359522,
+            "gross_ann_return_pct": 19.074254535609388,
+            "breakeven_cost_bps": 5.056392626830838,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -42.57904574778697,
+              "2023": -33.610698676294476,
+              "2024": -43.6866736145064,
+              "2025": -35.206911037765295,
+              "2026": -42.026406008995316
+            }
+          },
+          "cost_20bps": {
+            "periods": 1136,
+            "ann_return_pct": -76.9955533832125,
+            "ann_vol_pct": 7.759685193443355,
+            "sharpe": -9.922509929690303,
+            "nw_t": -19.616715609693905,
+            "max_drawdown_pct": -96.9462005804828,
+            "avg_turnover_per_rebalance": 1.496946377359522,
+            "gross_ann_return_pct": 19.074254535609388,
+            "breakeven_cost_bps": 5.056392626830838,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -79.74736378773369,
+              "2023": -71.5134287584147,
+              "2024": -81.62823486941744,
+              "2025": -72.41962206784002,
+              "2026": -80.60017899225753
+            }
+          },
+          "cost_30bps": {
+            "periods": 1136,
+            "ann_return_pct": -114.71860209267246,
+            "ann_vol_pct": 7.867340461819336,
+            "sharpe": -14.581624203173686,
+            "nw_t": -28.37847330045417,
+            "max_drawdown_pct": -99.44570670834645,
+            "avg_turnover_per_rebalance": 1.496946377359522,
+            "gross_ann_return_pct": 19.074254535609388,
+            "breakeven_cost_bps": 5.056392626830838,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -116.91568182768042,
+              "2023": -109.41615884053495,
+              "2024": -119.56979612432848,
+              "2025": -109.63233309791475,
+              "2026": -119.17395197551971
+            }
+          }
+        }
+      },
+      "primary_net_nw_t": -14.453611262200944,
+      "criterion_passed": false,
+      "placebo_gross_delay1": {
+        "seeds": 20,
+        "t_mean": 0.028965040305352567,
+        "t_std": 0.7863465592767499,
+        "t_max_abs": 1.5635393987548667,
+        "gross_ann_return_pct_mean": 0.0638629904239306
+      }
+    },
+    "5": {
+      "variants": {
+        "ensemble|delay0|ls": {
+          "cost_0bps": {
+            "periods": 234,
+            "ann_return_pct": 11.437275094387482,
+            "ann_vol_pct": 11.844711545836612,
+            "sharpe": 0.9656018257707304,
+            "nw_t": 2.190557425307448,
+            "max_drawdown_pct": -18.031978566848426,
+            "avg_turnover_per_rebalance": 2.898704603967763,
+            "gross_ann_return_pct": 11.437275094387482,
+            "breakeven_cost_bps": 7.828671506781129,
+            "years_positive": "4/5",
+            "share_years_positive": 0.8,
+            "yearly_ann_return_pct": {
+              "2022": -1.68007832121905,
+              "2023": 11.016171464532734,
+              "2024": 15.473910943594982,
+              "2025": 15.73759069703373,
+              "2026": 18.216657208916168
+            }
+          },
+          "cost_5bps": {
+            "periods": 234,
+            "ann_return_pct": 4.132539492388722,
+            "ann_vol_pct": 11.843275383795437,
+            "sharpe": 0.3489355231951349,
+            "nw_t": 0.7898737969829323,
+            "max_drawdown_pct": -22.232458049559924,
+            "avg_turnover_per_rebalance": 2.898704603967763,
+            "gross_ann_return_pct": 11.437275094387482,
+            "breakeven_cost_bps": 7.828671506781129,
+            "years_positive": "4/5",
+            "share_years_positive": 0.8,
+            "yearly_ann_return_pct": {
+              "2022": -9.236947598659755,
+              "2023": 3.4726193409806103,
+              "2024": 8.30755191087805,
+              "2025": 8.868547819569796,
+              "2026": 10.798105057903136
+            }
+          },
+          "cost_10bps": {
+            "periods": 234,
+            "ann_return_pct": -3.1721961096100406,
+            "ann_vol_pct": 11.843303074773926,
+            "sharpe": -0.26784724578794034,
+            "nw_t": -0.6049713866887891,
+            "max_drawdown_pct": -29.611220124326742,
+            "avg_turnover_per_rebalance": 2.898704603967763,
+            "gross_ann_return_pct": 11.437275094387482,
+            "breakeven_cost_bps": 7.828671506781129,
+            "years_positive": "3/5",
+            "share_years_positive": 0.6,
+            "yearly_ann_return_pct": {
+              "2022": -16.793816876100458,
+              "2023": -4.070932782571513,
+              "2024": 1.1411928781611218,
+              "2025": 1.9995049421058662,
+              "2026": 3.379552906890102
+            }
+          },
+          "cost_20bps": {
+            "periods": 234,
+            "ann_return_pct": -17.781667313607564,
+            "ann_vol_pct": 11.8477494321328,
+            "sharpe": -1.5008476855006003,
+            "nw_t": -3.374396253265463,
+            "max_drawdown_pct": -59.35645717238275,
+            "avg_turnover_per_rebalance": 2.898704603967763,
+            "gross_ann_return_pct": 11.437275094387482,
+            "breakeven_cost_bps": 7.828671506781129,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -31.907555430981873,
+              "2023": -19.15803702967576,
+              "2024": -13.191525187272735,
+              "2025": -11.738580812821994,
+              "2026": -11.457551395135969
+            }
+          },
+          "cost_30bps": {
+            "periods": 234,
+            "ann_return_pct": -32.391138517605086,
+            "ann_vol_pct": 11.858044031839137,
+            "sharpe": -2.7315751594979827,
+            "nw_t": -6.112424090273569,
+            "max_drawdown_pct": -79.36114033869327,
+            "avg_turnover_per_rebalance": 2.898704603967763,
+            "gross_ann_return_pct": 11.437275094387482,
+            "breakeven_cost_bps": 7.828671506781129,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -47.02129398586328,
+              "2023": -34.245141276780004,
+              "2024": -27.524243252706594,
+              "2025": -25.476666567749863,
+              "2026": -26.294655697162035
+            }
+          }
+        },
+        "ensemble|delay0|long": {
+          "cost_0bps": {
+            "periods": 234,
+            "ann_return_pct": 6.197292720873681,
+            "ann_vol_pct": 7.138374878651844,
+            "sharpe": 0.8681657696918411,
+            "nw_t": 1.8819630689916773,
+            "max_drawdown_pct": -14.317245976127213,
+            "avg_turnover_per_rebalance": 1.4428291314256227,
+            "gross_ann_return_pct": 27.829472100548493,
+            "breakeven_cost_bps": 38.27009404374073,
+            "years_positive": "4/5",
+            "share_years_positive": 0.8,
+            "yearly_ann_return_pct": {
+              "2022": -6.548295802118911,
+              "2023": 7.410034589780426,
+              "2024": 11.737802539367669,
+              "2025": 10.033542669641522,
+              "2026": 8.902907521843492
+            }
+          },
+          "cost_5bps": {
+            "periods": 234,
+            "ann_return_pct": 2.5613633096811106,
+            "ann_vol_pct": 7.135503304846404,
+            "sharpe": 0.3589604265113919,
+            "nw_t": 0.7769848525410843,
+            "max_drawdown_pct": -17.53232992867386,
+            "avg_turnover_per_rebalance": 1.4428291314256227,
+            "gross_ann_return_pct": 27.829472100548493,
+            "breakeven_cost_bps": 38.27009404374073,
+            "years_positive": "4/5",
+            "share_years_positive": 0.8,
+            "yearly_ann_return_pct": {
+              "2022": -10.410226304049413,
+              "2023": 3.6379110376568735,
+              "2024": 8.221129993137229,
+              "2025": 6.661642649320447,
+              "2026": 5.235823595812195
+            }
+          },
+          "cost_10bps": {
+            "periods": 234,
+            "ann_return_pct": -1.0745661015114576,
+            "ann_vol_pct": 7.133487156551532,
+            "sharpe": -0.15063685935490267,
+            "nw_t": -0.3255596710462356,
+            "max_drawdown_pct": -20.62918891660166,
+            "avg_turnover_per_rebalance": 1.4428291314256227,
+            "gross_ann_return_pct": 27.829472100548493,
+            "breakeven_cost_bps": 38.27009404374073,
+            "years_positive": "3/5",
+            "share_years_positive": 0.6,
+            "yearly_ann_return_pct": {
+              "2022": -14.272156805979916,
+              "2023": -0.1342125144666785,
+              "2024": 4.704457446906785,
+              "2025": 3.2897426289993716,
+              "2026": 1.5687396697809028
+            }
+          },
+          "cost_20bps": {
+            "periods": 234,
+            "ann_return_pct": -8.346424923896596,
+            "ann_vol_pct": 7.132023730528782,
+            "sharpe": -1.1702744184893195,
+            "nw_t": -2.521064555262859,
+            "max_drawdown_pct": -33.888409534580845,
+            "avg_turnover_per_rebalance": 1.4428291314256227,
+            "gross_ann_return_pct": 27.829472100548493,
+            "breakeven_cost_bps": 38.27009404374073,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -21.996017809840914,
+              "2023": -7.678459618713783,
+              "2024": -2.3288876455540968,
+              "2025": -3.4540574116427756,
+              "2026": -5.7654281822816875
+            }
+          },
+          "cost_30bps": {
+            "periods": 234,
+            "ann_return_pct": -15.618283746281737,
+            "ann_vol_pct": 7.1339867079065815,
+            "sharpe": -2.189278503837417,
+            "nw_t": -4.700087140668367,
+            "max_drawdown_pct": -52.401945745745415,
+            "avg_turnover_per_rebalance": 1.4428291314256227,
+            "gross_ann_return_pct": 27.829472100548493,
+            "breakeven_cost_bps": 38.27009404374073,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -29.71987881370192,
+              "2023": -15.222706722960888,
+              "2024": -9.36223273801498,
+              "2025": -10.197857452284923,
+              "2026": -13.09959603434428
+            }
+          }
+        },
+        "ensemble|delay1|ls": {
+          "cost_0bps": {
+            "periods": 234,
+            "ann_return_pct": 3.913867065886402,
+            "ann_vol_pct": 11.423234993591063,
+            "sharpe": 0.34262335214869116,
+            "nw_t": 0.7285810640923612,
+            "max_drawdown_pct": -15.323956602524614,
+            "avg_turnover_per_rebalance": 2.898704603967763,
+            "gross_ann_return_pct": 3.913867065886402,
+            "breakeven_cost_bps": 2.6789929705432924,
+            "years_positive": "5/5",
+            "share_years_positive": 1.0,
+            "yearly_ann_return_pct": {
+              "2022": 1.0618529699944985,
+              "2023": 0.38608754295734043,
+              "2024": 12.34399759960942,
+              "2025": 1.2877520737660808,
+              "2026": 4.747360059827359
+            }
+          },
+          "cost_5bps": {
+            "periods": 234,
+            "ann_return_pct": -3.390868536112359,
+            "ann_vol_pct": 11.418920080680694,
+            "sharpe": -0.29695177058374034,
+            "nw_t": -0.6306031509190769,
+            "max_drawdown_pct": -24.527846352619378,
+            "avg_turnover_per_rebalance": 2.898704603967763,
+            "gross_ann_return_pct": 3.913867065886402,
+            "breakeven_cost_bps": 2.6789929705432924,
+            "years_positive": "1/5",
+            "share_years_positive": 0.2,
+            "yearly_ann_return_pct": {
+              "2022": -6.495016307446207,
+              "2023": -7.157464580594783,
+              "2024": 5.175092905441566,
+              "2025": -5.584742378581006,
+              "2026": -2.671192091185676
+            }
+          },
+          "cost_10bps": {
+            "periods": 234,
+            "ann_return_pct": -10.695604138111118,
+            "ann_vol_pct": 11.416122353554949,
+            "sharpe": -0.9368859063410914,
+            "nw_t": -1.986783629190375,
+            "max_drawdown_pct": -44.15626971325979,
+            "avg_turnover_per_rebalance": 2.898704603967763,
+            "gross_ann_return_pct": 3.913867065886402,
+            "breakeven_cost_bps": 2.6789929705432924,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -14.05188558488691,
+              "2023": -14.701016704146907,
+              "2024": -1.9938117887262863,
+              "2025": -12.457236830928093,
+              "2026": -10.089744242198712
+            }
+          },
+          "cost_20bps": {
+            "periods": 234,
+            "ann_return_pct": -25.30507534210864,
+            "ann_vol_pct": 11.415082313879726,
+            "sharpe": -2.2168105885088467,
+            "nw_t": -4.687434392964153,
+            "max_drawdown_pct": -71.4087387846386,
+            "avg_turnover_per_rebalance": 2.898704603967763,
+            "gross_ann_return_pct": 3.913867065886402,
+            "breakeven_cost_bps": 2.6789929705432924,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -29.165624139768326,
+              "2023": -29.788120951251155,
+              "2024": -16.33162117706199,
+              "2025": -26.20222573562226,
+              "2026": -24.926848544224782
+            }
+          },
+          "cost_30bps": {
+            "periods": 234,
+            "ann_return_pct": -39.914546546106166,
+            "ann_vol_pct": 11.420116533676074,
+            "sharpe": -3.495108515609682,
+            "nw_t": -7.368088710067126,
+            "max_drawdown_pct": -85.4956094193704,
+            "avg_turnover_per_rebalance": 2.898704603967763,
+            "gross_ann_return_pct": 3.913867065886402,
+            "breakeven_cost_bps": 2.6789929705432924,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -44.279362694649734,
+              "2023": -44.8752251983554,
+              "2024": -30.669430565397697,
+              "2025": -39.94721464031643,
+              "2026": -39.763952846250845
+            }
+          }
+        },
+        "ensemble|delay1|long": {
+          "cost_0bps": {
+            "periods": 234,
+            "ann_return_pct": 2.583834584727614,
+            "ann_vol_pct": 6.947791891565064,
+            "sharpe": 0.37189291577148526,
+            "nw_t": 0.7797985057908368,
+            "max_drawdown_pct": -11.297661528262648,
+            "avg_turnover_per_rebalance": 1.4428291314256227,
+            "gross_ann_return_pct": 23.22019797244898,
+            "breakeven_cost_bps": 31.93158522408285,
+            "years_positive": "4/5",
+            "share_years_positive": 0.8,
+            "yearly_ann_return_pct": {
+              "2022": -2.9754224570048953,
+              "2023": 3.5197316487619688,
+              "2024": 6.598107772372972,
+              "2025": 1.8677308885887165,
+              "2026": 4.358170733904149
+            }
+          },
+          "cost_5bps": {
+            "periods": 234,
+            "ann_return_pct": -1.0520948264649557,
+            "ann_vol_pct": 6.942789740024982,
+            "sharpe": -0.15153776304064911,
+            "nw_t": -0.3173924523402232,
+            "max_drawdown_pct": -14.68496693410124,
+            "avg_turnover_per_rebalance": 1.4428291314256227,
+            "gross_ann_return_pct": 23.22019797244898,
+            "breakeven_cost_bps": 31.93158522408285,
+            "years_positive": "2/5",
+            "share_years_positive": 0.4,
+            "yearly_ann_return_pct": {
+              "2022": -6.837352958935396,
+              "2023": -0.2523919033615826,
+              "2024": 3.081944390946433,
+              "2025": -1.507563563758367,
+              "2026": 0.6910868078728528
+            }
+          },
+          "cost_10bps": {
+            "periods": 234,
+            "ann_return_pct": -4.688024237657525,
+            "ann_vol_pct": 6.938664617475078,
+            "sharpe": -0.6756378202587717,
+            "nw_t": -1.413446175631974,
+            "max_drawdown_pct": -23.306571053513814,
+            "avg_turnover_per_rebalance": 1.4428291314256227,
+            "gross_ann_return_pct": 23.22019797244898,
+            "breakeven_cost_bps": 31.93158522408285,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -10.6992834608659,
+              "2023": -4.024515455485135,
+              "2024": -0.43421899048010654,
+              "2025": -4.8828580161054544,
+              "2026": -2.975997118158442
+            }
+          },
+          "cost_20bps": {
+            "periods": 234,
+            "ann_return_pct": -11.959883060042662,
+            "ann_vol_pct": 6.933051388438281,
+            "sharpe": -1.7250532831744538,
+            "nw_t": -3.599846906881077,
+            "max_drawdown_pct": -44.41099498884687,
+            "avg_turnover_per_rebalance": 1.4428291314256227,
+            "gross_ann_return_pct": 23.22019797244898,
+            "breakeven_cost_bps": 31.93158522408285,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -18.4231444647269,
+              "2023": -11.568762559732237,
+              "2024": -7.466545753333185,
+              "2025": -11.633446920799624,
+              "2026": -10.310164970221031
+            }
+          },
+          "cost_30bps": {
+            "periods": 234,
+            "ann_return_pct": -19.2317418824278,
+            "ann_vol_pct": 6.930960742297816,
+            "sharpe": -2.7747584494400006,
+            "nw_t": -5.774872432341117,
+            "max_drawdown_pct": -59.97025450871789,
+            "avg_turnover_per_rebalance": 1.4428291314256227,
+            "gross_ann_return_pct": 23.22019797244898,
+            "breakeven_cost_bps": 31.93158522408285,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -26.147005468587903,
+              "2023": -19.11300966397934,
+              "2024": -14.498872516186264,
+              "2025": -18.38403582549379,
+              "2026": -17.64433282228362
+            }
+          }
+        },
+        "pooled_ridge|delay0|ls": {
+          "cost_0bps": {
+            "periods": 234,
+            "ann_return_pct": 14.421434160914078,
+            "ann_vol_pct": 11.326693295986301,
+            "sharpe": 1.273225449304293,
+            "nw_t": 3.0690655199984023,
+            "max_drawdown_pct": -12.554442641575758,
+            "avg_turnover_per_rebalance": 2.8585001137632724,
+            "gross_ann_return_pct": 14.421434160914078,
+            "breakeven_cost_bps": 10.01012962382201,
+            "years_positive": "5/5",
+            "share_years_positive": 1.0,
+            "yearly_ann_return_pct": {
+              "2022": 7.723758441369622,
+              "2023": 18.71971338139645,
+              "2024": 18.747956361994238,
+              "2025": 12.571735216813071,
+              "2026": 14.201962989589322
+            }
+          },
+          "cost_5bps": {
+            "periods": 234,
+            "ann_return_pct": 7.218013874230635,
+            "ann_vol_pct": 11.32031156786745,
+            "sharpe": 0.6376161849395444,
+            "nw_t": 1.534956040555532,
+            "max_drawdown_pct": -15.424184249213802,
+            "avg_turnover_per_rebalance": 2.8585001137632724,
+            "gross_ann_return_pct": 14.421434160914078,
+            "breakeven_cost_bps": 10.01012962382201,
+            "years_positive": "5/5",
+            "share_years_positive": 1.0,
+            "yearly_ann_return_pct": {
+              "2022": 0.17257476790023207,
+              "2023": 11.126045427728496,
+              "2024": 11.626194199832074,
+              "2025": 5.801599065624287,
+              "2026": 7.291751156134245
+            }
+          },
+          "cost_10bps": {
+            "periods": 234,
+            "ann_return_pct": 0.014593587547190996,
+            "ann_vol_pct": 11.315243570874419,
+            "sharpe": 0.001289728096066361,
+            "nw_t": 0.0031004420753874763,
+            "max_drawdown_pct": -19.437578531671885,
+            "avg_turnover_per_rebalance": 2.8585001137632724,
+            "gross_ann_return_pct": 14.421434160914078,
+            "breakeven_cost_bps": 10.01012962382201,
+            "years_positive": "3/5",
+            "share_years_positive": 0.6,
+            "yearly_ann_return_pct": {
+              "2022": -7.378608905569155,
+              "2023": 3.5323774740605427,
+              "2024": 4.5044320376699085,
+              "2025": -0.9685370855644968,
+              "2026": 0.3815393226791667
+            }
+          },
+          "cost_20bps": {
+            "periods": 234,
+            "ann_return_pct": -14.392246985819698,
+            "ann_vol_pct": 11.309055377199426,
+            "sharpe": -1.2726303396512144,
+            "nw_t": -3.0497734495149746,
+            "max_drawdown_pct": -51.65961728688935,
+            "avg_turnover_per_rebalance": 2.8585001137632724,
+            "gross_ann_return_pct": 14.421434160914078,
+            "breakeven_cost_bps": 10.01012962382201,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -22.48097625250793,
+              "2023": -11.654958433275366,
+              "2024": -9.739092286654419,
+              "2025": -14.508809387942065,
+              "2026": -13.438884344230988
+            }
+          },
+          "cost_30bps": {
+            "periods": 234,
+            "ann_return_pct": -28.799087559186592,
+            "ann_vol_pct": 11.308137352826341,
+            "sharpe": -2.5467578488501994,
+            "nw_t": -6.081555483422583,
+            "max_drawdown_pct": -75.11537887325808,
+            "avg_turnover_per_rebalance": 2.8585001137632724,
+            "gross_ann_return_pct": 14.421434160914078,
+            "breakeven_cost_bps": 10.01012962382201,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -37.5833435994467,
+              "2023": -26.84229434061128,
+              "2024": -23.982616610978745,
+              "2025": -28.049081690319632,
+              "2026": -27.259308011141147
+            }
+          }
+        },
+        "pooled_ridge|delay0|long": {
+          "cost_0bps": {
+            "periods": 234,
+            "ann_return_pct": 8.775083088195924,
+            "ann_vol_pct": 6.924583470316178,
+            "sharpe": 1.267236235336369,
+            "nw_t": 2.9618504402726913,
+            "max_drawdown_pct": -8.151256095550718,
+            "avg_turnover_per_rebalance": 1.3825765711730624,
+            "gross_ann_return_pct": 30.407262467870726,
+            "breakeven_cost_bps": 43.637272057015075,
+            "years_positive": "5/5",
+            "share_years_positive": 1.0,
+            "yearly_ann_return_pct": {
+              "2022": 4.69948369683542,
+              "2023": 14.44081417968987,
+              "2024": 7.195323761602736,
+              "2025": 7.971974668595087,
+              "2026": 9.867618914778662
+            }
+          },
+          "cost_5bps": {
+            "periods": 234,
+            "ann_return_pct": 5.290990128839805,
+            "ann_vol_pct": 6.918047496552508,
+            "sharpe": 0.7648097431358314,
+            "nw_t": 1.7861313622007606,
+            "max_drawdown_pct": -8.893947177369787,
+            "avg_turnover_per_rebalance": 1.3825765711730624,
+            "gross_ann_return_pct": 30.407262467870726,
+            "breakeven_cost_bps": 43.637272057015075,
+            "years_positive": "5/5",
+            "share_years_positive": 1.0,
+            "yearly_ann_return_pct": {
+              "2022": 1.0166265539782757,
+              "2023": 10.818574797450488,
+              "2024": 3.716361599440574,
+              "2025": 4.657282532850321,
+              "2026": 6.598429725589472
+            }
+          },
+          "cost_10bps": {
+            "periods": 234,
+            "ann_return_pct": 1.8068971694836868,
+            "ann_vol_pct": 6.912197199000306,
+            "sharpe": 0.26140706311807976,
+            "nw_t": 0.6099460564582239,
+            "max_drawdown_pct": -11.74414771930068,
+            "avg_turnover_per_rebalance": 1.3825765711730624,
+            "gross_ann_return_pct": 30.407262467870726,
+            "breakeven_cost_bps": 43.637272057015075,
+            "years_positive": "4/5",
+            "share_years_positive": 0.8,
+            "yearly_ann_return_pct": {
+              "2022": -2.6662305888788653,
+              "2023": 7.196335415211104,
+              "2024": 0.23739943727841126,
+              "2025": 1.3425903971055528,
+              "2026": 3.3292405364002846
+            }
+          },
+          "cost_20bps": {
+            "periods": 234,
+            "ann_return_pct": -5.1612887492285475,
+            "ann_vol_pct": 6.902560401972783,
+            "sharpe": -0.7477353979768765,
+            "nw_t": -1.7411267210814199,
+            "max_drawdown_pct": -22.577994676591928,
+            "avg_turnover_per_rebalance": 1.3825765711730624,
+            "gross_ann_return_pct": 30.407262467870726,
+            "breakeven_cost_bps": 43.637272057015075,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -10.03194487459315,
+              "2023": -0.0481433492676578,
+              "2024": -6.720524887045916,
+              "2025": -5.286793874383985,
+              "2026": -3.2091378419780985
+            }
+          },
+          "cost_30bps": {
+            "periods": 234,
+            "ann_return_pct": -12.129474667940784,
+            "ann_vol_pct": 6.8956846065072535,
+            "sharpe": -1.7589949889086518,
+            "nw_t": -4.085995543799872,
+            "max_drawdown_pct": -43.86340697584832,
+            "avg_turnover_per_rebalance": 1.3825765711730624,
+            "gross_ann_return_pct": 30.407262467870726,
+            "breakeven_cost_bps": 43.637272057015075,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -17.397659160307434,
+              "2023": -7.292622113746422,
+              "2024": -13.67844921137024,
+              "2025": -11.916178145873522,
+              "2026": -9.747516220356477
+            }
+          }
+        },
+        "pooled_ridge|delay1|ls": {
+          "cost_0bps": {
+            "periods": 234,
+            "ann_return_pct": 8.982099844403178,
+            "ann_vol_pct": 11.302784752910586,
+            "sharpe": 0.7946802527660446,
+            "nw_t": 1.7682310218364488,
+            "max_drawdown_pct": -12.088222428823103,
+            "avg_turnover_per_rebalance": 2.8585001137632724,
+            "gross_ann_return_pct": 8.982099844403178,
+            "breakeven_cost_bps": 6.234607649513299,
+            "years_positive": "5/5",
+            "share_years_positive": 1.0,
+            "yearly_ann_return_pct": {
+              "2022": 5.990146397111786,
+              "2023": 10.781231844842546,
+              "2024": 17.893188896701428,
+              "2025": 1.4005646834530419,
+              "2026": 9.00592809793403
+            }
+          },
+          "cost_5bps": {
+            "periods": 234,
+            "ann_return_pct": 1.7786795577197312,
+            "ann_vol_pct": 11.302562173215156,
+            "sharpe": 0.1573695884579915,
+            "nw_t": 0.350064033912141,
+            "max_drawdown_pct": -16.62172028674027,
+            "avg_turnover_per_rebalance": 2.8585001137632724,
+            "gross_ann_return_pct": 8.982099844403178,
+            "breakeven_cost_bps": 6.234607649513299,
+            "years_positive": "3/5",
+            "share_years_positive": 0.6,
+            "yearly_ann_return_pct": {
+              "2022": -1.5610372763576024,
+              "2023": 3.18756389117459,
+              "2024": 10.74438580789834,
+              "2025": -5.350103879847102,
+              "2026": 2.0957162644789515
+            }
+          },
+          "cost_10bps": {
+            "periods": 234,
+            "ann_return_pct": -5.4247407289637115,
+            "ann_vol_pct": 11.303658270247238,
+            "sharpe": -0.47991018476225217,
+            "nw_t": -1.067170318789478,
+            "max_drawdown_pct": -27.250720200390678,
+            "avg_turnover_per_rebalance": 2.8585001137632724,
+            "gross_ann_return_pct": 8.982099844403178,
+            "breakeven_cost_bps": 6.234607649513299,
+            "years_positive": "1/5",
+            "share_years_positive": 0.2,
+            "yearly_ann_return_pct": {
+              "2022": -9.112220949826987,
+              "2023": -4.406104062493364,
+              "2024": 3.5955827190952494,
+              "2025": -12.100772443147246,
+              "2026": -4.814495568976125
+            }
+          },
+          "cost_20bps": {
+            "periods": 234,
+            "ann_return_pct": -19.83158130233061,
+            "ann_vol_pct": 11.309804499632351,
+            "sharpe": -1.7534857744866659,
+            "nw_t": -3.8955788365393973,
+            "max_drawdown_pct": -62.48951595151722,
+            "avg_turnover_per_rebalance": 2.8585001137632724,
+            "gross_ann_return_pct": 8.982099844403178,
+            "breakeven_cost_bps": 6.234607649513299,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -24.21458829676576,
+              "2023": -19.593439969829273,
+              "2024": -10.702023458510931,
+              "2025": -25.602109569747533,
+              "2026": -18.63491923588628
+            }
+          },
+          "cost_30bps": {
+            "periods": 234,
+            "ann_return_pct": -34.2384218756975,
+            "ann_vol_pct": 11.321214853484324,
+            "sharpe": -3.0242710096752523,
+            "nw_t": -6.710540663734512,
+            "max_drawdown_pct": -80.70572137772399,
+            "avg_turnover_per_rebalance": 2.8585001137632724,
+            "gross_ann_return_pct": 8.982099844403178,
+            "breakeven_cost_bps": 6.234607649513299,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -39.31695564370454,
+              "2023": -34.78077587716518,
+              "2024": -24.999629636117113,
+              "2025": -39.103446696347824,
+              "2026": -32.45534290279644
+            }
+          }
+        },
+        "pooled_ridge|delay1|long": {
+          "cost_0bps": {
+            "periods": 234,
+            "ann_return_pct": 5.960793378737141,
+            "ann_vol_pct": 6.937282685284483,
+            "sharpe": 0.8592403753967397,
+            "nw_t": 1.8136100304336051,
+            "max_drawdown_pct": -9.299720370701936,
+            "avg_turnover_per_rebalance": 1.3825765711730624,
+            "gross_ann_return_pct": 26.5971567664585,
+            "breakeven_cost_bps": 38.169413211313724,
+            "years_positive": "5/5",
+            "share_years_positive": 1.0,
+            "yearly_ann_return_pct": {
+              "2022": 5.038574543077839,
+              "2023": 10.205800949295398,
+              "2024": 7.283293563313524,
+              "2025": 1.7283726368911967,
+              "2026": 5.528411758142697
+            }
+          },
+          "cost_5bps": {
+            "periods": 234,
+            "ann_return_pct": 2.476700419381025,
+            "ann_vol_pct": 6.933785773963333,
+            "sharpe": 0.35719309769868324,
+            "nw_t": 0.7538573638046255,
+            "max_drawdown_pct": -11.225979328684865,
+            "avg_turnover_per_rebalance": 1.3825765711730624,
+            "gross_ann_return_pct": 26.5971567664585,
+            "breakeven_cost_bps": 38.169413211313724,
+            "years_positive": "4/5",
+            "share_years_positive": 0.8,
+            "yearly_ann_return_pct": {
+              "2022": 1.3557174002206978,
+              "2023": 6.583561567056018,
+              "2024": 3.794490474510434,
+              "2025": -1.5799607912738105,
+              "2026": 2.2592225689535095
+            }
+          },
+          "cost_10bps": {
+            "periods": 234,
+            "ann_return_pct": -1.0073925399750936,
+            "ann_vol_pct": 6.930977080398951,
+            "sharpe": -0.14534639608375502,
+            "nw_t": -0.3067064433553734,
+            "max_drawdown_pct": -13.83339348741991,
+            "avg_turnover_per_rebalance": 1.3825765711730624,
+            "gross_ann_return_pct": 26.5971567664585,
+            "breakeven_cost_bps": 38.169413211313724,
+            "years_positive": "2/5",
+            "share_years_positive": 0.4,
+            "yearly_ann_return_pct": {
+              "2022": -2.3271397426364437,
+              "2023": 2.9613221848166336,
+              "2024": 0.3056873857073457,
+              "2025": -4.888294219438822,
+              "2026": -1.0099666202356796
+            }
+          },
+          "cost_20bps": {
+            "periods": 234,
+            "ann_return_pct": -7.975578458687329,
+            "ann_vol_pct": 6.927427489841133,
+            "sharpe": -1.1513045023399062,
+            "nw_t": -2.4282911643170757,
+            "max_drawdown_pct": -31.792954738465774,
+            "avg_turnover_per_rebalance": 1.3825765711730624,
+            "gross_ann_return_pct": 26.5971567664585,
+            "breakeven_cost_bps": 38.169413211313724,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -9.692854028350727,
+              "2023": -4.283156579662128,
+              "2024": -6.6719187918988325,
+              "2025": -11.504961075768836,
+              "2026": -7.548344998614062
+            }
+          },
+          "cost_30bps": {
+            "periods": 234,
+            "ann_return_pct": -14.943764377399562,
+            "ann_vol_pct": 6.926638150612536,
+            "sharpe": -2.1574339603806294,
+            "nw_t": -4.547188881439581,
+            "max_drawdown_pct": -50.48853727151703,
+            "avg_turnover_per_rebalance": 1.3825765711730624,
+            "gross_ann_return_pct": 26.5971567664585,
+            "breakeven_cost_bps": 38.169413211313724,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -17.058568314065013,
+              "2023": -11.527635344140894,
+              "2024": -13.64952496950501,
+              "2025": -18.121627932098853,
+              "2026": -14.086723376992438
+            }
+          }
+        },
+        "pooled_xgb_l2|delay0|ls": {
+          "cost_0bps": {
+            "periods": 234,
+            "ann_return_pct": 13.803262784908457,
+            "ann_vol_pct": 12.999140540034727,
+            "sharpe": 1.061859646981829,
+            "nw_t": 2.2015100842549833,
+            "max_drawdown_pct": -19.856543939853122,
+            "avg_turnover_per_rebalance": 2.8409131589497485,
+            "gross_ann_return_pct": 13.803262784908457,
+            "breakeven_cost_bps": 9.640360203990697,
+            "years_positive": "5/5",
+            "share_years_positive": 1.0,
+            "yearly_ann_return_pct": {
+              "2022": 8.181731371202972,
+              "2023": 18.21597388094015,
+              "2024": 4.850257860961343,
+              "2025": 15.040478401326757,
+              "2026": 25.864313502715873
+            }
+          },
+          "cost_5bps": {
+            "periods": 234,
+            "ann_return_pct": 6.64416162435509,
+            "ann_vol_pct": 13.002285589617141,
+            "sharpe": 0.5109995145515591,
+            "nw_t": 1.0564789647116009,
+            "max_drawdown_pct": -22.48293745954285,
+            "avg_turnover_per_rebalance": 2.8409131589497485,
+            "gross_ann_return_pct": 13.803262784908457,
+            "breakeven_cost_bps": 9.640360203990697,
+            "years_positive": "4/5",
+            "share_years_positive": 0.8,
+            "yearly_ann_return_pct": {
+              "2022": 0.4469852975044093,
+              "2023": 11.08167841186782,
+              "2024": -2.1245975717993537,
+              "2025": 8.242827952797711,
+              "2026": 18.70704343899274
+            }
+          },
+          "cost_10bps": {
+            "periods": 234,
+            "ann_return_pct": -0.5149395361982763,
+            "ann_vol_pct": 13.007507103275087,
+            "sharpe": -0.03958787276530663,
+            "nw_t": -0.08161533322288284,
+            "max_drawdown_pct": -29.045563466707236,
+            "avg_turnover_per_rebalance": 2.8409131589497485,
+            "gross_ann_return_pct": 13.803262784908457,
+            "breakeven_cost_bps": 9.640360203990697,
+            "years_positive": "3/5",
+            "share_years_positive": 0.6,
+            "yearly_ann_return_pct": {
+              "2022": -7.287760776194152,
+              "2023": 3.9473829427954863,
+              "2024": -9.09945300456005,
+              "2025": 1.4451775042686692,
+              "2026": 11.549773375269611
+            }
+          },
+          "cost_20bps": {
+            "periods": 234,
+            "ann_return_pct": -14.833141857305007,
+            "ann_vol_pct": 13.024168539968672,
+            "sharpe": -1.1388935740339157,
+            "nw_t": -2.334450693377251,
+            "max_drawdown_pct": -55.73684541345673,
+            "avg_turnover_per_rebalance": 2.8409131589497485,
+            "gross_ann_return_pct": 13.803262784908457,
+            "breakeven_cost_bps": 9.640360203990697,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -22.757252923591274,
+              "2023": -10.321207995349178,
+              "2024": -23.049163870081447,
+              "2025": -12.15012339278942,
+              "2026": -2.7647667521766564
+            }
+          },
+          "cost_30bps": {
+            "periods": 234,
+            "ann_return_pct": -29.15134417841174,
+            "ann_vol_pct": 13.049093076794572,
+            "sharpe": -2.2339747296501464,
+            "nw_t": -4.5521892966933075,
+            "max_drawdown_pct": -76.89755750835468,
+            "avg_turnover_per_rebalance": 2.8409131589497485,
+            "gross_ann_return_pct": 13.803262784908457,
+            "breakeven_cost_bps": 9.640360203990697,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -38.22674507098839,
+              "2023": -24.589798933493842,
+              "2024": -36.99887473560284,
+              "2025": -25.745424289847506,
+              "2026": -17.079306879622923
+            }
+          }
+        },
+        "pooled_xgb_l2|delay0|long": {
+          "cost_0bps": {
+            "periods": 234,
+            "ann_return_pct": 7.917187930330197,
+            "ann_vol_pct": 8.140249438148123,
+            "sharpe": 0.9725977060638241,
+            "nw_t": 1.9794088692298477,
+            "max_drawdown_pct": -13.646626312706312,
+            "avg_turnover_per_rebalance": 1.3655223929407083,
+            "gross_ann_return_pct": 29.549367310005003,
+            "breakeven_cost_bps": 42.93572726947324,
+            "years_positive": "5/5",
+            "share_years_positive": 1.0,
+            "yearly_ann_return_pct": {
+              "2022": 2.1846455637748665,
+              "2023": 12.884248214331967,
+              "2024": 7.147333617354976,
+              "2025": 5.17730495375283,
+              "2026": 13.599771809956588
+            }
+          },
+          "cost_5bps": {
+            "periods": 234,
+            "ann_return_pct": 4.476071500119612,
+            "ann_vol_pct": 8.145397584396001,
+            "sharpe": 0.5495215492850032,
+            "nw_t": 1.116902013001676,
+            "max_drawdown_pct": -16.990327800391935,
+            "avg_turnover_per_rebalance": 1.3655223929407083,
+            "gross_ann_return_pct": 29.549367310005003,
+            "breakeven_cost_bps": 42.93572726947324,
+            "years_positive": "4/5",
+            "share_years_positive": 0.8,
+            "yearly_ann_return_pct": {
+              "2022": -1.8553771218285355,
+              "2023": 9.439197800644225,
+              "2024": 3.836726763213383,
+              "2025": 2.0996559620260817,
+              "2026": 10.29929830989387
+            }
+          },
+          "cost_10bps": {
+            "periods": 234,
+            "ann_return_pct": 1.0349550699090282,
+            "ann_vol_pct": 8.152122622298227,
+            "sharpe": 0.12695528733561373,
+            "nw_t": 0.25766484998330746,
+            "max_drawdown_pct": -20.207162565559646,
+            "avg_turnover_per_rebalance": 1.3655223929407083,
+            "gross_ann_return_pct": 29.549367310005003,
+            "breakeven_cost_bps": 42.93572726947324,
+            "years_positive": "3/5",
+            "share_years_positive": 0.6,
+            "yearly_ann_return_pct": {
+              "2022": -5.895399807431936,
+              "2023": 5.994147386956483,
+              "2024": 0.5261199090717945,
+              "2025": -0.9779930297006628,
+              "2026": 6.998824809831151
+            }
+          },
+          "cost_20bps": {
+            "periods": 234,
+            "ann_return_pct": -5.847277790512141,
+            "ann_vol_pct": 8.170286884599465,
+            "sharpe": -0.7156759454229121,
+            "nw_t": -1.44781403339914,
+            "max_drawdown_pct": -32.1844998257305,
+            "avg_turnover_per_rebalance": 1.3655223929407083,
+            "gross_ann_return_pct": 29.549367310005003,
+            "breakeven_cost_bps": 42.93572726947324,
+            "years_positive": "1/5",
+            "share_years_positive": 0.2,
+            "yearly_ann_return_pct": {
+              "2022": -13.975445178638738,
+              "2023": -0.8959534404189994,
+              "2024": -6.095093799211387,
+              "2025": -7.133291013154159,
+              "2026": 0.39787780970571485
+            }
+          },
+          "cost_30bps": {
+            "periods": 234,
+            "ann_return_pct": -12.72951065093331,
+            "ann_vol_pct": 8.194700391001817,
+            "sharpe": -1.5533832896332536,
+            "nw_t": -3.1309072080397633,
+            "max_drawdown_pct": -48.31470869173092,
+            "avg_turnover_per_rebalance": 1.3655223929407083,
+            "gross_ann_return_pct": 29.549367310005003,
+            "breakeven_cost_bps": 42.93572726947324,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -22.05549054984554,
+              "2023": -7.786054267794483,
+              "2024": -12.71630750749457,
+              "2025": -13.288588996607654,
+              "2026": -6.203069190419717
+            }
+          }
+        },
+        "pooled_xgb_l2|delay1|ls": {
+          "cost_0bps": {
+            "periods": 234,
+            "ann_return_pct": 9.269149963795687,
+            "ann_vol_pct": 12.394769796029903,
+            "sharpe": 0.7478275205050307,
+            "nw_t": 1.499673336408182,
+            "max_drawdown_pct": -17.681131796548545,
+            "avg_turnover_per_rebalance": 2.8409131589497485,
+            "gross_ann_return_pct": 9.269149963795687,
+            "breakeven_cost_bps": 6.473682768214456,
+            "years_positive": "4/5",
+            "share_years_positive": 0.8,
+            "yearly_ann_return_pct": {
+              "2022": 10.193985808162722,
+              "2023": 18.79235507493414,
+              "2024": -0.08125911875979389,
+              "2025": 3.8475780198971283,
+              "2026": 15.141977948130226
+            }
+          },
+          "cost_5bps": {
+            "periods": 234,
+            "ann_return_pct": 2.1100488032423224,
+            "ann_vol_pct": 12.398301216695211,
+            "sharpe": 0.17018854166899808,
+            "nw_t": 0.3405189483664104,
+            "max_drawdown_pct": -21.868872938260875,
+            "avg_turnover_per_rebalance": 2.8409131589497485,
+            "gross_ann_return_pct": 9.269149963795687,
+            "breakeven_cost_bps": 6.473682768214456,
+            "years_positive": "3/5",
+            "share_years_positive": 0.6,
+            "yearly_ann_return_pct": {
+              "2022": 2.4592397344641594,
+              "2023": 11.658059605861808,
+              "2024": -7.057751679237316,
+              "2025": -2.9520121431540582,
+              "2026": 7.984707884407091
+            }
+          },
+          "cost_10bps": {
+            "periods": 234,
+            "ann_return_pct": -5.049052357311044,
+            "ann_vol_pct": 12.404009937783501,
+            "sharpe": -0.4070500090403241,
+            "nw_t": -0.8125657615895333,
+            "max_drawdown_pct": -31.580408357678458,
+            "avg_turnover_per_rebalance": 2.8409131589497485,
+            "gross_ann_return_pct": 9.269149963795687,
+            "breakeven_cost_bps": 6.473682768214456,
+            "years_positive": "2/5",
+            "share_years_positive": 0.4,
+            "yearly_ann_return_pct": {
+              "2022": -5.2755063392344,
+              "2023": 4.523764136789474,
+              "2024": -14.034244239714841,
+              "2025": -9.751602306205246,
+              "2026": 0.8274378206839578
+            }
+          },
+          "cost_20bps": {
+            "periods": 234,
+            "ann_return_pct": -19.36725467841778,
+            "ann_vol_pct": 12.421946128939256,
+            "sharpe": -1.5591159772701093,
+            "nw_t": -3.0977491750668564,
+            "max_drawdown_pct": -63.45593897746914,
+            "avg_turnover_per_rebalance": 2.8409131589497485,
+            "gross_ann_return_pct": 9.269149963795687,
+            "breakeven_cost_bps": 6.473682768214456,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -20.744998486631523,
+              "2023": -9.74482680135519,
+              "2024": -27.987229360669886,
+              "2025": -23.350782632307617,
+              "2026": -13.487102306762308
+            }
+          },
+          "cost_30bps": {
+            "periods": 234,
+            "ann_return_pct": -33.68545699952452,
+            "ann_vol_pct": 12.448540781050859,
+            "sharpe": -2.705976354337084,
+            "nw_t": -5.350585895088538,
+            "max_drawdown_pct": -80.86406700347585,
+            "avg_turnover_per_rebalance": 2.8409131589497485,
+            "gross_ann_return_pct": 9.269149963795687,
+            "breakeven_cost_bps": 6.473682768214456,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -36.21449063402864,
+              "2023": -24.01341773949985,
+              "2024": -41.940214481624935,
+              "2025": -36.94996295841,
+              "2026": -27.801642434208567
+            }
+          }
+        },
+        "pooled_xgb_l2|delay1|long": {
+          "cost_0bps": {
+            "periods": 234,
+            "ann_return_pct": 6.562548326878089,
+            "ann_vol_pct": 7.974926642381998,
+            "sharpe": 0.822897641716482,
+            "nw_t": 1.6704628691908467,
+            "max_drawdown_pct": -10.282537722542429,
+            "avg_turnover_per_rebalance": 1.3655223929407083,
+            "gross_ann_return_pct": 27.198911714599443,
+            "breakeven_cost_bps": 39.52047579066507,
+            "years_positive": "4/5",
+            "share_years_positive": 0.8,
+            "yearly_ann_return_pct": {
+              "2022": 5.851633096950342,
+              "2023": 13.454296854865714,
+              "2024": 3.3610767496874505,
+              "2025": -0.19887644324664616,
+              "2026": 11.753967629138723
+            }
+          },
+          "cost_5bps": {
+            "periods": 234,
+            "ann_return_pct": 3.121431896667503,
+            "ann_vol_pct": 7.980341119294492,
+            "sharpe": 0.39114015929978896,
+            "nw_t": 0.7927683974776679,
+            "max_drawdown_pct": -11.942108780451333,
+            "avg_turnover_per_rebalance": 1.3655223929407083,
+            "gross_ann_return_pct": 27.198911714599443,
+            "breakeven_cost_bps": 39.52047579066507,
+            "years_positive": "4/5",
+            "share_years_positive": 0.8,
+            "yearly_ann_return_pct": {
+              "2022": 1.8116104113469405,
+              "2023": 10.009246441177972,
+              "2024": 0.052404559857365515,
+              "2025": -3.283080563246966,
+              "2026": 8.453494129076006
+            }
+          },
+          "cost_10bps": {
+            "periods": 234,
+            "ann_return_pct": -0.3196845335430826,
+            "ann_vol_pct": 7.987364669133344,
+            "sharpe": -0.040023780907172415,
+            "nw_t": -0.08098422237180387,
+            "max_drawdown_pct": -14.617562775933413,
+            "avg_turnover_per_rebalance": 1.3655223929407083,
+            "gross_ann_return_pct": 27.198911714599443,
+            "breakeven_cost_bps": 39.52047579066507,
+            "years_positive": "2/5",
+            "share_years_positive": 0.4,
+            "yearly_ann_return_pct": {
+              "2022": -2.228412274256462,
+              "2023": 6.56419602749023,
+              "2024": -3.2562676299727165,
+              "2025": -6.367284683247289,
+              "2026": 5.153020629013291
+            }
+          },
+          "cost_20bps": {
+            "periods": 234,
+            "ann_return_pct": -7.20191739396425,
+            "ann_vol_pct": 8.006221078512684,
+            "sharpe": -0.8995401605000581,
+            "nw_t": -1.8133561655173287,
+            "max_drawdown_pct": -32.95599653933034,
+            "avg_turnover_per_rebalance": 1.3655223929407083,
+            "gross_ann_return_pct": 27.198911714599443,
+            "breakeven_cost_bps": 39.52047579066507,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -10.308457645463262,
+              "2023": -0.32590479988525384,
+              "2024": -9.873612009632884,
+              "2025": -12.535692923247927,
+              "2026": -1.4479263711121468
+            }
+          },
+          "cost_30bps": {
+            "periods": 234,
+            "ann_return_pct": -14.084150254385422,
+            "ann_vol_pct": 8.03145066300465,
+            "sharpe": -1.7536246993661286,
+            "nw_t": -3.520334280691754,
+            "max_drawdown_pct": -50.555582328576584,
+            "avg_turnover_per_rebalance": 1.3655223929407083,
+            "gross_ann_return_pct": 27.198911714599443,
+            "breakeven_cost_bps": 39.52047579066507,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -18.388503016670064,
+              "2023": -7.216005627260739,
+              "2024": -16.490956389293057,
+              "2025": -18.70410116324857,
+              "2026": -8.04887337123758
+            }
+          }
+        },
+        "pooled_xgb_l1|delay0|ls": {
+          "cost_0bps": {
+            "periods": 227,
+            "ann_return_pct": 4.143063090992799,
+            "ann_vol_pct": 12.120903476244862,
+            "sharpe": 0.34181140862251536,
+            "nw_t": 0.7613707939933008,
+            "max_drawdown_pct": -17.848361803342648,
+            "avg_turnover_per_rebalance": 3.073091039395203,
+            "gross_ann_return_pct": 4.143063090992799,
+            "breakeven_cost_bps": 2.6749494793350364,
+            "years_positive": "3/5",
+            "share_years_positive": 0.6,
+            "yearly_ann_return_pct": {
+              "2022": -2.6117228202513503,
+              "2023": -0.0757196961548519,
+              "2024": 9.989945420498941,
+              "2025": 1.8522505549390171,
+              "2026": 13.867380130178072
+            }
+          },
+          "cost_5bps": {
+            "periods": 227,
+            "ann_return_pct": -3.6011263282831134,
+            "ann_vol_pct": 12.122821076112029,
+            "sharpe": -0.2970534915655168,
+            "nw_t": -0.6623430189724406,
+            "max_drawdown_pct": -28.375463642228716,
+            "avg_turnover_per_rebalance": 3.073091039395203,
+            "gross_ann_return_pct": 4.143063090992799,
+            "breakeven_cost_bps": 2.6749494793350364,
+            "years_positive": "2/5",
+            "share_years_positive": 0.4,
+            "yearly_ann_return_pct": {
+              "2022": -10.21229256613846,
+              "2023": -7.46552909678498,
+              "2024": 2.1613852209126447,
+              "2025": -6.022281530658182,
+              "2026": 5.7329680255859925
+            }
+          },
+          "cost_10bps": {
+            "periods": 227,
+            "ann_return_pct": -11.345315747559024,
+            "ann_vol_pct": 12.126107053038261,
+            "sharpe": -0.935610719741782,
+            "nw_t": -2.0881839030791367,
+            "max_drawdown_pct": -46.05919943993834,
+            "avg_turnover_per_rebalance": 3.073091039395203,
+            "gross_ann_return_pct": 4.143063090992799,
+            "breakeven_cost_bps": 2.6749494793350364,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -17.81286231202557,
+              "2023": -14.855338497415108,
+              "2024": -5.667174978673649,
+              "2025": -13.896813616255383,
+              "2026": -2.40144407900609
+            }
+          },
+          "cost_20bps": {
+            "periods": 227,
+            "ann_return_pct": -26.833694586110845,
+            "ann_vol_pct": 12.136779229449301,
+            "sharpe": -2.2109403227011164,
+            "nw_t": -4.943784690426593,
+            "max_drawdown_pct": -72.709487800899,
+            "avg_turnover_per_rebalance": 3.073091039395203,
+            "gross_ann_return_pct": 4.143063090992799,
+            "breakeven_cost_bps": 2.6749494793350364,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -33.01400180379979,
+              "2023": -29.634957298675364,
+              "2024": -21.32429537784624,
+              "2025": -29.64587778744978,
+              "2026": -18.67026828819025
+            }
+          },
+          "cost_30bps": {
+            "periods": 227,
+            "ann_return_pct": -42.32207342466266,
+            "ann_vol_pct": 12.152905598596083,
+            "sharpe": -3.4824654138308913,
+            "nw_t": -7.800471916752861,
+            "max_drawdown_pct": -86.3301888522928,
+            "avg_turnover_per_rebalance": 3.073091039395203,
+            "gross_ann_return_pct": 4.143063090992799,
+            "breakeven_cost_bps": 2.6749494793350364,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -48.21514129557401,
+              "2023": -44.41457609993562,
+              "2024": -36.98141577701883,
+              "2025": -45.39494195864419,
+              "2026": -34.93909249737441
+            }
+          }
+        },
+        "pooled_xgb_l1|delay0|long": {
+          "cost_0bps": {
+            "periods": 227,
+            "ann_return_pct": 1.9879868535187775,
+            "ann_vol_pct": 7.395938049918839,
+            "sharpe": 0.2687944166244866,
+            "nw_t": 0.551759309338753,
+            "max_drawdown_pct": -12.640370441350457,
+            "avg_turnover_per_rebalance": 1.5682779232906994,
+            "gross_ann_return_pct": 23.26078302052837,
+            "breakeven_cost_bps": 29.42867879317728,
+            "years_positive": "3/5",
+            "share_years_positive": 0.6,
+            "yearly_ann_return_pct": {
+              "2022": -3.93875246448348,
+              "2023": -0.40245940319966106,
+              "2024": 4.993998684108628,
+              "2025": 5.959070665792599,
+              "2026": 4.186828399445747
+            }
+          },
+          "cost_5bps": {
+            "periods": 227,
+            "ann_return_pct": -1.9640735131737856,
+            "ann_vol_pct": 7.392536670683956,
+            "sharpe": -0.26568329663653467,
+            "nw_t": -0.5455383111945786,
+            "max_drawdown_pct": -18.73717302865615,
+            "avg_turnover_per_rebalance": 1.5682779232906994,
+            "gross_ann_return_pct": 23.26078302052837,
+            "breakeven_cost_bps": 29.42867879317728,
+            "years_positive": "3/5",
+            "share_years_positive": 0.6,
+            "yearly_ann_return_pct": {
+              "2022": -8.056929394074636,
+              "2023": -4.245773917973004,
+              "2024": 1.1299670710921068,
+              "2025": 2.05209091285365,
+              "2026": 0.13970898111067806
+            }
+          },
+          "cost_10bps": {
+            "periods": 227,
+            "ann_return_pct": -5.916133879866347,
+            "ann_vol_pct": 7.390239166670086,
+            "sharpe": -0.8005334802353976,
+            "nw_t": -1.6442624052311614,
+            "max_drawdown_pct": -26.63606510593065,
+            "avg_turnover_per_rebalance": 1.5682779232906994,
+            "gross_ann_return_pct": 23.26078302052837,
+            "breakeven_cost_bps": 29.42867879317728,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -12.175106323665792,
+              "2023": -8.089088432746342,
+              "2024": -2.734064541924414,
+              "2025": -1.8548888400852992,
+              "2026": -3.90741043722439
+            }
+          },
+          "cost_20bps": {
+            "periods": 227,
+            "ann_return_pct": -13.820254613251473,
+            "ann_vol_pct": 7.388959408398657,
+            "sharpe": -1.8703925477710284,
+            "nw_t": -3.8439903962937776,
+            "max_drawdown_pct": -47.678387848279456,
+            "avg_turnover_per_rebalance": 1.5682779232906994,
+            "gross_ann_return_pct": 23.26078302052837,
+            "breakeven_cost_bps": 29.42867879317728,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -20.411460182848103,
+              "2023": -15.775717462293024,
+              "2024": -10.462127767957455,
+              "2025": -9.668848345963195,
+              "2026": -12.001649273894527
+            }
+          },
+          "cost_30bps": {
+            "periods": 227,
+            "ann_return_pct": -21.724375346636606,
+            "ann_vol_pct": 7.392101070289331,
+            "sharpe": -2.9388634083957816,
+            "nw_t": -6.043403474703023,
+            "max_drawdown_pct": -63.174421446708486,
+            "avg_turnover_per_rebalance": 1.5682779232906994,
+            "gross_ann_return_pct": 23.26078302052837,
+            "breakeven_cost_bps": 29.42867879317728,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -28.64781404203042,
+              "2023": -23.462346491839703,
+              "2024": -18.1901909939905,
+              "2025": -17.482807851841095,
+              "2026": -20.095888110564665
+            }
+          }
+        },
+        "pooled_xgb_l1|delay1|ls": {
+          "cost_0bps": {
+            "periods": 227,
+            "ann_return_pct": -4.032982949221876,
+            "ann_vol_pct": 11.79352397732528,
+            "sharpe": -0.3419658922113405,
+            "nw_t": -0.7768913369826079,
+            "max_drawdown_pct": -24.568123617826732,
+            "avg_turnover_per_rebalance": 3.073091039395203,
+            "gross_ann_return_pct": -4.032982949221876,
+            "breakeven_cost_bps": -2.6038767460823316,
+            "years_positive": "1/5",
+            "share_years_positive": 0.2,
+            "yearly_ann_return_pct": {
+              "2022": -3.9345165734389655,
+              "2023": -7.929359623263769,
+              "2024": 5.978131772113181,
+              "2025": -11.916397623410885,
+              "2026": -2.2467386067424235
+            }
+          },
+          "cost_5bps": {
+            "periods": 227,
+            "ann_return_pct": -11.777172368497789,
+            "ann_vol_pct": 11.798342476563263,
+            "sharpe": -0.9982056709993352,
+            "nw_t": -2.2672984678857184,
+            "max_drawdown_pct": -46.18915242420897,
+            "avg_turnover_per_rebalance": 3.073091039395203,
+            "gross_ann_return_pct": -4.032982949221876,
+            "breakeven_cost_bps": -2.6038767460823316,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -11.535086319326075,
+              "2023": -15.3191690238939,
+              "2024": -1.840531153638887,
+              "2025": -19.800257910269654,
+              "2026": -10.381150711334504
+            }
+          },
+          "cost_10bps": {
+            "periods": 227,
+            "ann_return_pct": -19.521361787773696,
+            "ann_vol_pct": 11.804564974625052,
+            "sharpe": -1.6537129347618127,
+            "nw_t": -3.755286083260233,
+            "max_drawdown_pct": -61.93418847358947,
+            "avg_turnover_per_rebalance": 3.073091039395203,
+            "gross_ann_return_pct": -4.032982949221876,
+            "breakeven_cost_bps": -2.6038767460823316,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -19.135656065213183,
+              "2023": -22.708978424524023,
+              "2024": -9.659194079390952,
+              "2025": -27.68411819712842,
+              "2026": -18.515562815926586
+            }
+          },
+          "cost_20bps": {
+            "periods": 227,
+            "ann_return_pct": -35.009740626325524,
+            "ann_vol_pct": 11.821212598455846,
+            "sharpe": -2.961603163358952,
+            "nw_t": -6.721219858089632,
+            "max_drawdown_pct": -80.98232539302674,
+            "avg_turnover_per_rebalance": 3.073091039395203,
+            "gross_ann_return_pct": -4.032982949221876,
+            "breakeven_cost_bps": -2.6038767460823316,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -34.3367955569874,
+              "2023": -37.48859722578428,
+              "2024": -25.296519930895084,
+              "2025": -43.45183877084596,
+              "2026": -34.784387025110746
+            }
+          },
+          "cost_30bps": {
+            "periods": 227,
+            "ann_return_pct": -50.49811946487735,
+            "ann_vol_pct": 11.843443206136723,
+            "sharpe": -4.2638039112402355,
+            "nw_t": -9.669215861309803,
+            "max_drawdown_pct": -90.52283592304924,
+            "avg_turnover_per_rebalance": 3.073091039395203,
+            "gross_ann_return_pct": -4.032982949221876,
+            "breakeven_cost_bps": -2.6038767460823316,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -49.53793504876162,
+              "2023": -52.26821602704453,
+              "2024": -40.93384578239922,
+              "2025": -59.2195593445635,
+              "2026": -51.053211234294906
+            }
+          }
+        },
+        "pooled_xgb_l1|delay1|long": {
+          "cost_0bps": {
+            "periods": 227,
+            "ann_return_pct": -1.1019743515030356,
+            "ann_vol_pct": 6.924562171318524,
+            "sharpe": -0.15913993177321795,
+            "nw_t": -0.3346737533267982,
+            "max_drawdown_pct": -14.841719211476489,
+            "avg_turnover_per_rebalance": 1.5682779232906994,
+            "gross_ann_return_pct": 19.419119747353726,
+            "breakeven_cost_bps": 24.568349095848184,
+            "years_positive": "2/5",
+            "share_years_positive": 0.4,
+            "yearly_ann_return_pct": {
+              "2022": -1.1458739156983118,
+              "2023": -6.155402266392784,
+              "2024": 0.6321313090844604,
+              "2025": -0.8497968199593433,
+              "2026": 3.0613139929710407
+            }
+          },
+          "cost_5bps": {
+            "periods": 227,
+            "ann_return_pct": -5.054034718195599,
+            "ann_vol_pct": 6.924620451198367,
+            "sharpe": -0.7298645108153117,
+            "nw_t": -1.5354960229625785,
+            "max_drawdown_pct": -23.952611857249096,
+            "avg_turnover_per_rebalance": 1.5682779232906994,
+            "gross_ann_return_pct": 19.419119747353726,
+            "breakeven_cost_bps": 24.568349095848184,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -5.264050845289465,
+              "2023": -9.998716781166127,
+              "2024": -3.2272658274014354,
+              "2025": -4.760678893192804,
+              "2026": -0.9858054253640268
+            }
+          },
+          "cost_10bps": {
+            "periods": 227,
+            "ann_return_pct": -9.006095084888162,
+            "ann_vol_pct": 6.925858303911624,
+            "sharpe": -1.30035797581964,
+            "nw_t": -2.7367065898908542,
+            "max_drawdown_pct": -35.61592775050012,
+            "avg_turnover_per_rebalance": 1.5682779232906994,
+            "gross_ann_return_pct": 19.419119747353726,
+            "breakeven_cost_bps": 24.568349095848184,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -9.382227774880624,
+              "2023": -13.842031295939464,
+              "2024": -7.086662963887334,
+              "2025": -8.671560966426265,
+              "2026": -5.0329248436990985
+            }
+          },
+          "cost_20bps": {
+            "periods": 227,
+            "ann_return_pct": -16.91021581827329,
+            "ann_vol_pct": 6.931869597972748,
+            "sharpe": -2.4394884495834646,
+            "nw_t": -5.137665747977741,
+            "max_drawdown_pct": -54.66970422412828,
+            "avg_turnover_per_rebalance": 1.5682779232906994,
+            "gross_ann_return_pct": 19.419119747353726,
+            "breakeven_cost_bps": 24.568349095848184,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -17.61858163406293,
+              "2023": -21.52866032548615,
+              "2024": -14.805457236859132,
+              "2025": -16.493325112893185,
+              "2026": -13.127163680369236
+            }
+          },
+          "cost_30bps": {
+            "periods": 227,
+            "ann_return_pct": -24.81433655165841,
+            "ann_vol_pct": 6.942583805527105,
+            "sharpe": -3.574222111932349,
+            "nw_t": -7.532308871148855,
+            "max_drawdown_pct": -68.10282713045589,
+            "avg_turnover_per_rebalance": 1.5682779232906994,
+            "gross_ann_return_pct": 19.419119747353726,
+            "breakeven_cost_bps": 24.568349095848184,
+            "years_positive": "0/5",
+            "share_years_positive": 0.0,
+            "yearly_ann_return_pct": {
+              "2022": -25.854935493245247,
+              "2023": -29.21528935503283,
+              "2024": -22.524251509830925,
+              "2025": -24.315089259360107,
+              "2026": -21.221402517039373
+            }
+          }
+        }
+      },
+      "primary_net_nw_t": -1.986783629190375,
+      "criterion_passed": false,
+      "placebo_gross_delay1": {
+        "seeds": 20,
+        "t_mean": 0.19743692847578995,
+        "t_std": 0.6982440569461961,
+        "t_max_abs": 2.1418721763264292,
+        "gross_ann_return_pct_mean": 0.6374788423130671
+      }
+    }
+  },
+  "runtime_minutes": 15.7
+}

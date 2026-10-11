@@ -8,8 +8,8 @@ from sqlalchemy import delete, func, select, update
 from sqlalchemy.orm import Session
 
 from app.database.models import (
-    BacktestPrediction, DataCacheMeta, ModelVersion, Outcome, Prediction, PriceBar, Stock,
-    TrainingRun, utcnow,
+    BacktestPrediction, DataCacheMeta, ModelVersion, Outcome, Prediction, PredictionInterval,
+    PriceBar, Stock, TrainingRun, utcnow,
 )
 
 OHLCV_COLS = ["open", "high", "low", "close", "adj_close", "volume"]
@@ -202,6 +202,11 @@ class Repository:
             select(Prediction).outerjoin(Outcome).where(
                 Prediction.symbol == symbol, Outcome.id.is_(None))
             .order_by(Prediction.as_of_date)))
+
+    def add_interval(self, iv: PredictionInterval) -> PredictionInterval:
+        self.s.add(iv)
+        self.s.flush()
+        return iv
 
     def add_outcome(self, o: Outcome) -> Outcome:
         self.s.add(o)

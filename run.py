@@ -74,6 +74,10 @@ def cmd_predict(a: argparse.Namespace) -> None:
         print(f"{p['symbol']} h={p['horizon']}d [{p['algorithm']}] as of {p['as_of_date']}: "
               f"ref ₹{p['reference_close']:.2f} -> forecast ₹{p['predicted_price']:.2f} "
               f"({p['predicted_change_pct']:+.2f}%) for ~{p['target_date_estimate']}")
+        iv = (p.get("interval") or {}).get("ranges", {}).get("80")
+        if iv:
+            print(f"    80% range: ₹{iv['lower']:.2f} – ₹{iv['upper']:.2f} "
+                  f"({iv['lower_pct']:+.1f}% … {iv['upper_pct']:+.1f}%)  [{p['interval']['method']}]")
     for w in res["warnings"]:
         print("WARNING:", w)
     print(res["disclaimer"])

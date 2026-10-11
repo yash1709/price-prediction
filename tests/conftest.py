@@ -78,9 +78,23 @@ def provider(prices) -> FakeProvider:
     return FakeProvider({"TESTCO": prices})
 
 
+def make_market(index: pd.DatetimeIndex, seed: int = 1) -> pd.DataFrame:
+    """Synthetic Nifty / India VIX closes on the given dates (test data only)."""
+    rng = np.random.default_rng(seed)
+    nifty = 18000 * np.exp(np.cumsum(rng.normal(0.0004, 0.009, len(index))))
+    vix = np.clip(15 + np.cumsum(rng.normal(0, 0.4, len(index))), 9, 40)
+    return pd.DataFrame({"nifty": nifty, "vix": vix}, index=index)
+
+
 @pytest.fixture
-def ctx(settings, provider):
-    c = build_context(settings, provider)
+def market(prices) -> pd.DataFrame:
+    return make_market(prices.index)
+
+
+@pytest.fixture
+def ctx(settings, provider, market):
+    from app.models.intervals import IntervalService
+    c = build_context(settings, provider, IntervalService(settings, lambda: market))
     yield c
     c.tasks.shutdown()
 

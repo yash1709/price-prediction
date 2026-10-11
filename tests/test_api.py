@@ -99,8 +99,17 @@ def test_full_workflow_train_predict_history_performance(client, provider, price
     body = p.json()
     assert body["kind"] == "forecast" and len(body["predictions"]) == 2 and body["disclaimer"]
     assert all(x["predicted_price"] > 0 for x in body["predictions"])
+    for x in body["predictions"]:                       # calibrated forecast ranges are attached
+        iv = x["interval"]
+        assert iv["method"] == "fhs_xgb"
+        r = iv["ranges"]
+        assert r["95"]["lower"] < r["80"]["lower"] < r["50"]["lower"] < x["reference_close"] \
+            < r["50"]["upper"] < r["80"]["upper"] < r["95"]["upper"]
+    w1, w5 = (body["predictions"][i]["interval"]["ranges"]["80"] for i in (0, 1))
+    assert w5["upper"] - w5["lower"] > w1["upper"] - w1["lower"]
     hist = client.get("/stocks/TESTCO/predictions").json()
     assert hist["count"] == 2 and all(x["outcome"] is None for x in hist["predictions"])
+    assert all(x["interval"] is not None for x in hist["predictions"])
     client.post("/stocks/TESTCO/predict", json={"horizons": [1, 5]})
     assert client.get("/stocks/TESTCO/predictions").json()["count"] == 2
 
@@ -117,6 +126,9 @@ def test_full_workflow_train_predict_history_performance(client, provider, price
     o = perf["outcomes"][0]["outcome"]
     assert o["abs_error"] == pytest.approx(abs(o["error"])) and "pct_error" in o
     assert perf["by_model"][0]["naive_metrics"]["n"] == 1
+    assert isinstance(o["within_range_80"], bool) and isinstance(o["within_range_95"], bool)
+    cov = perf["by_model"][0]["live_range_coverage"]
+    assert cov["n"] == 1 and cov["inside_80_pct"] in (0.0, 100.0)
 
 
 def test_one_shot_forecast_trains_once_then_reuses_models(client):

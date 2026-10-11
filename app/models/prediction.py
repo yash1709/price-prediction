@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 
 from app.core.errors import AppError, NoModelError, NotFoundError
-from app.database.models import ModelVersion, Prediction
+from app.database.models import ModelVersion, Prediction, PredictionInterval
 from app.database.repository import Repository
 from app.features.engineering import latest_features
 from app.models.training import load_artifact
@@ -28,9 +28,25 @@ def estimate_target_date(as_of: date, horizon: int) -> date:
     return pd.Timestamp(np.busday_offset(as_of.isoformat(), horizon, roll="forward")).date()
 
 
+def attach_interval(repo: Repository, pred: Prediction, df: pd.DataFrame, interval_fn) -> None:
+    """Compute and store the calibrated forecast ranges once per prediction (idempotent)."""
+    if interval_fn is None or pred.interval is not None:
+        return
+    res = interval_fn(df, pred.horizon)
+    if res is None:
+        return
+    ref = pred.reference_close
+    r = {lv: (ref * (1 + lo), ref * (1 + hi)) for lv, (lo, hi) in res.ranges.items()}
+    repo.add_interval(PredictionInterval(
+        prediction_id=pred.id, method=res.method, sigma_daily=res.sigma_daily,
+        lo50=r[0.5][0], hi50=r[0.5][1], lo80=r[0.8][0], hi80=r[0.8][1],
+        lo95=r[0.95][0], hi95=r[0.95][1]))
+    repo.s.refresh(pred)
+
+
 def predict_for_symbol(repo: Repository, symbol: str, horizons: list[int] | None = None,
-                       model_version_id: int | None = None, today: date | None = None
-                       ) -> tuple[list[dict], list[str]]:
+                       model_version_id: int | None = None, today: date | None = None,
+                       interval_fn=None) -> tuple[list[dict], list[str]]:
     """Returns (forecast dicts, warnings). Direct multi-horizon: each horizon uses its own model
     trained on that horizon's target; no predicted value is ever fed back as an input."""
     horizons = sorted(set(horizons or [1]))
@@ -76,6 +92,7 @@ def predict_for_symbol(repo: Repository, symbol: str, horizons: list[int] | None
                 target_date_est=estimate_target_date(as_of, h), reference_close=ref_close,
                 predicted_price=price, predicted_change=price - ref_close,
                 predicted_change_pct=(price / ref_close - 1) * 100, method="direct"))
+        attach_interval(repo, pred, df, interval_fn)
         if (as_of - date.fromisoformat(art["train_end"])).days > 45:
             warnings.append(f"Model {mv.version} was trained on data through {art['train_end']}; "
                             f"consider retraining.")
@@ -100,8 +117,22 @@ def prediction_to_dict(p: Prediction, mv: ModelVersion | None = None) -> dict:
             if p.horizon == 1 else
             f"{p.horizon}-trading-day direct forecast: uncertainty grows with horizon; "
             f"treat as a rough central estimate."),
-        "outcome": None,
+        "outcome": None, "interval": None,
     }
+    iv = p.interval
+    if iv is not None:
+        ref = p.reference_close
+        d["interval"] = {
+            "method": iv.method, "sigma_daily_pct": iv.sigma_daily * 100,
+            "ranges": {str(int(lv * 100)): {"lower": lo, "upper": hi,
+                                            "lower_pct": (lo / ref - 1) * 100,
+                                            "upper_pct": (hi / ref - 1) * 100}
+                       for lv, lo, hi in ((0.5, iv.lo50, iv.hi50), (0.8, iv.lo80, iv.hi80),
+                                          (0.95, iv.lo95, iv.hi95))},
+            "note": "Calibrated ranges around the latest close: the actual close should fall inside "
+                    "the 80% range about 4 times out of 5 (79.9% out-of-sample, 2022-2026). "
+                    "They describe uncertainty, not direction.",
+        }
     o = p.outcome
     if o is not None:
         d["outcome"] = {
@@ -109,4 +140,9 @@ def prediction_to_dict(p: Prediction, mv: ModelVersion | None = None) -> dict:
             "error": o.error, "abs_error": o.abs_error, "pct_error": o.pct_error,
             "direction_correct": o.direction_correct,
             "recorded_at": o.recorded_at.isoformat() + "Z"}
+        if iv is not None:
+            d["outcome"].update({
+                "within_range_50": iv.lo50 <= o.actual_close <= iv.hi50,
+                "within_range_80": iv.lo80 <= o.actual_close <= iv.hi80,
+                "within_range_95": iv.lo95 <= o.actual_close <= iv.hi95})
     return d

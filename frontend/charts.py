@@ -39,6 +39,13 @@ def forecast_chart(hist: pd.DataFrame, preds: list[dict], symbol: str, tail: int
         last_x, last_y = h.index[-1], float(h["close"].iloc[-1])
         xs = [last_x] + [pd.Timestamp(p["target_date_estimate"]) for p in preds]
         ys = [last_y] + [p["predicted_price"] for p in preds]
+        if all(p.get("interval") for p in preds):  # shaded forecast ranges (widest first)
+            for lv, color in (("80", "rgba(24,128,56,0.12)"), ("50", "rgba(24,128,56,0.24)")):
+                up = [last_y] + [p["interval"]["ranges"][lv]["upper"] for p in preds]
+                lo = [last_y] + [p["interval"]["ranges"][lv]["lower"] for p in preds]
+                fig.add_trace(go.Scatter(x=xs + xs[::-1], y=up + lo[::-1], fill="toself",
+                                         fillcolor=color, line=dict(width=0), name=f"{lv}% range",
+                                         hoverinfo="skip"))
         fig.add_trace(go.Scatter(x=xs, y=ys, name="Forecast (NOT actual)", mode="lines+markers",
                                  line=dict(color=C_FCST, dash="dash"),
                                  marker=dict(symbol="diamond", size=10)))
