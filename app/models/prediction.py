@@ -94,6 +94,7 @@ def prediction_to_dict(p: Prediction, mv: ModelVersion | None = None) -> dict:
         "predicted_change_pct": p.predicted_change_pct,
         "model_version_id": mv.id, "model_version": mv.version, "algorithm": mv.algorithm,
         "model_is_baseline": mv.algorithm in ("naive", "drift"),
+        "model_is_selected": mv.is_selected,
         "uncertainty_note": (
             "Next-day forecast; typical error is comparable to a normal daily move."
             if p.horizon == 1 else

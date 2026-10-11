@@ -119,6 +119,40 @@ def test_full_workflow_train_predict_history_performance(client, provider, price
     assert perf["by_model"][0]["naive_metrics"]["n"] == 1
 
 
+def test_one_shot_forecast_trains_once_then_reuses_models(client):
+    r = client.post("/stocks/TESTCO/forecast", json={"horizons": [1]})
+    assert r.status_code == 202
+    t = wait_task(client, r.json()["task_id"])
+    assert t["status"] == "succeeded", t
+    res = t["result"]
+    assert res["trained"] is True and len(res["predictions"]) == 1
+    p = res["predictions"][0]
+    assert p["model_is_selected"] and p["predicted_price"] > 0 and p["horizon"] == 1
+    if p["algorithm"] == "naive":   # nothing validated -> unvalidated best-model estimate offered
+        assert len(res["experimental"]) == 1
+        e = res["experimental"][0]
+        assert e["validated"] is False and e["algorithm"] not in ("naive", "drift")
+        assert e["model_is_selected"] is False and "NOT" in e["note"]
+    n_models = client.get("/stocks/TESTCO/models").json()["count"]
+
+    t2 = wait_task(client, client.post("/stocks/TESTCO/forecast", json={"horizons": [1]}).json()["task_id"])
+    assert t2["status"] == "succeeded" and t2["result"]["trained"] is False   # fast path
+    assert client.get("/stocks/TESTCO/models").json()["count"] == n_models
+    assert client.get("/stocks/TESTCO/predictions").json()["count"] == (1 + len(res["experimental"]))
+
+
+def test_one_shot_forecast_errors(client):
+    t = wait_task(client, client.post("/stocks/NOSUCH/forecast", json={}).json()["task_id"])
+    assert t["status"] == "failed" and t["error"]["code"] == "symbol_not_found"
+    assert client.post("/stocks/TESTCO/forecast", json={"horizons": [99]}).status_code == 422
+
+
+def test_search_by_company_name(client):
+    r = client.get("/stocks", params={"q": "tata consultancy"}).json()
+    assert [s["symbol"] for s in r["stocks"]] == ["TCS"]
+    assert client.get("/stocks", params={"q": "zzzz-no-such"}).json()["total"] == 0
+
+
 def test_background_refresh_task(client):
     r = client.post("/data/refresh", json={"symbols": ["testco", "NOSUCH"]})
     assert r.status_code == 202

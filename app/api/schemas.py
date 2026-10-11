@@ -63,6 +63,15 @@ class PredictRequest(BaseModel):
         return _check_horizons(v)
 
 
+class ForecastRequest(BaseModel):
+    horizons: list[int] = Field(default_factory=lambda: [1, 5])
+
+    @field_validator("horizons")
+    @classmethod
+    def _h(cls, v):
+        return _check_horizons(v)
+
+
 class RefreshRequest(BaseModel):
     symbols: list[str] = Field(min_length=1, max_length=50)
     full: bool = False

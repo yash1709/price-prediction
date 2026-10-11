@@ -54,6 +54,54 @@ def run_training(ctx: AppContext, symbol: str, algorithms: list[str] | None,
         return {"run_id": run.id, "status": run.status, "summary": run.summary}
 
 
+MAX_MODEL_AGE_DAYS = 30
+
+
+def run_quick_forecast(ctx: AppContext, symbol: str, horizons: list[int] | None = None,
+                       progress=None, max_model_age_days: int = MAX_MODEL_AGE_DAYS) -> dict:
+    """One-shot: fetch data -> (re)train only if no recent model -> forecast.
+
+    When the naive baseline is the validated pick, the best trained non-baseline model's forecast
+    is also returned under `experimental`, flagged `validated=False` (it did not beat naive)."""
+    symbol = normalize_symbol(symbol)
+    horizons = sorted(set(horizons or [1, 5]))
+    notify = progress or (lambda f, m: None)
+    notify(0.0, "fetching market data")
+    status = fetch_data(ctx, symbol)
+    with ctx.repo() as repo:
+        need = []
+        for h in horizons:
+            mv = repo.selected_model(symbol, h)
+            if mv is None or (status.last_date - mv.train_end).days > max_model_age_days:
+                need.append(h)
+    if need:
+        run_training(ctx, symbol, None, need, None, None, refresh_data=False,
+                     progress=lambda f, m: notify(0.05 + 0.9 * f, m))
+    notify(0.96, "forecasting")
+    result = run_prediction(ctx, symbol, horizons, refresh_data=False)
+    experimental: list[dict] = []
+    with ctx.repo() as repo:
+        for h in horizons:
+            sel = repo.selected_model(symbol, h)
+            if sel is None or sel.algorithm != "naive":
+                continue
+            cands = [m for m in repo.list_model_versions(symbol, horizon=h, run_id=sel.run_id)
+                     if m.algorithm not in ("naive", "drift")]
+            if not cands:
+                continue
+            best = min(cands, key=lambda m: m.metrics["rmse"])
+            preds, _ = predict_for_symbol(repo, symbol, [h], best.id)
+            for p in preds:
+                p["validated"] = False
+                p["validation_mae_vs_naive_pct"] = best.metrics["vs_naive"]["mae_improvement_pct"]
+                p["note"] = ("Best trained model, but it did NOT beat the naive baseline in "
+                             "validation: treat as unreliable.")
+                experimental.append(p)
+    result.update(trained=bool(need), experimental=experimental)
+    notify(1.0, "done")
+    return result
+
+
 def run_prediction(ctx: AppContext, symbol: str, horizons: list[int] | None,
                    model_version_id: int | None = None, refresh_data: bool = True) -> dict:
     symbol = normalize_symbol(symbol)

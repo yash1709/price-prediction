@@ -5,7 +5,7 @@ from datetime import date
 from fastapi import APIRouter, Depends, Query
 
 from app.api.deps import get_ctx, get_repo, symbol_param
-from app.api.schemas import PredictRequest, TaskAccepted, TrainRequest
+from app.api.schemas import ForecastRequest, PredictRequest, TaskAccepted, TrainRequest
 from app.core.errors import NotFoundError
 from app.data.ingestion import default_start
 from app.database.repository import Repository, utc_iso
@@ -13,7 +13,7 @@ from app.features.engineering import FEATURE_NAMES, LOOKBACK
 from app.models.prediction import prediction_to_dict
 from app.services.context import AppContext
 from app.services.outcomes import performance_summary, resolve_outcomes
-from app.services.workflow import fetch_data, run_prediction, run_training
+from app.services.workflow import fetch_data, run_prediction, run_quick_forecast, run_training
 
 router = APIRouter(prefix="/stocks", tags=["stocks"])
 
@@ -65,6 +65,16 @@ def train(body: TrainRequest, symbol: str = Depends(symbol_param),
     task = ctx.tasks.submit("train", symbol, lambda progress: run_training(
         ctx, symbol, body.algorithms, body.horizons, body.start, body.end, progress,
         refresh_data=body.refresh_data))
+    return TaskAccepted(task_id=task.id, status=task.status, status_url=f"/tasks/{task.id}")
+
+
+@router.post("/{symbol}/forecast", status_code=202, response_model=TaskAccepted)
+def forecast(body: ForecastRequest, symbol: str = Depends(symbol_param),
+             ctx: AppContext = Depends(get_ctx)) -> TaskAccepted:
+    """One call from nothing to a forecast: fetch data, train only if needed, predict.
+    Background task (shares the 'train' lock per symbol); poll `/tasks/{task_id}`."""
+    task = ctx.tasks.submit("train", symbol, lambda progress: run_quick_forecast(
+        ctx, symbol, body.horizons, progress))
     return TaskAccepted(task_id=task.id, status=task.status, status_url=f"/tasks/{task.id}")
 
 

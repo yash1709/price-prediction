@@ -9,9 +9,11 @@ import httpx
 
 
 class ApiError(Exception):
-    def __init__(self, message: str, code: str = "error", status: int | None = None):
+    def __init__(self, message: str, code: str = "error", status: int | None = None,
+                 details: dict | None = None):
         super().__init__(message)
         self.message, self.code, self.status = message, code, status
+        self.details = details or {}
 
 
 class ApiClient:
@@ -30,7 +32,7 @@ class ApiClient:
         if r.status_code >= 400:
             try:
                 err = r.json()["error"]
-                raise ApiError(err["message"], err["code"], r.status_code)
+                raise ApiError(err["message"], err["code"], r.status_code, err.get("details"))
             except (ValueError, KeyError):
                 raise ApiError(f"HTTP {r.status_code}: {r.text[:300]}", "http_error",
                                r.status_code) from None
@@ -51,6 +53,9 @@ class ApiClient:
 
     def train(self, symbol, body: dict):
         return self._req("POST", f"/stocks/{self._s(symbol)}/train", json=body)
+
+    def quick_forecast(self, symbol, body: dict):
+        return self._req("POST", f"/stocks/{self._s(symbol)}/forecast", json=body)
 
     def task(self, task_id: str): return self._req("GET", f"/tasks/{task_id}")
 

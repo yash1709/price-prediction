@@ -57,15 +57,31 @@ def load_universe(url: str) -> dict:
     return ApiClient(url).stocks()
 
 
+@st.cache_data(ttl=300, show_spinner=False)
+def search_universe(url: str, q: str) -> dict:
+    return ApiClient(url).stocks(q=q, limit=50)
+
+
 with st.sidebar:
     uni = load_universe(api_url)
-    options = {f"{s['symbol']} — {s['name'] or ''}": s["symbol"] for s in uni["stocks"]}
-    labels = list(options)
-    default_idx = next((i for i, k in enumerate(labels) if k.startswith("RELIANCE")), 0)
-    choice = st.selectbox("Search / select NSE stock", labels, index=default_idx if labels else None)
-    custom = st.text_input("…or enter any NSE symbol", placeholder="e.g. DMART, M&M")
-    symbol = (custom.strip().upper().removesuffix(".NS") if custom.strip()
-              else options.get(choice, ""))
+    q = st.text_input("Search any NSE stock", placeholder="Type a name or symbol: Infosys, DMART, M&M",
+                      help="Press Enter. A forecast is prepared automatically for the stock you pick.")
+    q = q.strip()
+    symbol = ""
+    if q:
+        matches = search_universe(api_url, q)["stocks"]
+        if matches:
+            options = {f"{s['symbol']} — {s['name'] or ''}": s["symbol"] for s in matches}
+            symbol = options[st.selectbox(f"{len(matches)} match(es)", list(options))]
+        else:
+            symbol = q.upper().removesuffix(".NS")
+            st.caption(f"'{q}' is not in the stock list; trying it as the NSE symbol **{symbol}**.")
+    else:
+        options = {f"{s['symbol']} — {s['name'] or ''}": s["symbol"] for s in uni["stocks"]}
+        labels = list(options)
+        default_idx = next((i for i, k in enumerate(labels) if k.startswith("RELIANCE")), 0)
+        choice = st.selectbox("…or pick from the list", labels, index=default_idx if labels else None)
+        symbol = options.get(choice, "")
     st.caption(f"Universe: {uni['total']} symbols. {uni['note']}")
     years = st.slider("History (years)", 1, 15, 8)
     start_d = date.today() - timedelta(days=int(365.25 * years))
@@ -116,6 +132,37 @@ st.header(f"{symbol} {('· ' + hist_resp['name']) if hist_resp.get('name') else 
 for w in dinfo.get("warnings", []):
     st.warning(w)
 
+# --- automatic forecast: no stored forecast for the latest data -> prepare one ------------------
+AUTO_HORIZONS = [1, 5]
+tried = st.session_state.setdefault("auto_tried", set())
+auto_key = (symbol, dinfo["last_date"])
+if auto_key not in tried:
+    try:
+        have_h = {m["horizon"] for m in api.models(symbol)["models"] if m["is_selected"]}
+        stored = api.predictions(symbol, 50)["predictions"]
+    except ApiError:
+        have_h, stored = set(), []
+    fresh = bool(stored) and max(p["as_of_date"] for p in stored) >= dinfo["last_date"]
+    if not (set(AUTO_HORIZONS) <= have_h and fresh):
+        tried.add(auto_key)  # one automatic attempt per stock per data date (no retry loops)
+        box = st.container()
+        bar = box.progress(0.0, text=f"Preparing the forecast for {symbol}…")
+        try:
+            try:
+                task_id = api.quick_forecast(symbol, {"horizons": AUTO_HORIZONS})["task_id"]
+            except ApiError as e:  # someone is already training this stock: just follow that task
+                if e.code != "conflict" or not e.details.get("task_id"):
+                    raise
+                task_id = e.details["task_id"]
+            final = api.wait_for_task(task_id, lambda t: bar.progress(
+                float(t["progress"]), text=t["message"] or t["status"]))
+            if final["status"] == "succeeded":
+                bump()
+                st.rerun()
+            box.error(f"Automatic forecast failed: {(final['error'] or {}).get('message')}")
+        except ApiError as e:
+            box.error(f"Automatic forecast failed: {e.message}")
+
 tabs = st.tabs(["Overview", "Stock Explorer", "Model Training", "Price Prediction",
                 "Model Performance", "Prediction History", "Nifty 200 Benchmark"])
 
@@ -152,8 +199,13 @@ with tabs[0]:
                 "**Price Prediction**.")
     else:
         latest_asof = max(p["as_of_date"] for p in preds)
-        cur = sorted((p for p in preds if p["as_of_date"] == latest_asof),
-                     key=lambda p: p["horizon"])
+        cur = sorted((p for p in preds if p["as_of_date"] == latest_asof
+                      and p.get("model_is_selected", True)), key=lambda p: p["horizon"])
+        exp_by_h: dict[int, dict] = {}
+        for p in preds:  # forecasts from non-selected, non-baseline models (unvalidated)
+            if (p["as_of_date"] == latest_asof and not p.get("model_is_selected", True)
+                    and not p["model_is_baseline"]):
+                exp_by_h[p["horizon"]] = max(p, exp_by_h.get(p["horizon"], p), key=lambda x: x["id"])
         cols = st.columns(min(len(cur), 4))
         for col, p in zip(cols, cur):
             col.metric(f"{p['horizon']}-day forecast (≈ {p['target_date_estimate']})",
@@ -161,6 +213,20 @@ with tabs[0]:
                        f"{p['predicted_change']:+.2f} ₹ ({p['predicted_change_pct']:+.2f}%)")
             col.caption(f"Model: {p['algorithm']}" + (" (baseline)" if p["model_is_baseline"] else ""))
         st.caption(f"Forecasts made from data through {latest_asof}. Not actual prices.")
+        if any(p["model_is_baseline"] and p["algorithm"] == "naive" for p in cur):
+            st.info("**Why is the forecast 'no change'?** For this stock no trained model beat the "
+                    "naive baseline (tomorrow = today) in validation, so the validated forecast is "
+                    "flat. That is the honest answer, not a missing prediction.")
+        if exp_by_h:
+            with st.expander("Best model's price estimate (NOT validated — treat as unreliable)"):
+                st.warning("These come from the best-scoring trained model, which did **not** beat "
+                           "the naive baseline on out-of-sample data. Shown only so you can see what "
+                           "the model would say; its direction calls are close to a coin flip.")
+                ecols = st.columns(min(len(exp_by_h), 4))
+                for col, h in zip(ecols, sorted(exp_by_h)):
+                    p = exp_by_h[h]
+                    col.metric(f"{h}-day estimate ({p['algorithm']})", inr(p["predicted_price"]),
+                               f"{p['predicted_change']:+.2f} ₹ ({p['predicted_change_pct']:+.2f}%)")
 
     st.subheader("Selected model (validation metrics)")
     sel = [m for m in get_models() if m["is_selected"]]

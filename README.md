@@ -74,6 +74,14 @@ Typical first session: `python run.py all`, open <http://localhost:8501>, pick a
 symbol can be typed into the sidebar even if it is not in the universe list; it is validated by
 fetching its data.
 
+**Search → forecast in one step.** In the dashboard, type a company name or symbol ("Infosys",
+"DMART") and press Enter. If the stock has no forecast for the latest data, the app fetches prices,
+trains only if there is no model younger than 30 days, and forecasts 1- and 5-day prices
+automatically (about a minute the first time; instant afterwards). The API equivalent is
+`POST /stocks/{symbol}/forecast` (a background task, like training). The validated forecast is
+"no change" whenever no model beat the naive baseline; in that case the Overview also shows the best
+trained model's price estimate in a clearly labelled **not validated** section.
+
 **Stock universe.** The bundled list (`app/data/seed_universe.csv`, 30 large caps) is a *starter set,
 not all NSE stocks*. `import-universe` downloads NSE's official `EQUITY_L.csv`
 (`UNIVERSE_URL`). NSE often blocks scripted downloads; if that fails, download the file in your
@@ -201,6 +209,7 @@ Interactive docs at `/docs`. Errors are always `{"error": {"code", "message", "d
 | `GET /tasks/{task_id}` | Task status/progress/result (in-memory; lost on API restart) |
 | `GET /stocks/{symbol}/models` | Model versions, metrics, selection verdicts, feature list |
 | `GET /stocks/{symbol}/models/{id}/backtest` | Walk-forward actual-vs-predicted rows |
+| `POST /stocks/{symbol}/forecast` | `202`; one call: fetch data, train if needed, forecast (+ unvalidated best-model estimate) |
 | `POST /stocks/{symbol}/predict` | Body `{horizons, model_version_id?, refresh_data?}`; stores forecasts |
 | `GET /stocks/{symbol}/predictions` | Forecast history incl. outcomes |
 | `GET /stocks/{symbol}/performance` | Realised accuracy per model vs. naive on the same rows |
