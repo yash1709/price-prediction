@@ -35,13 +35,21 @@ def pct(v: float | None, signed: bool = False) -> str:
 with st.sidebar:
     st.title("📈 NSE Forecasts")
     api_url = st.text_input("API URL", DEFAULT_API)
-    api = ApiClient(api_url)
+    embedded_note = ""
     try:
-        health = api.health()
-    except ApiError as e:
-        st.error(e.message)
-        st.stop()
-    st.caption(f"API v{health['version']} · provider: {health['data_provider']}")
+        health = ApiClient(api_url).health()
+    except ApiError:
+        # No external API: run the backend inside this Streamlit process (single-process hosting).
+        try:
+            import embedded
+            api_url = embedded.ensure_started()
+            health = ApiClient(api_url).health()
+            embedded_note = " · embedded API"
+        except Exception as e:  # noqa: BLE001 - shown to the user, then stop
+            st.error(f"No API at the configured URL and the embedded API failed to start: {e}")
+            st.stop()
+    api = ApiClient(api_url)
+    st.caption(f"API v{health['version']} · provider: {health['data_provider']}{embedded_note}")
 
 
 @st.cache_data(ttl=300, show_spinner=False)
@@ -109,7 +117,7 @@ for w in dinfo.get("warnings", []):
     st.warning(w)
 
 tabs = st.tabs(["Overview", "Stock Explorer", "Model Training", "Price Prediction",
-                "Model Performance", "Prediction History"])
+                "Model Performance", "Prediction History", "Nifty 200 Benchmark"])
 
 
 def get_models(h: int | None = None) -> list[dict]:
@@ -337,6 +345,84 @@ with tabs[4]:
                                           "train_end", "n_train", "created_at", "n_features",
                                           "eligible", "selection_note", "is_selected")})
             st.write("Features:", ", ".join(api.models(symbol)["feature_names"]))
+
+# --------------------------------------------------------------------------------------------
+# G. Nifty 200 benchmark (static report committed in reports/; independent of the selected stock)
+# --------------------------------------------------------------------------------------------
+REPORTS = Path(__file__).resolve().parents[1] / "reports"
+
+
+@st.cache_data(show_spinner=False)
+def load_benchmark() -> tuple[dict | None, pd.DataFrame | None]:
+    import json
+    try:
+        summary = json.loads((REPORTS / "benchmark_summary.json").read_text(encoding="utf-8"))
+        forecasts = pd.read_csv(REPORTS / "forecasts.csv")
+        return summary, forecasts
+    except (OSError, ValueError):
+        return None, None
+
+
+with tabs[6]:
+    bsum, bfc = load_benchmark()
+    if bsum is None:
+        st.info("No benchmark report found. Run `python scripts/benchmark_universe.py` to create one.")
+    else:
+        st.warning("Held-out evaluation over the Nifty 200: models were trained and selected on "
+                   f"data *before* the last {bsum['holdout_sessions']} sessions and scored on those "
+                   "unseen sessions. Constituents are today's index members (survivorship bias).")
+        st.caption(f"{bsum['n_ok']} stocks evaluated, {bsum['n_skipped']} skipped (too little "
+                   "history), snapshot of the last benchmark run — not live.")
+        rows = []
+        for h, s in bsum["horizons"].items():
+            sysm, nn = s["system_all_stocks_holdout"], s["system_when_non_naive_selected_holdout"]
+            rows.append({
+                "Horizon (days)": int(h), "Stocks": s["n_stocks"],
+                "Naive median MAPE %": s["per_algorithm_holdout"]["naive"]["median_mape_pct"],
+                "System median MAPE %": sysm["median_mape_pct"],
+                "Naive selected": s["selected_counts"].get("naive", 0),
+                "Non-naive picks": s["selected_non_naive"],
+                "…that beat naive": nn["stocks_beating_naive"] if nn else 0,
+                "Directional acc. % (non-naive picks)": nn["directional_accuracy_pct"] if nn else None,
+            })
+        st.subheader("Accuracy of the full system")
+        st.dataframe(pd.DataFrame(rows), hide_index=True, width="stretch")
+        st.caption("The system falls back to the naive 'no change' forecast unless a model beats it "
+                   "in validation. Most picks are naive, and non-naive picks mostly lost to naive on "
+                   "unseen data; direction calls are close to a coin flip (50%).")
+        h_pick = st.radio("Algorithm comparison for horizon (days)", list(bsum["horizons"]),
+                          horizontal=True)
+        st.dataframe(pd.DataFrame([{
+            "Algorithm": a, "Median MAPE %": m["median_mape_pct"],
+            "Median MAE vs naive %": m["median_mae_vs_naive_pct"],
+            "Wins vs naive": m["stocks_beating_naive"], "Losses vs naive": m["stocks_losing_to_naive"],
+            "Directional acc. %": m["directional_accuracy_pct"],
+        } for a, m in bsum["horizons"][h_pick]["per_algorithm_holdout"].items()]),
+            hide_index=True, width="stretch")
+        st.caption("Each algorithm applied to every stock. Negative 'MAE vs naive' = worse than naive.")
+
+        st.subheader("Latest stored forecasts (all stocks)")
+        c1, c2, c3 = st.columns([1, 1, 2])
+        hz = c1.radio("Horizon", sorted(bfc["horizon_days"].unique()), horizontal=True, key="bm_h")
+        only_nonflat = c2.checkbox("Hide flat (naive) forecasts", value=False)
+        q = c3.text_input("Filter by symbol/name", key="bm_q")
+        view = bfc[bfc["horizon_days"] == hz]
+        if only_nonflat:
+            view = view[view["predicted_change_pct"] != 0]
+        if q.strip():
+            mask = (view["symbol"].str.contains(q.strip(), case=False, na=False)
+                    | view["name"].str.contains(q.strip(), case=False, na=False))
+            view = view[mask]
+        st.dataframe(view.rename(columns={
+            "horizon_days": "Horizon (d)", "as_of_date": "As of", "target_date_estimate": "Target (est.)",
+            "reference_close": "Reference ₹", "predicted_price": "Forecast ₹",
+            "predicted_change_pct": "Change %", "model": "Model",
+            "holdout_selected_vs_naive_mae_pct": "Model skill vs naive % (held-out)"}),
+            hide_index=True, width="stretch")
+        st.caption("Forecasts are model estimates, not actual prices or advice. Rows where the model "
+                   "is 'naive' are simply 'no change'.")
+        st.download_button("Download forecasts CSV", bfc.to_csv(index=False).encode(),
+                           "nifty200_forecasts.csv", "text/csv")
 
 # --------------------------------------------------------------------------------------------
 # F. Prediction History

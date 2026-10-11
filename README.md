@@ -44,7 +44,7 @@ frontend/ (Streamlit)  ──HTTP──▶  app/api (FastAPI + Pydantic)
 cd path\to\price
 python -m venv .venv            # or: py -3.14 -m venv .venv
 .\.venv\Scripts\Activate.ps1    # if blocked: Set-ExecutionPolicy -Scope Process Bypass
-pip install -r requirements.txt
+pip install -r requirements-dev.txt   # runtime deps + pytest (use requirements.txt for runtime only)
 Copy-Item .env.example .env     # optional; defaults work without it
 ```
 
@@ -79,6 +79,32 @@ not all NSE stocks*. `import-universe` downloads NSE's official `EQUITY_L.csv`
 (`UNIVERSE_URL`). NSE often blocks scripted downloads; if that fails, download the file in your
 browser from nseindia.com (Market Data → Securities available for trading) and run
 `python run.py import-universe --source C:\path\to\EQUITY_L.csv`.
+
+## Deploy on Streamlit Community Cloud
+
+The dashboard can run as a single Streamlit app: if no API is reachable at the *API URL*, it starts
+the same FastAPI backend inside its own process (`frontend/embedded.py`). Nothing else to host.
+
+1. Push the repo to GitHub (the app must be readable by Streamlit; public repos are simplest).
+2. Go to <https://share.streamlit.io> → **Create app** → pick the repo, branch `main`, and set
+   **Main file path** to `frontend/dashboard.py`.
+3. **Advanced settings → Python version:** choose 3.12 or 3.13. Dependencies come from
+   `requirements.txt` (no secrets or environment variables are required).
+4. Deploy. First build takes a few minutes (XGBoost, scikit-learn, pandas).
+
+What to expect on Cloud:
+* **Ephemeral storage.** The SQLite DB, cached prices and trained models live on the container's
+  disk and are lost when the app restarts or is redeployed. Every visitor shares one process and
+  one database. For persistence, point `DATABASE_URL` at a hosted Postgres and store artifacts in
+  durable storage (not implemented).
+* **Starts empty.** No stock has models until someone trains it in the **Model Training** tab
+  (about 1–3 minutes per stock on shared CPU; pick fewer algorithms to speed it up). The
+  **Nifty 200 Benchmark** tab works immediately: it reads the committed `reports/` files.
+* **Data source.** Prices come live from Yahoo Finance. Shared cloud IPs are sometimes rate-limited
+  by Yahoo; the UI then shows the error (or stale cache) instead of fabricating data.
+* **Python version.** Development and all tests ran on Python 3.14 only; the Cloud-supported 3.12/3.13
+  have not been exercised here.
+* The app has no authentication: anyone with the URL can trigger data fetches and training.
 
 ## Configuration
 
