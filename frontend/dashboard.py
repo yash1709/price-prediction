@@ -164,7 +164,7 @@ if auto_key not in tried:
             box.error(f"Automatic forecast failed: {e.message}")
 
 tabs = st.tabs(["Overview", "Stock Explorer", "Model Training", "Price Prediction",
-                "Model Performance", "Prediction History", "Nifty 200 Benchmark"])
+                "Model Performance", "Prediction History", "Nifty 200 Benchmark", "Live Scorecard"])
 
 
 def get_models(h: int | None = None) -> list[dict]:
@@ -529,6 +529,115 @@ with tabs[6]:
                    "is 'naive' are simply 'no change'.")
         st.download_button("Download forecasts CSV", bfc.to_csv(index=False).encode(),
                            "nifty200_forecasts.csv", "text/csv")
+
+# --------------------------------------------------------------------------------------------
+# H. Live scorecard: forward results published by the daily GitHub Actions job (live-data branch)
+# --------------------------------------------------------------------------------------------
+LIVE_BASE = os.getenv("LIVE_DATA_BASE_URL",
+                      "https://raw.githubusercontent.com/yash1709/price-prediction/live-data/live")
+LIVE_LOCAL = Path(__file__).resolve().parents[1] / "live"
+
+
+@st.cache_data(ttl=900, show_spinner=False)
+def load_live(base: str) -> dict | None:
+    import io
+    import json as _json
+
+    import httpx
+
+    def get(name: str) -> str | None:
+        try:
+            r = httpx.get(f"{base}/{name}", timeout=15, follow_redirects=True)
+            if r.status_code == 200:
+                return r.text
+        except httpx.HTTPError:
+            pass
+        p = LIVE_LOCAL / name
+        return p.read_text(encoding="utf-8") if p.exists() else None
+
+    summary = get("summary.json")
+    if summary is None:
+        return None
+    out = {"summary": _json.loads(summary), "latest": None, "daily": None}
+    for key, name in (("latest", "latest_forecasts.csv"), ("daily", "coverage_by_day.csv")):
+        text = get(name)
+        out[key] = pd.read_csv(io.StringIO(text)) if text else None
+    return out
+
+
+with tabs[7]:
+    live = load_live(LIVE_BASE)
+    if live is None:
+        st.info("The daily job has not published any results yet. It runs on weekdays after the NSE "
+                "close (GitHub Actions); the first results appear after its first run.")
+    else:
+        ls = live["summary"]
+        banner = {"ok": st.success, "degraded": st.warning, "failed": st.error}[ls["status"]]
+        banner(f"Last run: {ls['last_run_utc']} UTC · data as of {ls['as_of_date']} · "
+               f"{ls['symbols_ok']}/{ls['symbols_requested']} stocks fetched · status: {ls['status']}")
+        st.markdown(
+            "Every weekday after the close, the job stores a forecast for each Nifty 200 stock "
+            "**before** its outcome exists, then scores it when the date arrives. The point forecast is "
+            "'no change' (the only one that survived testing); the **ranges** are what is being "
+            "tested. This is a genuine forward test, not a backtest.")
+        c1, c2, c3 = st.columns(3)
+        c1.metric("Forecasts recorded", f"{ls['forecasts_total']:,}")
+        c2.metric("Matured and scored", f"{ls['outcomes_total']:,}")
+        c3.metric("Added in last run", f"{ls['new_forecasts']:,} / {ls['new_outcomes']:,}")
+
+        rows = []
+        for h, cv in ls["coverage"].items():
+            if cv.get("n"):
+                rows.append({"Horizon (d)": int(h), "Scored forecasts": cv["n"],
+                             "50% range hit %": cv["inside50_pct"], "80% range hit %": cv["inside80_pct"],
+                             "95% range hit %": cv["inside95_pct"],
+                             "Mean 80% width %": cv["mean_width80_pct"],
+                             "Typical move %": cv["no_change_mape_pct"],
+                             "Last 60 sessions, 80% hit %": cv["last_60_sessions"]["inside80_pct"]})
+        st.subheader("Live range accuracy (targets: 50 / 80 / 95 %)")
+        if rows:
+            st.dataframe(pd.DataFrame(rows), hide_index=True, width="stretch")
+            st.caption("Stocks tend to move together, so these samples are not independent and early "
+                       "numbers are noisy; judge the trend over weeks, not a single day. 'Typical move' "
+                       "is the average absolute return, i.e. the error of the 'no change' forecast.")
+        else:
+            st.info("No forecast has matured yet. The first 1-day outcomes arrive after the next "
+                    "trading session; 5-day outcomes after five sessions.")
+        daily = live["daily"]
+        if daily is not None and not daily.empty:
+            import plotly.graph_objects as go
+            fig = go.Figure()
+            for h, g in daily.groupby("horizon"):
+                g = g.sort_values("actual_date")
+                fig.add_trace(go.Scatter(x=g["actual_date"], y=g["in80"].cumsum() / g["n"].cumsum() * 100,
+                                         mode="lines", name=f"{h}-day"))
+            fig.add_hline(y=80, line_dash="dash", line_color="grey", annotation_text="target 80%")
+            fig.update_layout(template="plotly_white", height=340, yaxis_title="% inside 80% range (cumulative)",
+                              margin=dict(l=10, r=10, t=30, b=10), legend_orientation="h")
+            st.plotly_chart(fig, width="stretch")
+
+        latest = live["latest"]
+        if latest is not None and not latest.empty:
+            st.subheader("Latest forecasts, all stocks")
+            f1, f2 = st.columns([1, 2])
+            hz = f1.radio("Horizon (days)", sorted(latest["horizon"].unique()), horizontal=True, key="live_h")
+            q = f2.text_input("Filter by symbol or name", key="live_q")
+            v = latest[latest["horizon"] == hz].copy()
+            if q.strip():
+                v = v[v["symbol"].str.contains(q.strip(), case=False, na=False)
+                      | v["name"].fillna("").str.contains(q.strip(), case=False, na=False)]
+            v["80% low %"] = (v["lo80"] / v["reference_close"] - 1) * 100
+            v["80% high %"] = (v["hi80"] / v["reference_close"] - 1) * 100
+            st.dataframe(v[["symbol", "name", "as_of_date", "reference_close", "lo80", "hi80", "80% low %",
+                            "80% high %", "method"]].rename(columns={
+                "symbol": "Symbol", "name": "Name", "as_of_date": "As of", "reference_close": "Latest close ₹",
+                "lo80": "80% low ₹", "hi80": "80% high ₹", "method": "Method"}),
+                hide_index=True, width="stretch")
+            st.download_button("Download latest forecasts CSV", latest.to_csv(index=False).encode(),
+                               "live_latest_forecasts.csv", "text/csv")
+        if ls.get("n_failed"):
+            with st.expander(f"{ls['n_failed']} stock(s) could not be processed in the last run"):
+                st.dataframe(pd.DataFrame(ls["failed"]), hide_index=True, width="stretch")
 
 # --------------------------------------------------------------------------------------------
 # F. Prediction History

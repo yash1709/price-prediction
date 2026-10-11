@@ -15,3 +15,8 @@ logs/
 
 # generated signal ranking: unvalidated for trading, keep local
 reports/latest_signal_ranking*.csv
+
+# daily job output lives on the live-data branch, never on main
+/live/
+live_out/
+tmp_live/

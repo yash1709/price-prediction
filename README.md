@@ -366,6 +366,34 @@ moves is, so the ranges are the informative part of a flat "no change" forecast.
   `app/models/pretrained/` (portable XGBoost JSON models + calibration JSON, ≈ 1.2 MB). Re-run the
   experiment and export periodically to refresh the calibration.
 
+## Daily forward test (GitHub Actions)
+
+`.github/workflows/daily.yml` runs `scripts/daily_job.py` every weekday at 17:00 IST (11:30 UTC),
+after the NSE close. For each Nifty 200 stock it records a forecast **before** the outcome exists
+(point forecast = latest close, "no change", plus calibrated 50/80/95 % ranges for 1 and 5 days),
+then scores earlier forecasts whose target session has arrived: did the actual move land inside
+each range? It takes about 4 minutes. It does not retrain per-stock models (the benchmark showed
+they add nothing), so it needs no database or persistent disk.
+
+* **Where results live.** Plain files (`forecasts.csv`, `outcomes.csv`, `latest_forecasts.csv`,
+  `coverage_by_day.csv`, `summary.json`) committed to a separate **`live-data`** branch, so daily
+  commits never redeploy the Streamlit app. The dashboard's **Live Scorecard** tab reads them from
+  `raw.githubusercontent.com` (public repo) and falls back to a local `live/` folder. Override the
+  location with `LIVE_DATA_BASE_URL`.
+* **Enable it.** Push the workflow to GitHub, open **Actions → daily-forecasts → Run workflow** for
+  the first run (this creates the `live-data` branch), then check the run log and the branch.
+  The first 1-day outcomes mature after the next trading session; 5-day outcomes after five.
+* **Run it yourself.** `python scripts\daily_job.py --out live` (add `--limit 10` to test). On
+  Windows you can schedule that command with Task Scheduler instead of GitHub Actions.
+* **Behaviour.** Re-runs are idempotent (one row per date/stock/horizon); holidays simply produce no
+  new bar; a stock that fails to fetch is reported in `summary.json` and the dashboard, never
+  silently dropped. Status is `ok` (≥ 90 % of stocks), `degraded` (≥ 50 %) or `failed`.
+* **Caveats.** The workflow has been linted and the job tested locally on real data, but the
+  GitHub-hosted run itself and Python 3.12 are untested until its first execution. Yahoo Finance may
+  rate-limit GitHub's shared runner IPs (the job then reports `degraded`/`failed`). GitHub delays
+  scheduled runs under load and disables scheduled workflows in public repos after 60 days without
+  repository activity (re-enable them in the Actions tab).
+
 ## Known limitations
 
 * Data is Yahoo Finance end-of-day via an unofficial API: may be delayed, gapped, or rate-limited.
