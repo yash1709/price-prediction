@@ -12,3 +12,6 @@ artifacts/*
 *.db
 *.sqlite3
 logs/
+
+# generated signal ranking: unvalidated for trading, keep local
+reports/latest_signal_ranking*.csv

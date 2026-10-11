@@ -1,4 +1,4 @@
-# NSE Stock Price Prediction
+﻿# NSE Stock Price Prediction
 
 A research and forecasting application for NSE-listed stocks: it fetches end-of-day prices, engineers
 leakage-safe features, trains and compares models with chronological walk-forward validation, stores
@@ -337,7 +337,7 @@ The 1-day ranking signal is real but vanishes within a session and needs ~3 roun
 portfolio per day, so any realistic cost (cash-equity STT alone is 10 bps per side) removes it. Not
 modelled: market impact, shorting restrictions/borrow (retail cannot short cash equities in India),
 survivorship bias (today's index members). `reports/latest_signal_ranking.csv` is the current
-signal ranking — **not validated for trading, do not use as buy/sell advice.**
+signal ranking, written locally by the script and deliberately not committed (**not validated for trading, do not use as buy/sell advice**).
 Details: `reports/longshort_backtest.json`, `reports/longshort_net_returns.csv`.
 
 ## Forecast ranges (calibrated uncertainty)
