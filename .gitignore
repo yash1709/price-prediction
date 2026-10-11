@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+.idea/
+# generated data & artifacts (folders are kept via .gitkeep)
+data/*
+!data/.gitkeep
+artifacts/*
+!artifacts/.gitkeep
+*.db
+*.sqlite3
+logs/
