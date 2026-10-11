@@ -234,6 +234,35 @@ outcome workflow through the API.
 These numbers are from one stock and one date; they will change on retraining. They demonstrate
 the pipeline, not a profitable strategy.
 
+## Universe benchmark (Nifty 200)
+
+```powershell
+python scripts\benchmark_universe.py --limit 200 --workers 6 --horizons 1 5   # ~2 h on 8 cores
+python scripts\benchmark_universe.py --summarize-only                         # rebuild reports
+```
+
+Downloads NSE's official Nifty 200 constituent list, then per stock: (1) holds out the most recent
+126 sessions; (2) trains/selects on earlier data only; (3) scores the frozen models on the held-out
+window; (4) retrains on all data and stores real forecasts. Outputs in `reports/`:
+`benchmark_report.md`, `benchmark_summary.json`, `forecasts.csv` (one forecast per stock/horizon),
+`benchmark_results.jsonl` (raw per-stock results; resumable). The script is not covered by the unit
+tests. The list contains *today's* constituents, so results carry survivorship bias.
+
+**Result (190 evaluated of 200; 10 recent listings lacked the ≥ 457 sessions required):**
+
+| | 1 day | 5 days |
+|---|---|---|
+| Naive median MAPE on held-out window | 1.33 % | 2.88 % |
+| Stocks where pipeline selected naive | 173 / 190 | 149 / 190 |
+| Non-naive picks that beat naive out-of-sample | 3 of 17 | 9 of 41 |
+| Every algorithm vs naive (wins / losses over 190 stocks) | ≤ 60 / ≥ 130 | ≤ 41 / ≥ 149 |
+| Directional accuracy of non-naive picks | 49.6 % | 49.7 % |
+
+Conclusion: on this universe no trained model reliably beats "tomorrow = today". Models that looked
+better in walk-forward validation did not hold up on the unseen window, and direction calls are a
+coin flip. The pipeline's safeguard (fall back to naive) is doing its job; the forecasts are mostly
+flat by design.
+
 ## Known limitations
 
 * Data is Yahoo Finance end-of-day via an unofficial API: may be delayed, gapped, or rate-limited.

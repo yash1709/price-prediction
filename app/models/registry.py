@@ -4,6 +4,7 @@ Add a model by registering a factory here; training/evaluation/prediction need n
 """
 from __future__ import annotations
 
+import os
 from dataclasses import dataclass
 from typing import Callable
 
@@ -15,6 +16,11 @@ from sklearn.preprocessing import StandardScaler
 from app.models.baseline import DriftModel, NaiveModel
 
 SEED = 42
+
+
+def _n_jobs(default: int) -> int:
+    """Thread count for tree models; batch runs set MODEL_N_JOBS=1 to avoid oversubscription."""
+    return int(os.getenv("MODEL_N_JOBS", default))
 
 
 @dataclass(frozen=True)
@@ -32,14 +38,14 @@ def _ridge():
 
 def _rf():
     return RandomForestRegressor(n_estimators=200, max_depth=6, min_samples_leaf=10,
-                                 max_features=0.5, n_jobs=-1, random_state=SEED)
+                                 max_features=0.5, n_jobs=_n_jobs(-1), random_state=SEED)
 
 
 def _xgb():
     from xgboost import XGBRegressor
     return XGBRegressor(n_estimators=250, learning_rate=0.03, max_depth=3, subsample=0.8,
                         colsample_bytree=0.8, min_child_weight=10, reg_lambda=5.0,
-                        random_state=SEED, n_jobs=2, verbosity=0)
+                        random_state=SEED, n_jobs=_n_jobs(2), verbosity=0)
 
 
 def _hgb():

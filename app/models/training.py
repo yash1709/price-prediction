@@ -119,6 +119,7 @@ def train_symbol(repo: Repository, settings: Settings, symbol: str,
                     train_start=ds.X.index[0].date(), train_end=ds.X.index[-1].date(),
                     n_train=int(len(ds.X)), metrics=results[name], eligible=ok,
                     selection_note=note, is_selected=(name == best)), bt_rows)
+            repo.s.commit()  # release the write lock between horizons (concurrent workers)
         run.status, run.finished_at, run.summary = "succeeded", utcnow(), summary
         repo.s.commit()
         notify(1.0, "done")

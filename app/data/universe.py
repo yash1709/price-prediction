@@ -27,7 +27,7 @@ def parse_equity_list(csv_text: str, source: str) -> list[dict]:
     df.columns = [c.strip().upper() for c in df.columns]
     if "SYMBOL" not in df.columns:
         raise ProviderError("Universe file must contain a 'SYMBOL' column.")
-    name_col = next((c for c in df.columns if c.startswith("NAME")), None)
+    name_col = next((c for c in df.columns if c.startswith("NAME") or c == "COMPANY NAME"), None)
     series_col = "SERIES" if "SERIES" in df.columns else None
     isin_col = next((c for c in df.columns if "ISIN" in c), None)
     rows: dict[str, dict] = {}
