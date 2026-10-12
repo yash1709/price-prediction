@@ -33,7 +33,7 @@ def attach_interval(repo: Repository, pred: Prediction, df: pd.DataFrame, interv
     """Compute and store the calibrated forecast ranges once per prediction (idempotent)."""
     if interval_fn is None or pred.interval is not None:
         return
-    res = interval_fn(df, pred.horizon)
+    res = interval_fn(df, pred.horizon, symbol=pred.symbol)
     if res is None:
         return
     ref = pred.reference_close

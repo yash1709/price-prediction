@@ -23,6 +23,7 @@ import numpy as np
 import pandas as pd
 
 from app.core.config import Settings
+from app.data.tiers import smallcap_band
 from app.features.engineering import compute_features
 from app.features.market import fetch_market_closes, market_features
 
@@ -110,7 +111,9 @@ class IntervalService:
                  market_fetcher: Callable[[], pd.DataFrame | None] | None = None):
         self._fetch = market_fetcher or (lambda: fetch_market_closes(settings.data_path / "market"))
 
-    def compute(self, df: pd.DataFrame, horizon: int) -> IntervalResult | None:
+    def compute(self, df: pd.DataFrame, horizon: int, symbol: str | None = None) -> IntervalResult | None:
+        """`symbol` selects the calibration: stocks ranked 501-1500 by market cap (outside the Nifty 500)
+        use z-quantiles fitted on stocks of that size; everything else uses the Nifty-200 calibration."""
         if horizon not in supported_horizons() or len(df) < 60:
             return None
         info = _meta()["horizons"][str(horizon)]
@@ -125,7 +128,9 @@ class IntervalService:
             sigma, method = float(np.sqrt(np.exp(pred))), "fhs_xgb"
         else:
             sigma, method = float(v["ewma"]), "fhs_ewma"
-        z = info["z_quantiles"][method]
+        band = smallcap_band(symbol)
+        band_info = _meta().get("bands", {}).get(band, {}).get(str(horizon)) if band else None
+        z = (band_info or info)["z_quantiles"][method]
         ranges = {}
         for lv in LEVELS:
             zlo, zhi = z[str(lv)]

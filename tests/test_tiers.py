@@ -53,6 +53,37 @@ def test_quoted_evidence_matches_the_committed_reports():
     assert f"{cov:.1f}%" in validation_status("RELIANCE")["message"]
 
 
+SMALL = pd.read_csv(DATA / "smallcap_ranks.csv")
+SMALL_SYM = SMALL[SMALL["band"] == "r501_1000"]["symbol"].iloc[0]
+SMALL_SYM_B2 = SMALL[SMALL["band"] == "r1001_1500"]["symbol"].iloc[0]
+
+
+def test_smallcap_tier_membership_and_message():
+    assert not (set(SMALL["symbol"]) & N500)                      # strictly outside the Nifty 500
+    assert set(SMALL["band"]) == {"r501_1000", "r1001_1500"} and SMALL["symbol"].is_unique
+    v = validation_status(SMALL_SYM.lower())
+    assert (v["tier"], v["level"], v["validated"]) == ("smallcap", "info", True)
+    assert "501-1500" in v["message"] and "Not tested: stocks ranked below 1500" in v["message"]
+    assert validation_status("ZZZNOPE")["tier"] == "outside_nifty500"
+    assert validation_status(SMALL_SYM, "BE")["level"] == "warning"           # restricted segment escalates
+    assert validation_status(SMALL_SYM, "BE")["tier"] == "smallcap"
+
+
+def test_smallcap_message_matches_the_committed_report():
+    rep = json.loads((REPORTS / "interval_tail_check.json").read_text(encoding="utf-8"))
+    msg = validation_status(SMALL_SYM)["message"]
+    assert f"{sum(v for k, v in rep['usable_stocks_by_group'].items() if k != 'n200')} of them" in msg
+    cov = {(h, b): rep["horizons"][h]["groups"][b]["methods"]["fhs_xgb_grp"]["0.8"]["coverage_pct"]
+           for h in ("1", "5") for b in ("r501_1000", "r1001_1500")}
+    assert (f"{cov['1', 'r501_1000']:.1f}% / {cov['1', 'r1001_1500']:.1f}% of the time at 1 day and "
+            f"{cov['5', 'r501_1000']:.1f}% / {cov['5', 'r1001_1500']:.1f}% at 5 days") in msg
+    w = {b: rep["horizons"]["1"]["groups"][b]["methods"]["fhs_xgb_grp"]["0.8"]["mean_width_pct"]
+         / rep["horizons"]["1"]["groups"]["n200"]["methods"]["fhs_xgb_grp"]["0.8"]["mean_width_pct"] - 1
+         for b in ("r501_1000", "r1001_1500")}
+    assert f"{round(w['r501_1000'] * 100)}-{round(w['r1001_1500'] * 100)}% wider" in msg
+    assert all(rep["eligibility"][b]["fhs_xgb_grp"] for b in ("r501_1000", "r1001_1500"))   # the pre-registered rule passed
+
+
 @pytest.mark.parametrize("series", sorted(RESTRICTED_SERIES))
 def test_restricted_segments_escalate_to_a_warning(series):
     v = validation_status(MID, series)

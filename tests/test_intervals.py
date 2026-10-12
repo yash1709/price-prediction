@@ -54,6 +54,25 @@ def test_ranges_are_nested_ordered_and_scale_with_horizon(prices, market):
     assert (r5.ranges[0.8][1] - r5.ranges[0.8][0]) > (r1.ranges[0.8][1] - r1.ranges[0.8][0])
 
 
+def test_small_cap_band_uses_its_own_calibration(prices, market):
+    from tests.test_tiers import SMALL_SYM, SMALL_SYM_B2
+    meta, svc = _meta(), _svc(market)
+    for h in (1, 5):
+        base = svc.compute(prices, h)                                       # Nifty-200 calibration
+        for sym, band in ((SMALL_SYM, "r501_1000"), (SMALL_SYM_B2, "r1001_1500")):
+            res = svc.compute(prices, h, symbol=sym)
+            z = meta["bands"][band][str(h)]["z_quantiles"]["fhs_xgb"]["0.8"]
+            assert res.sigma_daily == pytest.approx(base.sigma_daily)       # same volatility model ...
+            lo, hi = res.ranges[0.8]
+            assert lo == pytest.approx(z[0] * res.sigma_daily * np.sqrt(h))  # ... different quantiles
+            assert hi == pytest.approx(z[1] * res.sigma_daily * np.sqrt(h))
+            assert (hi - lo) > (base.ranges[0.8][1] - base.ranges[0.8][0])   # small caps get wider ranges
+        assert svc.compute(prices, h, symbol="RELIANCE").ranges == base.ranges   # Nifty 200 unchanged
+        assert svc.compute(prices, h, symbol="ZZZNOPE").ranges == base.ranges    # unknown symbol unchanged
+    assert set(meta["bands"]) == {"r501_1000", "r1001_1500"}
+    assert _svc(None).compute(prices, 5, symbol=SMALL_SYM).method == "fhs_ewma"  # fallback also band-calibrated
+
+
 def test_fallback_to_ewma_without_or_with_stale_market(prices, market):
     assert _svc(None).compute(prices, 1).method == "fhs_ewma"
     stale = market.iloc[:-40]                                   # market feed ends ~2 months early

@@ -156,7 +156,7 @@ def run_daily(provider: DataProvider, symbols: list[tuple[str, str | None]], out
             for h in cfg.horizons:
                 if (as_of, sym, h) in have:
                     continue
-                r = intervals.compute(df, h)
+                r = intervals.compute(df, h, symbol=sym)
                 if r is None:
                     failed.append({"symbol": sym, "reason": f"no range for horizon {h} (short history?)"})
                     continue

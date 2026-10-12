@@ -79,7 +79,7 @@ def stock_risk(ctx: AppContext, symbol: str, refresh: bool = True) -> dict:
     moves: dict[str, dict] = {}
     method = implied = None
     for h in (1, 5):
-        res = ctx.intervals.compute(df, h)
+        res = ctx.intervals.compute(df, h, symbol=symbol)
         if res is None:
             continue
         method = res.method

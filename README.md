@@ -362,11 +362,12 @@ moves is, so the ranges are the informative part of a flat "no change" forecast.
   77.3 %; normal-curve versions over-cover when volatility is high). Sharper than the baseline by
   only 2.5 % (1-day) / 1.4 % (5-day): the gain is reliability, not narrow ranges.
 * **Where the ranges are validated (banner).** They were developed on the Nifty 200 and later tested
-  out-of-sample on the Nifty 201-500 (below); stocks outside the Nifty 500 are untested. The dashboard
+  out-of-sample on the Nifty 201-500 and on market-cap ranks 501-1500 (both below); stocks beyond that
+  are untested. The dashboard
   (and `validation` in the history / risk / forecast API responses) shows a banner above every tab: *no banner* for Nifty 200 stocks; a blue **note** for Nifty 201-500
-  stocks quoting the measured out-of-sample coverage below (the quoted numbers are checked against
-  the committed reports by a test, so they cannot drift); a **warning** for stocks outside the Nifty 500
-  ("never been tested on stocks like this… real coverage may be well below the stated 80 %"). A stock in
+  and for market-cap rank 501-1500 stocks quoting the measured out-of-sample coverage below (the quoted
+  numbers are checked against the committed reports by a test, so they cannot drift); a **warning** for
+  all other stocks ("never been tested on stocks like this… real coverage may be well below the stated 80 %"). A stock in
   a restricted segment (BE trade-for-trade, BZ, SME) is escalated to a warning. Membership comes from
   committed snapshots of NSE's lists (`app/data/nifty200.csv`, `nifty500.csv`, dated by
   `LIST_SNAPSHOT` in `app/data/tiers.py`); refresh them after index rebalances (March and September).
@@ -379,7 +380,21 @@ moves is, so the ranges are the informative part of a flat "no change" forecast.
   met, so the shipped method passes there without recalibration (ranges are about 17 % wider, as they
   should be: 5.34 % vs 4.58 % at 1 day). A calibration fitted on mid-cap data would nudge 5-day coverage to
   80.0 % but is not needed. Caveats: today's index members only (survivorship), a mostly rising market,
-  and 25 recently listed or unfetchable stocks excluded. Stocks outside the Nifty 500 remain untested.
+  and 25 recently listed or unfetchable stocks excluded.
+  **Measured on market-cap ranks 501-1500** (`python scripts\market_cap_rank.py` for the Yahoo market-cap
+  snapshot, then `python scripts\interval_tail_check.py`, ≈ 54 min, 827 stocks with ≥ 400 sessions: 419
+  ranked 501-1000, 408 ranked 1001-1500; rank = market cap among stocks outside the Nifty 500; 2022-01 →
+  2026-10). Same design as above (Nifty-200-fitted model and calibration applied to unseen stocks).
+  The shipped Nifty-200 calibration **failed** the pre-registered rule there: 80 % ranges covered
+  79.3 / 79.5 % at 1 day but only 78.5 / 77.8 % at 5 days (ranks 501-1000 / 1001-1500), with 2024 at about
+  74-75 %. A calibration fitted on the band's own stocks, on the data *before* each test block
+  (`fhs_xgb_grp`), **passed**: 79.8 / 80.0 % at 1 day, 80.0 / 80.2 % at 5 days, 95 % ranges 94.8-95.0 %,
+  ranges 25-35 % wider than for Nifty 200 stocks (1 day). That calibration is what the app ships
+  (`python scripts\export_band_calibration.py` writes `app/data/smallcap_ranks.csv` and the `bands`
+  section of `interval_calibration.json`; `IntervalService.compute(..., symbol=)` picks it up). Caveats:
+  the ranking is today's market cap (not each stock's historical size) and Yahoo's figure is sometimes
+  stale; only stocks listed today are included (survivorship); stocks with under 400 sessions, those
+  ranked below 1500 and those without a market cap are untested and keep the warning.
 * **Live tracking.** When a forecast matures the app records whether the actual close fell inside
   each range (`within_range_80`, per-model `live_range_coverage`, tile in *Prediction History*).
 * **Artifacts.** `python scripts\export_vol_models.py` converts the experiment output into
