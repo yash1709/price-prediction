@@ -19,6 +19,23 @@ log = logging.getLogger(__name__)
 
 OVERLAP_DAYS = 7           # re-fetched days on incremental updates (catches revisions)
 ADJ_MISMATCH_TOL = 1e-3    # relative adj_close change that signals a corporate action -> full refetch
+PENDING_MAX_AGE_DAYS = 7   # a discarded newest bar older than this is not worth fast re-checks
+
+
+def pending_bar(meta, today: date | None = None) -> date | None:
+    """Date of a recent newest bar that the provider has not finalised yet (discarded at last fetch)."""
+    raw = (meta.quality_report or {}).get("latest_bar_dropped") if meta else None
+    if not raw:
+        return None
+    d = date.fromisoformat(raw)
+    if meta.last_date and d <= meta.last_date:
+        return None
+    return d if ((today or utcnow().date()) - d) <= timedelta(days=PENDING_MAX_AGE_DAYS) else None
+
+
+def _pending_warning(d: date) -> str:
+    return (f"The newest bar ({d}) has no final price yet or its session is not complete, so it is "
+            "ignored for now; the data will refresh automatically within minutes of it being published.")
 
 
 @dataclass
@@ -32,9 +49,11 @@ class DataStatus:
     from_cache: bool
     stale: bool = False
     warnings: list[str] = field(default_factory=list)
+    pending_bar_date: str | None = None   # newest bar not yet final at the provider (re-checked soon)
 
     def to_dict(self) -> dict:
         return {
+            "pending_bar_date": self.pending_bar_date,
             "symbol": self.symbol, "source": self.provider,
             "first_date": self.first_date.isoformat() if self.first_date else None,
             "last_date": self.last_date.isoformat() if self.last_date else None,
@@ -52,10 +71,13 @@ def default_start(settings: Settings, today: date | None = None) -> date:
 def _status(repo: Repository, symbol: str, provider: DataProvider, from_cache: bool,
             stale: bool, warnings: list[str]) -> DataStatus:
     meta = repo.get_meta(symbol)
+    pend = pending_bar(meta)
+    if pend and from_cache and not stale and not any("newest bar" in w for w in warnings):
+        warnings = [*warnings, _pending_warning(pend)]   # keep telling users on cached views too
     return DataStatus(symbol, meta.provider if meta else provider.name,
                       meta.first_date if meta else None, meta.last_date if meta else None,
                       meta.n_rows if meta else 0, meta.last_fetch_at if meta else None,
-                      from_cache, stale, warnings)
+                      from_cache, stale, warnings, pend.isoformat() if pend else None)
 
 
 def _fetch_and_store(repo: Repository, provider: DataProvider, settings: Settings, symbol: str,
@@ -93,8 +115,11 @@ def ensure_data(repo: Repository, provider: DataProvider, settings: Settings, sy
         requested_start = date.fromisoformat(meta.quality_report["requested_start"])
     has_cache = bool(meta and meta.n_rows and meta.last_date)
     covers_start = has_cache and requested_start is not None and requested_start <= start
-    fresh = bool(meta and meta.last_fetch_at and
-                 (utcnow() - meta.last_fetch_at) < timedelta(hours=settings.cache_ttl_hours))
+    # Normally trust the cache for CACHE_TTL_HOURS; while the newest bar is still pending at the
+    # provider (no final price yet), re-check every PENDING_RETRY_MINUTES instead.
+    ttl = (timedelta(minutes=settings.pending_retry_minutes) if pending_bar(meta)
+           else timedelta(hours=settings.cache_ttl_hours))
+    fresh = bool(meta and meta.last_fetch_at and (utcnow() - meta.last_fetch_at) < ttl)
 
     need_full = full or not covers_start
     need_incremental = (not need_full) and (force_refresh or not fresh)

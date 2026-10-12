@@ -125,6 +125,7 @@ Environment variables / `.env` (see `.env.example`):
 | `DATA_PROVIDER` | `yfinance` | `yfinance` or `csv` (offline: `data/csv/<SYMBOL>.csv` with Date,Open,High,Low,Close,Adj Close,Volume) |
 | `DEFAULT_HISTORY_YEARS` | `8` | History fetched when no start date is given |
 | `CACHE_TTL_HOURS` | `6` | Cached data younger than this is not re-requested |
+| `PENDING_RETRY_MINUTES` | `15` | Re-check interval while the newest bar has no final price yet (see below) |
 | `MIN_TRAIN_ROWS` | `250` | Minimum training rows before the first walk-forward fold |
 | `WALK_FORWARD_FOLDS` / `_TEST_SIZE` | `8` / `21` | Number and length (sessions) of out-of-sample blocks |
 | `LOG_LEVEL`, `API_HOST`, `API_PORT`, `API_BASE_URL` | `INFO`, `127.0.0.1`, `8000`, … | Server settings; `API_BASE_URL` is the dashboard's default API |
@@ -431,6 +432,16 @@ they add nothing), so it needs no database or persistent disk.
   rate-limit GitHub's shared runner IPs (the job then reports `degraded`/`failed`). GitHub delays
   scheduled runs under load and disables scheduled workflows in public repos after 60 days without
   repository activity (re-enable them in the Actions tab).
+
+## Data freshness: pending bars
+
+Yahoo Finance sometimes returns the newest session as a row with volume but **no price** (or the
+session is not complete yet). Such a bar is never used and never filled in; it is discarded and the
+data warning says so ("The newest bar (DATE) has no final price yet…"). While a *recent* (≤ 7 days)
+newest bar is pending, the cache is treated as stale after `PENDING_RETRY_MINUTES` (15) instead of
+`CACHE_TTL_HOURS` (6), so the bar is picked up within minutes of being published; the notice also
+stays visible on cached views. Re-checks happen when someone views the stock (there is no background
+loop), and an old dropped bar (> 7 days, e.g. a suspended stock) does not cause repeated fetching.
 
 ## Known limitations
 

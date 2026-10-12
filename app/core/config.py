@@ -19,6 +19,8 @@ class Settings(BaseSettings):
     csv_data_dir: Path = Path("data/csv")
     default_history_years: int = 8
     cache_ttl_hours: float = 6.0
+    # While the newest bar is pending (no final price yet), re-check the provider this often.
+    pending_retry_minutes: float = 15.0
     min_train_rows: int = 250
     walk_forward_folds: int = 8
     walk_forward_test_size: int = 21

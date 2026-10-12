@@ -21,6 +21,9 @@ class QualityReport:
     duplicates_removed: int = 0
     invalid_rows_removed: int = 0
     incomplete_session_dropped: bool = False
+    # ISO date of the newest raw bar that was discarded (no price yet / session not complete);
+    # while recent, ingestion re-checks the provider soon instead of trusting the long cache.
+    latest_bar_dropped: str | None = None
     warnings: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict:
@@ -68,6 +71,7 @@ def clean_ohlcv(df: pd.DataFrame, now: datetime | None = None,
     dup = out.index.duplicated(keep="last")
     rep.duplicates_removed = int(dup.sum())
     out = out[~dup].sort_index()
+    raw_last = out.index[-1] if len(out) else None
 
     # adj_close may legitimately be absent; fall back to close ONLY for that column (documented).
     if out["adj_close"].isna().all():
@@ -103,5 +107,10 @@ def clean_ohlcv(df: pd.DataFrame, now: datetime | None = None,
                                 f"(possible corporate action or bad tick); inspect before trusting.")
     if len(out) and (out["volume"].fillna(0) == 0).mean() > 0.2:
         rep.warnings.append("More than 20% of sessions report zero/missing volume.")
+    if raw_last is not None and (len(out) == 0 or out.index[-1] < raw_last):
+        rep.latest_bar_dropped = str(raw_last.date())
+        rep.warnings.append(
+            f"The newest bar ({raw_last.date()}) has no final price yet or its session is not complete, "
+            "so it was ignored. It is picked up automatically on a later refresh.")
     rep.rows_out = len(out)
     return out, rep
