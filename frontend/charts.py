@@ -90,6 +90,27 @@ def metric_bars(models: list[dict], metric: str, title: str, unit: str) -> go.Fi
     return fig
 
 
+def risk_contrib_chart(holdings: list[dict]) -> go.Figure:
+    syms = [h["symbol"] for h in holdings]
+    fig = go.Figure()
+    fig.add_trace(go.Bar(x=syms, y=[h["weight_pct"] for h in holdings], name="Share of money", marker_color=C_NAIVE))
+    fig.add_trace(go.Bar(x=syms, y=[h["risk_contribution_pct"] for h in holdings], name="Share of risk",
+                         marker_color=C_PRED))
+    fig.update_layout(template=TEMPLATE, barmode="group", height=340, yaxis_title="% of portfolio",
+                      title="Where the money is vs. where the risk is", legend_orientation="h",
+                      margin=dict(l=10, r=10, t=50, b=10))
+    return fig
+
+
+def corr_heatmap(cm: dict) -> go.Figure:
+    fig = go.Figure(go.Heatmap(z=cm["values"], x=cm["symbols"], y=cm["symbols"], zmin=-1, zmax=1,
+                               colorscale="RdBu_r", text=[[f"{v:.2f}" for v in row] for row in cm["values"]],
+                               texttemplate="%{text}"))
+    fig.update_layout(template=TEMPLATE, height=380, title="Correlation of daily returns (last year)",
+                      margin=dict(l=10, r=10, t=50, b=10))
+    return fig
+
+
 def live_error_chart(df: pd.DataFrame) -> go.Figure:
     fig = go.Figure()
     for h, g in df.groupby("horizon"):

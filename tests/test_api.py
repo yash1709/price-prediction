@@ -101,7 +101,8 @@ def test_full_workflow_train_predict_history_performance(client, provider, price
     assert all(x["predicted_price"] > 0 for x in body["predictions"])
     for x in body["predictions"]:                       # calibrated forecast ranges are attached
         iv = x["interval"]
-        assert iv["method"] == "fhs_xgb"
+        assert iv["method"] == "fhs_xgb" and iv["implied_daily_vol_pct"] > 0
+        assert "sigma_daily_pct" not in iv                  # the raw model scale is never exposed
         r = iv["ranges"]
         assert r["95"]["lower"] < r["80"]["lower"] < r["50"]["lower"] < x["reference_close"] \
             < r["50"]["upper"] < r["80"]["upper"] < r["95"]["upper"]

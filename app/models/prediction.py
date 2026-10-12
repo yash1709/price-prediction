@@ -11,6 +11,7 @@ from app.core.errors import AppError, NoModelError, NotFoundError
 from app.database.models import ModelVersion, Prediction, PredictionInterval
 from app.database.repository import Repository
 from app.features.engineering import latest_features
+from app.models.intervals import Z80
 from app.models.training import load_artifact
 
 log = logging.getLogger(__name__)
@@ -123,7 +124,8 @@ def prediction_to_dict(p: Prediction, mv: ModelVersion | None = None) -> dict:
     if iv is not None:
         ref = p.reference_close
         d["interval"] = {
-            "method": iv.method, "sigma_daily_pct": iv.sigma_daily * 100,
+            "method": iv.method,
+            "implied_daily_vol_pct": (iv.hi80 - iv.lo80) / ref / (2 * Z80) / (p.horizon ** 0.5) * 100,
             "ranges": {str(int(lv * 100)): {"lower": lo, "upper": hi,
                                             "lower_pct": (lo / ref - 1) * 100,
                                             "upper_pct": (hi / ref - 1) * 100}

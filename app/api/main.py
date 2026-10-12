@@ -9,7 +9,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
 from app import __version__
-from app.api.routes import data, health, stocks, tasks
+from app.api.routes import data, health, risk, stocks, tasks
 from app.core.config import Settings, get_settings
 from app.core.errors import AppError
 from app.core.logging import setup_logging
@@ -63,7 +63,7 @@ def create_app(settings: Settings | None = None, provider: DataProvider | None =
         log.exception("Unhandled error")
         return _error(500, "internal_error", "Unexpected server error; see server logs.")
 
-    for module in (health, stocks, data, tasks):
+    for module in (health, stocks, data, tasks, risk):
         app.include_router(module.router)
     return app
 

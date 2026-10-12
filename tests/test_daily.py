@@ -2,6 +2,7 @@
 import json
 from datetime import datetime, timezone
 
+import numpy as np
 import pandas as pd
 import pytest
 
@@ -99,6 +100,30 @@ def test_stale_data_is_skipped_and_everything_failing_is_status_failed(tmp_path,
                   cfg=DailyConfig(pause_seconds=0, stale_days=6), say=lambda m: None)
     assert s["status"] == "failed" and s["symbols_ok"] == 0
     assert {x["reason"] for x in s["failed"]} >= {"stale or empty data"}
+
+
+def test_legacy_sigma_column_is_migrated_to_implied_volatility(tmp_path, settings, full, svc):
+    provider = FakeProvider({"AAA": full["AAA"].iloc[:-6]})
+    _run(provider, [("AAA", None)], tmp_path, svc, settings)
+    f = pd.read_csv(tmp_path / "forecasts.csv")
+    legacy = f.rename(columns={"implied_daily_vol": "sigma_daily"})
+    legacy["sigma_daily"] = 0.0088                                     # raw model scale from the first release
+    legacy.to_csv(tmp_path / "forecasts.csv", index=False)
+    _run(provider, [("AAA", None)], tmp_path, svc, settings)           # re-run reads + rewrites the file
+    g = pd.read_csv(tmp_path / "forecasts.csv")
+    assert "sigma_daily" not in g.columns and "implied_daily_vol" in g.columns
+    expected = (g["hi80"] - g["lo80"]) / g["reference_close"] / (2 * 1.2815515655446004) / g["horizon"] ** 0.5
+    np.testing.assert_allclose(g["implied_daily_vol"], expected, rtol=1e-9)
+    assert (g["implied_daily_vol"] != 0.0088).all() and len(g) == len(f)
+
+
+def test_new_rows_carry_implied_volatility_on_the_ewma_scale(tmp_path, settings, full, svc):
+    provider = FakeProvider({"AAA": full["AAA"].iloc[:-6]})
+    _run(provider, [("AAA", None)], tmp_path, svc, settings)
+    f = pd.read_csv(tmp_path / "forecasts.csv")
+    from app.models.intervals import vol_series
+    ewma = float(vol_series(full["AAA"].iloc[:-6]).iloc[-1]["ewma"])
+    assert (f["implied_daily_vol"] / ewma).between(0.6, 1.8).all()
 
 
 def test_coverage_stats_math():

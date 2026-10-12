@@ -57,6 +57,13 @@ class ApiClient:
     def quick_forecast(self, symbol, body: dict):
         return self._req("POST", f"/stocks/{self._s(symbol)}/forecast", json=body)
 
+    def risk(self, symbol): return self._req("GET", f"/stocks/{self._s(symbol)}/risk")
+
+    def position_size(self, body: dict): return self._req("POST", "/risk/position-size", json=body)
+
+    def portfolio_risk(self, holdings: list[dict]):
+        return self._req("POST", "/risk/portfolio", json={"holdings": holdings})
+
     def task(self, task_id: str): return self._req("GET", f"/tasks/{task_id}")
 
     def models(self, symbol, horizon=None):

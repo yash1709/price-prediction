@@ -29,12 +29,12 @@ from app.core.config import Settings
 from app.core.errors import AppError, ProviderRateLimitError
 from app.data.providers.base import DataProvider
 from app.data.validation import clean_ohlcv, verify_symbol
-from app.models.intervals import IntervalService
+from app.models.intervals import Z80, IntervalService
 
 log = logging.getLogger(__name__)
 
 FORECAST_COLS = ["as_of_date", "symbol", "horizon", "reference_close", "point_forecast",
-                 "lo50", "hi50", "lo80", "hi80", "lo95", "hi95", "sigma_daily", "method",
+                 "lo50", "hi50", "lo80", "hi80", "lo95", "hi95", "implied_daily_vol", "method",
                  "created_at_utc"]
 OUTCOME_COLS = ["as_of_date", "symbol", "horizon", "actual_date", "actual_close", "reference_close",
                 "ret_pct", "inside50", "inside80", "inside95", "width80_pct", "method",
@@ -52,7 +52,12 @@ class DailyConfig:
 
 def _read(path: Path, cols: list[str]) -> pd.DataFrame:
     if path.exists() and path.stat().st_size > 0:
-        return pd.read_csv(path, dtype={"as_of_date": str, "actual_date": str, "symbol": str})
+        df = pd.read_csv(path, dtype={"as_of_date": str, "actual_date": str, "symbol": str})
+        if "sigma_daily" in df.columns:  # legacy column: raw model scale, not a volatility. Replace it
+            df["implied_daily_vol"] = ((df["hi80"] - df["lo80"]) / df["reference_close"]
+                                       / (2 * Z80) / np.sqrt(df["horizon"].astype(float)))
+            df = df.drop(columns="sigma_daily")
+        return df
     return pd.DataFrame(columns=cols)
 
 
@@ -157,7 +162,7 @@ def run_daily(provider: DataProvider, symbols: list[tuple[str, str | None]], out
                     continue
                 ref = float(df["close"].iloc[-1])
                 row = {"as_of_date": as_of, "symbol": sym, "horizon": h, "reference_close": ref,
-                       "point_forecast": ref, "sigma_daily": r.sigma_daily, "method": r.method,
+                       "point_forecast": ref, "implied_daily_vol": r.implied_daily_vol, "method": r.method,
                        "created_at_utc": now.isoformat(timespec="seconds")}
                 for lv in (0.5, 0.8, 0.95):
                     lo, hi = r.ranges[lv]

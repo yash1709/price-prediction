@@ -366,6 +366,33 @@ moves is, so the ranges are the informative part of a flat "no change" forecast.
   `app/models/pretrained/` (portable XGBoost JSON models + calibration JSON, ≈ 1.2 MB). Re-run the
   experiment and export periodically to refresh the calibration.
 
+## Risk tools
+
+The **Risk Tools** tab (API: `GET /stocks/{symbol}/risk`, `POST /risk/position-size`,
+`POST /risk/portfolio`) describes how far prices may move, never which direction. It uses only
+validated pieces.
+
+* **Stock risk card.** Calibrated expected-move ranges (50/80/95 %, 1 and 5 days), "bad-day"
+  thresholds, realised volatility, beta vs Nifty, drawdowns, 52-week position, liquidity.
+  *Forecast volatility* is the normal-equivalent figure implied by the calibrated 1-day 80 % range
+  (`width / 2.563`); the volatility model's raw output is on an arbitrary scale (about 0.53× a
+  standard volatility estimate on real stocks; the implied figure is 0.97×, range 0.83–1.12) and is
+  never displayed. Bad-day thresholds: the lower 80 % bound is breached on 10.3 % of days (1-in-10),
+  the lower 95 % bound on 2.7 % (about 1-in-37), measured out-of-sample.
+* **Position size.** `max position = portfolio × risk % ÷ |bad move %|`, capped at the portfolio (no
+  leverage); one stock at a time, ignores other holdings and gaps.
+* **Portfolio risk.** Volatility (EWMA, λ 0.94), trailing-250-session correlations shrunk 20 % toward
+  their average, per-holding risk contribution, diversification ratio, effective number of holdings,
+  correlation matrix, concentration warnings. **No calibrated portfolio range is offered:**
+  `python scripts\portfolio_risk_experiment.py` (300 random portfolios, 2021-10 → 2026-10) failed its
+  pre-registered rule: 1-day coverage was close (78.4 % at the 80 % level, within 5 pp in every size
+  bucket and year) but the 5-day ranges under-covered in late 2021 (66.9 %) and 2024 (74.5 %), most
+  likely because a diversified portfolio's risk is mostly market-wide and slow-moving volatility
+  estimates lag market-wide shifts. I did not tune the method on that test period. The experiment also
+  shows correlations matter: ignoring them over-covers 2–4-stock portfolios (85 %) and under-covers
+  10–15-stock ones (73 %); assuming perfect correlation does the opposite.
+* **Risk screener.** Nifty 200 ranked by the calibrated 1-day range width, from the daily live data.
+
 ## Daily forward test (GitHub Actions)
 
 `.github/workflows/daily.yml` runs `scripts/daily_job.py` every weekday at 17:00 IST (11:30 UTC),
@@ -376,7 +403,9 @@ each range? It takes about 4 minutes. It does not retrain per-stock models (the 
 they add nothing), so it needs no database or persistent disk.
 
 * **Where results live.** Plain files (`forecasts.csv`, `outcomes.csv`, `latest_forecasts.csv`,
-  `coverage_by_day.csv`, `summary.json`) committed to a separate **`live-data`** branch, so daily
+  `coverage_by_day.csv`, `summary.json`; `implied_daily_vol` is the volatility implied by the 80 %
+  range; the first release's `sigma_daily` column was a raw model scale and is migrated automatically)
+  committed to a separate **`live-data`** branch, so daily
   commits never redeploy the Streamlit app. The dashboard's **Live Scorecard** tab reads them from
   `raw.githubusercontent.com` (public repo) and falls back to a local `live/` folder. Override the
   location with `LIVE_DATA_BASE_URL`.

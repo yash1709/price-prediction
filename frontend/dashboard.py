@@ -164,7 +164,8 @@ if auto_key not in tried:
             box.error(f"Automatic forecast failed: {e.message}")
 
 tabs = st.tabs(["Overview", "Stock Explorer", "Model Training", "Price Prediction",
-                "Model Performance", "Prediction History", "Nifty 200 Benchmark", "Live Scorecard"])
+                "Model Performance", "Prediction History", "Nifty 200 Benchmark", "Live Scorecard",
+                "Risk Tools"])
 
 
 def get_models(h: int | None = None) -> list[dict]:
@@ -638,6 +639,180 @@ with tabs[7]:
         if ls.get("n_failed"):
             with st.expander(f"{ls['n_failed']} stock(s) could not be processed in the last run"):
                 st.dataframe(pd.DataFrame(ls["failed"]), hide_index=True, width="stretch")
+
+# --------------------------------------------------------------------------------------------
+# I. Risk tools (built only on validated pieces: calibrated ranges and volatility; no price calls)
+# --------------------------------------------------------------------------------------------
+@st.cache_data(ttl=300, show_spinner=False)
+def load_risk(url: str, sym: str, nonce: int) -> dict:
+    return ApiClient(url).risk(sym)
+
+
+with tabs[8]:
+    st.info("These tools describe **how far** a stock or portfolio may move, not which direction. "
+            "They are built on the calibrated ranges and volatility estimates tested earlier. "
+            "Not investment advice.")
+    t_card, t_size, t_port, t_screen = st.tabs(
+        ["Stock risk card", "Position size", "Portfolio risk", "Risk screener"])
+
+    with t_card:
+        try:
+            with st.spinner(f"Computing risk for {symbol}…"):
+                rk = load_risk(api_url, symbol, st.session_state.nonce)
+        except ApiError as e:
+            rk = None
+            st.error(e.message)
+        if rk:
+            v = rk["volatility"]
+            st.caption(f"{symbol} · data as of {rk['as_of_date']} · last close {inr(rk['last_close'])}")
+            c = st.columns(5)
+            c[0].metric("Forecast daily volatility", pct(v["forecast_daily_pct"]))
+            c[1].metric("Forecast annualised", pct(v["forecast_annualised_pct"]),
+                        help="Daily volatility x √252. Method: " + str(v["forecast_method"]))
+            c[2].metric("Realised, last year", pct(v["realised_annualised_pct"].get("252d")))
+            c[3].metric("Beta vs Nifty (1y)", "—" if rk["beta_vs_nifty_1y"] is None
+                        else f"{rk['beta_vs_nifty_1y']:.2f}",
+                        help="1.0 moves like the Nifty on average; above 1 swings more.")
+            c[4].metric("Down from 1-year peak", pct(rk["drawdown"]["current_from_1y_peak_pct"]))
+            st.subheader("Expected move ranges (calibrated)")
+            rows = []
+            for h, m in rk["expected_moves"].items():
+                for lv in ("50", "80", "95"):
+                    x = m[lv]
+                    rows.append({"Horizon (days)": int(h), "Likelihood inside": f"{lv}%",
+                                 "Low ₹": x["lower"], "High ₹": x["upper"],
+                                 "Low %": x["lower_pct"], "High %": x["upper_pct"]})
+            st.dataframe(pd.DataFrame(rows), hide_index=True, width="stretch")
+            st.caption("Tested out-of-sample on ~190 stocks: the 80% range contained the outcome 79.9% of "
+                       "the time; the 50% and 95% ranges 49.8% and 94.9%.")
+            bd = rk["bad_day_thresholds"]
+            if bd:
+                st.subheader("Bad-day thresholds (1-day)")
+                b1, b2 = st.columns(2)
+                for col, key, title in ((b1, "1_in_10", "1-in-10 bad day"), (b2, "1_in_40", "1-in-40 bad day")):
+                    col.metric(title, f"{bd[key]['threshold_pct']:+.2f}%", inr(bd[key]["threshold_price"]),
+                               delta_color="off")
+                    col.caption(bd[key]["meaning"])
+            d = rk["drawdown"]
+            e = rk["extremes_1y"]
+            r52 = rk["range_52w"]
+            st.subheader("History at a glance")
+            st.dataframe(pd.DataFrame([
+                {"Measure": "Worst / best single day, last year", "Value": f"{e['worst_day_pct']:+.1f}% / {e['best_day_pct']:+.1f}%"},
+                {"Measure": "Largest peak-to-trough fall: 1 year / 3 years", "Value": f"{d['max_1y_pct']:.1f}% / {d['max_3y_pct']:.1f}%"},
+                {"Measure": "52-week low – high", "Value": f"{inr(r52['low'])} – {inr(r52['high'])}"},
+                {"Measure": "Position in 52-week range", "Value": pct(r52["position_pct"])},
+                {"Measure": "Average daily traded value (20d)", "Value": f"₹{rk['avg_daily_traded_value_inr'] / 1e7:,.1f} crore"},
+            ]), hide_index=True, width="stretch")
+            for n in rk["notes"]:
+                st.caption("• " + n)
+
+    with t_size:
+        st.markdown("How big a position can **" + symbol + "** be if you only want to lose a set share of "
+                    "your portfolio on a bad move? The bad-move size comes from the calibrated ranges.")
+        s1, s2 = st.columns(2)
+        pv = s1.number_input("Portfolio value (₹)", min_value=10_000.0, value=1_000_000.0, step=50_000.0)
+        rp = s2.slider("Maximum loss on a bad move (% of portfolio)", 0.1, 5.0, 1.0, 0.1)
+        s3, s4 = st.columns(2)
+        hz = s3.radio("Horizon", [1, 5], horizontal=True, format_func=lambda x: f"{x} day(s)", key="ps_h")
+        tl = s4.radio("How bad?", ["1_in_10", "1_in_40"], horizontal=True, key="ps_t",
+                      format_func=lambda x: "1-in-10 bad move" if x == "1_in_10" else "1-in-40 bad move")
+        try:
+            ps = api.position_size({"symbol": symbol, "portfolio_value": pv, "risk_pct": rp,
+                                    "horizon": hz, "tail": tl})
+            m1, m2, m3 = st.columns(3)
+            m1.metric("Largest position", inr(ps["position_value_inr"]),
+                      f"{ps['position_value_inr'] / pv * 100:.1f}% of portfolio", delta_color="off")
+            m2.metric("Shares", f"{ps['shares']:,}")
+            m3.metric("Loss if the bad move happens", inr(ps["loss_if_bad_move_inr"]),
+                      f"{ps['loss_if_bad_move_pct_of_portfolio']:.2f}% of portfolio", delta_color="off")
+            st.caption(f"Bad move = {ps['bad_move_pct']:+.2f}% over {hz} day(s), which happens "
+                       f"{ps['bad_move_frequency']}. Formula: {ps['formula']}.")
+            if ps["capped_at_portfolio"]:
+                st.warning("Your risk budget is large enough that the position is capped at the whole "
+                           "portfolio (no leverage).")
+            with st.expander("Caveats"):
+                for cv in ps["caveats"]:
+                    st.write("• " + cv)
+        except ApiError as e:
+            st.error(e.message)
+
+    with t_port:
+        st.markdown("Enter holdings as `SYMBOL, amount in ₹` (one per line, up to 25).")
+        txt = st.text_area("Holdings", "RELIANCE, 100000\nTCS, 100000\nHDFCBANK, 100000\nITC, 100000",
+                           height=140)
+        if st.button("Analyse portfolio", type="primary"):
+            import re
+            hs, bad = [], []
+            for ln in [x for x in txt.splitlines() if x.strip()]:
+                mt = re.match(r"^\s*([A-Za-z0-9&\-_.]+)[,\s:]+([\d,\.]+)\s*$", ln)
+                try:
+                    hs.append({"symbol": mt.group(1), "amount": float(mt.group(2).replace(",", ""))})
+                except (AttributeError, ValueError):
+                    bad.append(ln)
+            if bad:
+                st.error("Could not read these lines: " + "; ".join(bad))
+            else:
+                try:
+                    with st.spinner("Fetching data and computing…"):
+                        st.session_state["pr"] = api.portfolio_risk(hs)
+                except ApiError as e:
+                    st.session_state.pop("pr", None)
+                    st.error(e.message)
+        pr = st.session_state.get("pr")
+        if pr:
+            p = pr["portfolio"]
+            st.caption(f"Total {inr(pr['total_amount_inr'])} · data as of {pr['as_of_date']}")
+            c = st.columns(5)
+            c[0].metric("Daily volatility", pct(p["daily_volatility_pct"]))
+            c[1].metric("Annualised", pct(p["annualised_volatility_pct"]))
+            c[2].metric("Diversification ratio", f"{p['diversification_ratio']:.2f}",
+                        help="Average holding volatility ÷ portfolio volatility. 1.0 = no diversification benefit.")
+            c[3].metric("Effective # of holdings", f"{p['effective_number_of_holdings']:.1f}")
+            c[4].metric("Avg. pairwise correlation",
+                        "—" if p["average_pairwise_correlation"] is None else f"{p['average_pairwise_correlation']:.2f}")
+            for w in pr["warnings"]:
+                st.warning(w)
+            st.plotly_chart(charts.risk_contrib_chart(pr["holdings"]), width="stretch")
+            st.dataframe(pd.DataFrame([{
+                "Symbol": h["symbol"], "Amount ₹": h["amount_inr"], "Weight %": h["weight_pct"],
+                "Daily vol %": h["daily_volatility_pct"], "Annual vol %": h["annualised_volatility_pct"],
+                "Share of risk %": h["risk_contribution_pct"]} for h in pr["holdings"]]),
+                hide_index=True, width="stretch")
+            if len(pr["holdings"]) > 1:
+                st.plotly_chart(charts.corr_heatmap(pr["correlation_matrix"]), width="stretch")
+            st.info("**No portfolio forecast range is shown.** I tested one on 300 random portfolios; it "
+                    "did not stay calibrated at the 5-day horizon in every year, so it is deliberately not "
+                    "offered. The figures above are volatility estimates (method: " + pr["method"] + ").")
+
+    with t_screen:
+        lv = load_live(LIVE_BASE)
+        if lv is None or lv["latest"] is None:
+            st.info("The risk screener uses the daily live data, which is not published yet.")
+        else:
+            lt = lv["latest"]
+            lt = lt[lt["horizon"] == 1].copy()
+            lt["Range width % (80%)"] = (lt["hi80"] - lt["lo80"]) / lt["reference_close"] * 100
+            lt["Bad day % (1-in-10)"] = (lt["lo80"] / lt["reference_close"] - 1) * 100
+            lt["Daily vol % (fcst)"] = lt["Range width % (80%)"] / (2 * 1.2816)  # implied by the range
+            st.caption(f"Nifty 200 as of {lv['summary']['as_of_date']}, ranked by the calibrated 1-day "
+                       "80% range width: wider = the stock is expected to move more.")
+            cols = ["symbol", "name", "reference_close", "Daily vol % (fcst)", "Range width % (80%)",
+                    "Bad day % (1-in-10)"]
+            ren = {"symbol": "Symbol", "name": "Name", "reference_close": "Close ₹"}
+            a, b = st.columns(2)
+            a.markdown("**Calmest 15**")
+            a.dataframe(lt.nsmallest(15, "Range width % (80%)")[cols].rename(columns=ren),
+                        hide_index=True, width="stretch")
+            b.markdown("**Most volatile 15**")
+            b.dataframe(lt.nlargest(15, "Range width % (80%)")[cols].rename(columns=ren),
+                        hide_index=True, width="stretch")
+            qq = st.text_input("Search the full table", key="scr_q")
+            full = lt.sort_values("Range width % (80%)")
+            if qq.strip():
+                full = full[full["symbol"].str.contains(qq.strip(), case=False, na=False)
+                            | full["name"].fillna("").str.contains(qq.strip(), case=False, na=False)]
+            st.dataframe(full[cols].rename(columns=ren), hide_index=True, width="stretch")
 
 # --------------------------------------------------------------------------------------------
 # F. Prediction History

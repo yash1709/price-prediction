@@ -16,6 +16,7 @@ import logging
 from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
+from statistics import NormalDist
 from typing import Callable
 
 import numpy as np
@@ -32,13 +33,30 @@ MAX_MARKET_LAG_DAYS = 7
 MIN_LOG_RETURN = -0.95  # a lower bound can never go below -95 % of the reference price
 
 
+Z80 = NormalDist().inv_cdf(0.9)  # 1.2816: half-width of a normal 80 % interval in sigmas
+
+
+def implied_daily_vol(lower_ret: float, upper_ret: float, horizon: int) -> float:
+    """Normal-equivalent DAILY volatility implied by a calibrated 80 % range for `horizon` days.
+
+    Use this (not `sigma_daily`) wherever a volatility figure is shown: the raw model output is on
+    an arbitrary scale that the calibration step corrects (z multipliers ~2.3), so on its own it is
+    NOT a volatility estimate."""
+    return (upper_ret - lower_ret) / (2 * Z80) / float(np.sqrt(horizon))
+
+
 @dataclass
 class IntervalResult:
     method: str
     horizon: int
-    sigma_daily: float
+    sigma_daily: float                         # raw model scale (uncalibrated); do not display
     ranges: dict[float, tuple[float, float]]   # level -> (lower return, upper return)
     calibration_window: list[str]
+
+    @property
+    def implied_daily_vol(self) -> float:
+        lo, hi = self.ranges[0.8]
+        return implied_daily_vol(lo, hi, self.horizon)
 
 
 @lru_cache
@@ -113,6 +131,10 @@ class IntervalService:
             zlo, zhi = z[str(lv)]
             ranges[lv] = (max(zlo * sigma * sq, MIN_LOG_RETURN), zhi * sigma * sq)
         return IntervalResult(method, horizon, sigma, ranges, info["calibration_window"])
+
+    def market_for(self, df: pd.DataFrame) -> pd.DataFrame | None:
+        """Nifty/VIX closes if available and recent enough for `df`, else None."""
+        return self._market_for(df)
 
     def _market_for(self, df: pd.DataFrame) -> pd.DataFrame | None:
         try:
