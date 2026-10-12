@@ -8,6 +8,7 @@ from app.api.deps import get_ctx, get_repo, symbol_param
 from app.api.schemas import ForecastRequest, PredictRequest, TaskAccepted, TrainRequest
 from app.core.errors import NotFoundError
 from app.data.ingestion import default_start
+from app.data.tiers import validation_status
 from app.database.repository import Repository, utc_iso
 from app.features.engineering import FEATURE_NAMES, LOOKBACK
 from app.models.prediction import prediction_to_dict
@@ -55,7 +56,9 @@ def history(symbol: str = Depends(symbol_param), start: date | None = None, end:
     rows = [{"date": ts.date().isoformat(), **{c: (None if v != v else float(v))
              for c, v in r.items()}} for ts, r in df.iterrows()]
     return {"symbol": symbol, "name": stock.name if stock else None, "currency": "INR",
-            "note": PRICE_NOTE, "data": status.to_dict(), "count": len(rows), "rows": rows}
+            "note": PRICE_NOTE, "data": status.to_dict(),
+            "validation": validation_status(symbol, stock.series if stock else None),
+            "count": len(rows), "rows": rows}
 
 
 @router.post("/{symbol}/train", status_code=202, response_model=TaskAccepted)

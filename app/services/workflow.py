@@ -7,6 +7,7 @@ from datetime import date
 from app.core.errors import NotFoundError
 from app.core.symbols import normalize_symbol
 from app.data.ingestion import DataStatus, ensure_data
+from app.data.tiers import validation_status
 from app.data.universe import import_universe, load_seed
 from app.models.prediction import DISCLAIMER, predict_for_symbol
 from app.models.training import train_symbol
@@ -120,5 +121,7 @@ def run_prediction(ctx: AppContext, symbol: str, horizons: list[int] | None,
         meta = repo.get_meta(symbol)
         data_info = {"last_bar_date": meta.last_date.isoformat() if meta and meta.last_date else None,
                      "source": meta.provider if meta else None}
+        stock = repo.get_stock(symbol)
+        validation = validation_status(symbol, stock.series if stock else None)
     return {"symbol": symbol, "kind": "forecast", "predictions": preds, "warnings": warnings,
-            "data": data_info, "disclaimer": DISCLAIMER}
+            "validation": validation, "data": data_info, "disclaimer": DISCLAIMER}

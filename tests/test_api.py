@@ -138,6 +138,7 @@ def test_one_shot_forecast_trains_once_then_reuses_models(client):
     t = wait_task(client, r.json()["task_id"])
     assert t["status"] == "succeeded", t
     res = t["result"]
+    assert res["validation"]["tier"] == "outside_nifty500" and res["validation"]["level"] == "warning"
     assert res["trained"] is True and len(res["predictions"]) == 1
     p = res["predictions"][0]
     assert p["model_is_selected"] and p["predicted_price"] > 0 and p["horizon"] == 1

@@ -17,6 +17,7 @@ import pandas as pd
 
 from app.core.errors import AppError, InsufficientDataError
 from app.core.symbols import normalize_symbol
+from app.data.tiers import validation_status
 from app.models.intervals import vol_series
 from app.services.context import AppContext
 from app.services.workflow import fetch_data
@@ -105,8 +106,12 @@ def stock_risk(ctx: AppContext, symbol: str, refresh: bool = True) -> dict:
         if len(pair) >= MIN_OVERLAP and pair.iloc[:, 1].var() > 0:
             beta = float(pair.cov().iloc[0, 1] / pair.iloc[:, 1].var())
     traded = float((close * df["volume"]).tail(20).mean())
+    with ctx.repo() as repo:
+        stock = repo.get_stock(symbol)
+        series = stock.series if stock else None
     return {
         "symbol": symbol, "as_of_date": str(df.index[-1].date()), "last_close": ref,
+        "validation": validation_status(symbol, series),
         "volatility": {
             "forecast_daily_pct": None if implied is None else implied * 100,
             "forecast_annualised_pct": None if implied is None else implied * ANN * 100,

@@ -131,6 +131,13 @@ dinfo = hist_resp["data"]
 st.header(f"{symbol} {('· ' + hist_resp['name']) if hist_resp.get('name') else ''}")
 for w in dinfo.get("warnings", []):
     st.warning(w)
+_val = hist_resp.get("validation")
+if _val and _val["level"] == "warning":      # shown above every tab, incl. Risk Tools and forecasts
+    st.warning("⚠️ **Ranges not validated for this stock.** " + _val["message"]
+               + f" (Index lists as of {_val['index_lists_as_of']}.)")
+elif _val and _val["level"] == "caution":
+    st.info("ℹ️ **Ranges not validated for this stock.** " + _val["message"]
+            + f" (Index lists as of {_val['index_lists_as_of']}.)")
 
 # --- automatic forecast: no stored forecast for the latest data -> prepare one ------------------
 AUTO_HORIZONS = [1, 5]

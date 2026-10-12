@@ -360,6 +360,15 @@ moves is, so the ranges are the informative part of a flat "no change" forecast.
   similar at 5 days; 79.7–80.0 % in low/medium/high-volatility regimes (the baseline drifts 84.7 →
   77.3 %; normal-curve versions over-cover when volatility is high). Sharper than the baseline by
   only 2.5 % (1-day) / 1.4 % (5-day): the gain is reliability, not narrow ranges.
+* **Where the ranges are validated (warning banner).** Everything above was tested on the Nifty 200
+  only. The dashboard (and `validation` in the history / risk / forecast API responses) therefore
+  shows a banner above every tab: *no banner* for Nifty 200 stocks; a **note** for Nifty 500 stocks
+  outside the Nifty 200 ("never tested there"); a **warning** for stocks outside the Nifty 500
+  ("never been tested on stocks like this… real coverage may be well below the stated 80 %"). A stock in
+  a restricted segment (BE trade-for-trade, BZ, SME) is escalated to a warning. Membership comes from
+  committed snapshots of NSE's lists (`app/data/nifty200.csv`, `nifty500.csv`, dated by
+  `LIST_SNAPSHOT` in `app/data/tiers.py`); refresh them after index rebalances (March and September).
+  Measuring real coverage on the Nifty 201-500 would turn the note into evidence; that has not been done.
 * **Live tracking.** When a forecast matures the app records whether the actual close fell inside
   each range (`within_range_80`, per-model `live_range_coverage`, tile in *Prediction History*).
 * **Artifacts.** `python scripts\export_vol_models.py` converts the experiment output into
