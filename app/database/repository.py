@@ -4,7 +4,7 @@ from __future__ import annotations
 from datetime import date, datetime
 
 import pandas as pd
-from sqlalchemy import delete, func, select, update
+from sqlalchemy import case, delete, func, select, update
 from sqlalchemy.orm import Session
 
 from app.database.models import (
@@ -52,11 +52,15 @@ class Repository:
 
     def search_stocks(self, q: str | None, limit: int, offset: int) -> tuple[int, list[Stock]]:
         stmt = select(Stock).where(Stock.active.is_(True))
+        order = [Stock.symbol]
         if q:
-            like = f"%{q.strip().upper()}%"
+            qq = q.strip().upper()
+            like = f"%{qq}%"
             stmt = stmt.where(Stock.symbol.like(like) | func.upper(Stock.name).like(like))
+            # best match first: exact symbol, then symbol prefix, then everything else
+            order = [case((Stock.symbol == qq, 0), (Stock.symbol.like(f"{qq}%"), 1), else_=2), Stock.symbol]
         total = self.s.scalar(select(func.count()).select_from(stmt.subquery())) or 0
-        rows = list(self.s.scalars(stmt.order_by(Stock.symbol).limit(limit).offset(offset)))
+        rows = list(self.s.scalars(stmt.order_by(*order).limit(limit).offset(offset)))
         return total, rows
 
     # ---- price bars -------------------------------------------------------------------------

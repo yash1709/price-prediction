@@ -361,10 +361,11 @@ moves is, so the ranges are the informative part of a flat "no change" forecast.
   similar at 5 days; 79.7–80.0 % in low/medium/high-volatility regimes (the baseline drifts 84.7 →
   77.3 %; normal-curve versions over-cover when volatility is high). Sharper than the baseline by
   only 2.5 % (1-day) / 1.4 % (5-day): the gain is reliability, not narrow ranges.
-* **Where the ranges are validated (warning banner).** Everything above was tested on the Nifty 200
-  only. The dashboard (and `validation` in the history / risk / forecast API responses) therefore
-  shows a banner above every tab: *no banner* for Nifty 200 stocks; a **note** for Nifty 500 stocks
-  outside the Nifty 200 ("never tested there"); a **warning** for stocks outside the Nifty 500
+* **Where the ranges are validated (banner).** They were developed on the Nifty 200 and later tested
+  out-of-sample on the Nifty 201-500 (below); stocks outside the Nifty 500 are untested. The dashboard
+  (and `validation` in the history / risk / forecast API responses) shows a banner above every tab: *no banner* for Nifty 200 stocks; a blue **note** for Nifty 201-500
+  stocks quoting the measured out-of-sample coverage below (the quoted numbers are checked against
+  the committed reports by a test, so they cannot drift); a **warning** for stocks outside the Nifty 500
   ("never been tested on stocks like this… real coverage may be well below the stated 80 %"). A stock in
   a restricted segment (BE trade-for-trade, BZ, SME) is escalated to a warning. Membership comes from
   committed snapshots of NSE's lists (`app/data/nifty200.csv`, `nifty500.csv`, dated by

@@ -161,6 +161,22 @@ def test_one_shot_forecast_errors(client):
     assert client.post("/stocks/TESTCO/forecast", json={"horizons": [99]}).status_code == 422
 
 
+def test_search_ranks_exact_symbol_then_prefix_then_name_matches(client):
+    with client.app.state.ctx.repo() as repo:       # the full NSE list has many "Reliance ..." companies
+        repo.upsert_stocks([
+            {"symbol": "RCOM", "name": "Reliance Communications Limited", "series": "EQ", "source": "nse_import"},
+            {"symbol": "RPOWER", "name": "Reliance Power Limited", "series": "EQ", "source": "nse_import"},
+            {"symbol": "RELIANCEINFRA", "name": "Reliance Infrastructure Limited", "series": "EQ", "source": "nse_import"},
+            {"symbol": "ABCRELIANCE", "name": "Abc Holdings", "series": "EQ", "source": "nse_import"}])
+    syms = [s["symbol"] for s in client.get("/stocks", params={"q": "reliance"}).json()["stocks"]]
+    assert syms[0] == "RELIANCE"                                   # exact symbol first
+    assert syms.index("RELIANCEINFRA") < syms.index("RCOM")        # symbol prefix before name-only matches
+    assert set(syms) >= {"RELIANCE", "RELIANCEINFRA", "ABCRELIANCE", "RCOM", "RPOWER"}
+    assert [s["symbol"] for s in client.get("/stocks", params={"q": "rcom"}).json()["stocks"]][0] == "RCOM"
+    assert client.get("/stocks").json()["stocks"][0]["symbol"] == sorted(
+        s["symbol"] for s in client.get("/stocks", params={"limit": 5000}).json()["stocks"])[0]
+
+
 def test_search_by_company_name(client):
     r = client.get("/stocks", params={"q": "tata consultancy"}).json()
     assert [s["symbol"] for s in r["stocks"]] == ["TCS"]
