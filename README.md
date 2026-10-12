@@ -369,7 +369,16 @@ moves is, so the ranges are the informative part of a flat "no change" forecast.
   a restricted segment (BE trade-for-trade, BZ, SME) is escalated to a warning. Membership comes from
   committed snapshots of NSE's lists (`app/data/nifty200.csv`, `nifty500.csv`, dated by
   `LIST_SNAPSHOT` in `app/data/tiers.py`); refresh them after index rebalances (March and September).
-  Measuring real coverage on the Nifty 201-500 would turn the note into evidence; that has not been done.
+  **Measured on the Nifty 201-500** (`python scripts\interval_midcap_check.py`, ≈ 13 min, 276 stocks
+  with ≥ 400 sessions, 2022-01 → 2026-10): models and calibration were fitted on Nifty 200 stocks only
+  and applied to these unseen stocks. 80 % ranges covered **79.3 %** of 1-day and **79.0 %** of 5-day
+  outcomes (Nifty 200 on the same blocks: 79.8 % / 79.8 %); 50 % → 49.3 / 49.6 %, 95 % → 94.5 / 94.2 %;
+  every calendar year within 76.0-81.3 %; flat across low/medium/high-volatility terciles; 99-100 % of
+  stocks within 10 pp of the target (worst decile of stocks: 75.7-76.9 %). The pre-registered rule is
+  met, so the shipped method passes there without recalibration (ranges are about 17 % wider, as they
+  should be: 5.34 % vs 4.58 % at 1 day). A calibration fitted on mid-cap data would nudge 5-day coverage to
+  80.0 % but is not needed. Caveats: today's index members only (survivorship), a mostly rising market,
+  and 25 recently listed or unfetchable stocks excluded. Stocks outside the Nifty 500 remain untested.
 * **Live tracking.** When a forecast matures the app records whether the actual close fell inside
   each range (`within_range_80`, per-model `live_range_coverage`, tile in *Prediction History*).
 * **Artifacts.** `python scripts\export_vol_models.py` converts the experiment output into

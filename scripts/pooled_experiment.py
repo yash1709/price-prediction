@@ -82,7 +82,8 @@ def fetch_market() -> pd.DataFrame:
 from app.features.market import market_features  # noqa: E402  (shared with the live app)
 
 
-def build_panel(symbols: list[str], sectors: dict[str, str], horizons: list[int]) -> pd.DataFrame:
+def build_panel(symbols: list[str], sectors: dict[str, str], horizons: list[int],
+                cross_sectional: bool = True) -> pd.DataFrame:
     s = get_settings()
     engine = make_engine(s.resolved_database_url)
     with engine.connect() as conn:
@@ -102,42 +103,45 @@ def build_panel(symbols: list[str], sectors: dict[str, str], horizons: list[int]
     p.index.name = "date"
     p = p.reset_index().set_index(["date", "symbol"]).sort_index()
 
-    # --- cross-sectional features (same-date information only) ---
-    wide = {c: p[c].unstack("symbol") for c in ("ret_lag_1", "mom_5", "mom_20", "vol_20")}
-    cnt = wide["ret_lag_1"].notna().sum(axis=1)
-    ok = cnt >= 30
-    mkt_ret = wide["ret_lag_1"].mean(axis=1).where(ok)
-    new = {
-        "xs_mkt_ret_1": mkt_ret, "xs_dispersion_1": wide["ret_lag_1"].std(axis=1).where(ok),
-        "xs_breadth_1": (wide["ret_lag_1"] > 0).sum(axis=1).div(cnt).where(ok),
-    }
-    cols = {}
-    cols["rel_ret_1"] = wide["ret_lag_1"].sub(mkt_ret, axis=0)
-    cols["rel_mom_5"] = wide["mom_5"].sub(wide["mom_5"].mean(axis=1), axis=0)
-    cols["rel_mom_20"] = wide["mom_20"].sub(wide["mom_20"].mean(axis=1), axis=0)
-    cols["rank_mom_20"] = wide["mom_20"].rank(axis=1, pct=True)
-    cols["rank_vol_20"] = wide["vol_20"].rank(axis=1, pct=True)
-    syms = list(wide["ret_lag_1"].columns)
-    for src, name in (("ret_lag_1", "sector_ret_1"), ("mom_5", "sector_mom_5")):
-        w = wide[src]
-        out = pd.DataFrame(np.nan, index=w.index, columns=syms)
-        for sec in set(sectors.get(x, "Unknown") for x in syms):
-            members = [x for x in syms if sectors.get(x, "Unknown") == sec]
-            if len(members) < 3:
-                continue
-            sub = w[members]
-            tot, c = sub.fillna(0).sum(axis=1), sub.notna().sum(axis=1)
-            ex = (tot.values[:, None] - sub.fillna(0).values) / (c.values[:, None] - 1)
-            out[members] = ex
-        cols[name] = out
-    for name, w in cols.items():
-        p[name] = w.stack(future_stack=True).reindex(p.index)
-    for name, s_ in new.items():
-        p[name] = s_.reindex(p.index.get_level_values("date")).values
+    if cross_sectional:  # same-date information only
+        wide = {c: p[c].unstack("symbol") for c in ("ret_lag_1", "mom_5", "mom_20", "vol_20")}
+        cnt = wide["ret_lag_1"].notna().sum(axis=1)
+        ok = cnt >= 30
+        mkt_ret = wide["ret_lag_1"].mean(axis=1).where(ok)
+        new = {
+            "xs_mkt_ret_1": mkt_ret, "xs_dispersion_1": wide["ret_lag_1"].std(axis=1).where(ok),
+            "xs_breadth_1": (wide["ret_lag_1"] > 0).sum(axis=1).div(cnt).where(ok),
+        }
+        cols = {}
+        cols["rel_ret_1"] = wide["ret_lag_1"].sub(mkt_ret, axis=0)
+        cols["rel_mom_5"] = wide["mom_5"].sub(wide["mom_5"].mean(axis=1), axis=0)
+        cols["rel_mom_20"] = wide["mom_20"].sub(wide["mom_20"].mean(axis=1), axis=0)
+        cols["rank_mom_20"] = wide["mom_20"].rank(axis=1, pct=True)
+        cols["rank_vol_20"] = wide["vol_20"].rank(axis=1, pct=True)
+        syms = list(wide["ret_lag_1"].columns)
+        for src, name in (("ret_lag_1", "sector_ret_1"), ("mom_5", "sector_mom_5")):
+            w = wide[src]
+            out = pd.DataFrame(np.nan, index=w.index, columns=syms)
+            for sec in set(sectors.get(x, "Unknown") for x in syms):
+                members = [x for x in syms if sectors.get(x, "Unknown") == sec]
+                if len(members) < 3:
+                    continue
+                sub = w[members]
+                tot, c = sub.fillna(0).sum(axis=1), sub.notna().sum(axis=1)
+                ex = (tot.values[:, None] - sub.fillna(0).values) / (c.values[:, None] - 1)
+                out[members] = ex
+            cols[name] = out
+        for name, w in cols.items():
+            p[name] = w.stack(future_stack=True).reindex(p.index)
+        for name, s_ in new.items():
+            p[name] = s_.reindex(p.index.get_level_values("date")).values
     dates = pd.DatetimeIndex(sorted(p.index.get_level_values("date").unique()))
     mf = market_features(fetch_market(), dates)
     for c in mf.columns:
         p[c] = mf[c].reindex(p.index.get_level_values("date")).values
+    if not cross_sectional:  # lean mode (large panels): 32-bit floats except prices and targets
+        keep64 = {"adj"} | {c for c in p.columns if c.startswith("y")}
+        p = p.astype({c: "float32" for c in p.columns if p[c].dtype == "float64" and c not in keep64})
     return p
 
 
