@@ -25,10 +25,11 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
-          cache-dependency-path: requirements.txt
+          cache-dependency-path: requirements.lock
 
+      # requirements.lock pins every version (see "Dependency lockfiles" in the README).
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install -r requirements.lock
 
       # Results live on the `live-data` branch so daily commits never redeploy the Streamlit app.
       - name: Check out the live-data branch (create it on the first run)

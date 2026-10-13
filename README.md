@@ -50,6 +50,18 @@ Copy-Item .env.example .env     # optional; defaults work without it
 
 No API keys or credentials are needed for the default `yfinance` provider.
 
+**Dependency lockfiles.** `requirements.lock` (runtime) and `requirements-dev.lock` (runtime + pytest)
+pin every package to an exact version. They are universal (Windows/Linux/macOS, Python 3.12+), and the
+daily GitHub Actions job installs from `requirements.lock`. `requirements.txt` / `requirements-dev.txt`
+stay the human-edited inputs (lower bounds) and are what Streamlit Community Cloud reads. To install
+exactly what was tested: `pip install -r requirements-dev.lock`. To refresh after changing the inputs
+or to pick up newer versions (needs [uv](https://docs.astral.sh/uv/)):
+
+```powershell
+uv pip compile requirements.txt     --universal --python-version 3.12 --no-header --annotation-style=line -o requirements.lock
+uv pip compile requirements-dev.txt --universal --python-version 3.12 --no-header --annotation-style=line -o requirements-dev.lock
+```
+
 ## Running
 
 All commands are run from the project root with the venv active.
