@@ -53,7 +53,10 @@ No API keys or credentials are needed for the default `yfinance` provider.
 **Dependency lockfiles.** `requirements.lock` (runtime) and `requirements-dev.lock` (runtime + pytest)
 pin every package to an exact version. They are universal (Windows/Linux/macOS, Python 3.12+), and the
 daily GitHub Actions job installs from `requirements.lock`. `requirements.txt` / `requirements-dev.txt`
-stay the human-edited inputs (lower bounds) and are what Streamlit Community Cloud reads. To install
+stay the human-edited inputs (lower bounds) and are what Streamlit Community Cloud reads.
+**Python 3.12 is not yet verified:** the lock resolves for 3.12+, but it was only installed and tested
+(all 109 tests passed) on Python 3.14. CI installs it on 3.12, so the first run of the daily workflow
+is the first real 3.12 check; if that install fails, regenerate the lock with the commands below. To install
 exactly what was tested: `pip install -r requirements-dev.lock`. To refresh after changing the inputs
 or to pick up newer versions (needs [uv](https://docs.astral.sh/uv/)):
 
