@@ -262,7 +262,7 @@ estimator + pipeline + feature list + training dates), also git-ignored.
 python -m pytest
 ```
 
-**Last run: 109 passed** (Windows, Python 3.14). The tests use a fake provider and synthetic
+**Last run: 118 passed** (Windows, Python 3.14). The tests use a fake provider and synthetic
 random-walk prices only — no network. They cover: provider responses/missing data/symbol mismatch,
 cleaning and incomplete-session handling, cache and stale-fallback behaviour, feature formulas,
 target shifting, no-future-information checks, chronological/purged walk-forward folds, scaler fit
