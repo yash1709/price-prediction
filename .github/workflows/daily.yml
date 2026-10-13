@@ -57,3 +57,31 @@ jobs:
             git commit -m "Daily forecasts $(date -u +%F)"
             git push origin live-data
           fi
+
+      # A red run is what makes GitHub email you. scripts/daily_job.py already exits 2 on "failed";
+      # this step also fails the run on "degraded" (some stocks missing), after results are committed.
+      - name: Alert unless the run was fully ok
+        if: always()
+        run: |
+          python - <<'PY'
+          import json, os, sys
+          try:
+              s = json.load(open("live_out/live/summary.json"))
+          except Exception as exc:
+              print(f"::error::Daily job produced no readable summary.json ({exc})")
+              sys.exit(1)
+          lines = [f"### Daily forecasts: {s['status']}",
+                   f"{s['symbols_ok']}/{s['symbols_requested']} stocks fetched, "
+                   f"{s['new_forecasts']} new forecasts, {s['new_outcomes']} new outcomes "
+                   f"(as of {s['as_of_date']})."]
+          for f in s.get("failed", [])[:20]:
+              lines.append(f"- `{f['symbol']}`: {f['reason']}")
+          if s["n_failed"] > 20:
+              lines.append(f"- ... and {s['n_failed'] - 20} more (see summary.json on the live-data branch)")
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as out:
+              out.write("\n".join(lines) + "\n")
+          if s["status"] != "ok":
+              print(f"::error::Daily job status is {s['status']} "
+                    f"({s['symbols_ok']}/{s['symbols_requested']} stocks fetched)")
+              sys.exit(1)
+          PY
