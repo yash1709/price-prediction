@@ -225,8 +225,9 @@ with tabs[0]:
                 col.markdown(f"**80% range:** {inr(rng['lower'])} – {inr(rng['upper'])}  \n"
                              f"({rng['lower_pct']:+.1f}% … {rng['upper_pct']:+.1f}%)")
         st.caption(f"Forecasts made from data through {latest_asof}. Not actual prices. The 80% range "
-                   "is where the close should land about 4 times out of 5 (calibrated: 79.9% "
-                   "out-of-sample over 2022-2026); it describes uncertainty, not direction.")
+                   "is where the close should land about 4 times out of 5 (calibrated; how well that held "
+                   "out-of-sample for this stock's group is in the note at the top); it describes "
+                   "uncertainty, not direction.")
         if any(p["model_is_baseline"] and p["algorithm"] == "naive" for p in cur):
             st.info("**Why is the forecast 'no change'?** For this stock no trained model beat the "
                     "naive baseline (tomorrow = today) in validation, so the validated forecast is "
@@ -690,8 +691,9 @@ with tabs[8]:
                                  "Low ₹": x["lower"], "High ₹": x["upper"],
                                  "Low %": x["lower_pct"], "High %": x["upper_pct"]})
             st.dataframe(pd.DataFrame(rows), hide_index=True, width="stretch")
-            st.caption("Tested out-of-sample on ~190 stocks: the 80% range contained the outcome 79.9% of "
-                       "the time; the 50% and 95% ranges 49.8% and 94.9%.")
+            st.caption("Tested out-of-sample on ~190 Nifty 200 stocks: the 80% range contained the outcome 79.9% "
+                       "of the time; the 50% and 95% ranges 49.8% and 94.9%. Other stock groups: see the "
+                       "note at the top.")
             bd = rk["bad_day_thresholds"]
             if bd:
                 st.subheader("Bad-day thresholds (1-day)")

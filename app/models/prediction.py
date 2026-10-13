@@ -132,8 +132,9 @@ def prediction_to_dict(p: Prediction, mv: ModelVersion | None = None) -> dict:
                        for lv, lo, hi in ((0.5, iv.lo50, iv.hi50), (0.8, iv.lo80, iv.hi80),
                                           (0.95, iv.lo95, iv.hi95))},
             "note": "Calibrated ranges around the latest close: the actual close should fall inside "
-                    "the 80% range about 4 times out of 5 (79.9% out-of-sample, 2022-2026). "
-                    "They describe uncertainty, not direction.",
+                    "the 80% range about 4 times out of 5 (79.9% out-of-sample for Nifty 200 stocks, "
+                    "2022-2026; see `validation` for this stock's group). They describe uncertainty, "
+                    "not direction.",
         }
     o = p.outcome
     if o is not None:
