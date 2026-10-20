@@ -1,13 +1,13 @@
 {
   "status": "ok",
-  "last_run_utc": "2026-10-19T17:36:43+00:00",
+  "last_run_utc": "2026-10-20T15:42:29+00:00",
   "as_of_date": "2026-10-19",
   "symbols_requested": 200,
   "symbols_ok": 200,
   "failed": [],
   "n_failed": 0,
-  "new_forecasts": 400,
-  "new_outcomes": 400,
+  "new_forecasts": 0,
+  "new_outcomes": 0,
   "forecasts_total": 2800,
   "outcomes_total": 1600,
   "point_forecast": "no change (latest close); ranges are the validated product",
@@ -50,5 +50,5 @@
     "inside80_pct": 80,
     "inside95_pct": 95
   },
-  "runtime_seconds": 128.2
+  "runtime_seconds": 107.2
 }
