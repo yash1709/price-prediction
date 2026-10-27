@@ -1,47 +1,47 @@
 {
   "status": "ok",
-  "last_run_utc": "2026-10-26T17:29:39+00:00",
-  "as_of_date": "2026-10-26",
+  "last_run_utc": "2026-10-27T16:45:13+00:00",
+  "as_of_date": "2026-10-27",
   "symbols_requested": 200,
   "symbols_ok": 200,
   "failed": [],
   "n_failed": 0,
   "new_forecasts": 400,
   "new_outcomes": 400,
-  "forecasts_total": 4400,
-  "outcomes_total": 3200,
+  "forecasts_total": 4800,
+  "outcomes_total": 3600,
   "point_forecast": "no change (latest close); ranges are the validated product",
   "coverage": {
     "1": {
-      "n": 2000,
-      "inside50_pct": 47.699999999999996,
-      "inside80_pct": 78.4,
-      "inside95_pct": 94.85,
-      "mean_width80_pct": 4.655090841349866,
-      "no_change_mape_pct": 1.5429084146054504,
+      "n": 2200,
+      "inside50_pct": 47.81818181818182,
+      "inside80_pct": 78.4090909090909,
+      "inside95_pct": 94.81818181818183,
+      "mean_width80_pct": 4.690152901242918,
+      "no_change_mape_pct": 1.5542186009423056,
       "last_60_sessions": {
-        "n": 2000,
-        "inside50_pct": 47.699999999999996,
-        "inside80_pct": 78.4,
-        "inside95_pct": 94.85,
-        "mean_width80_pct": 4.655090841349866,
-        "no_change_mape_pct": 1.5429084146054504
+        "n": 2200,
+        "inside50_pct": 47.81818181818182,
+        "inside80_pct": 78.4090909090909,
+        "inside95_pct": 94.81818181818183,
+        "mean_width80_pct": 4.690152901242918,
+        "no_change_mape_pct": 1.5542186009423056
       }
     },
     "5": {
-      "n": 1200,
-      "inside50_pct": 39.666666666666664,
-      "inside80_pct": 65.5,
-      "inside95_pct": 85.75,
-      "mean_width80_pct": 9.81249693833284,
-      "no_change_mape_pct": 4.0531440172199025,
+      "n": 1400,
+      "inside50_pct": 40.0,
+      "inside80_pct": 66.71428571428571,
+      "inside95_pct": 86.92857142857143,
+      "mean_width80_pct": 9.888116440295555,
+      "no_change_mape_pct": 3.9922669310066743,
       "last_60_sessions": {
-        "n": 1200,
-        "inside50_pct": 39.666666666666664,
-        "inside80_pct": 65.5,
-        "inside95_pct": 85.75,
-        "mean_width80_pct": 9.81249693833284,
-        "no_change_mape_pct": 4.0531440172199025
+        "n": 1400,
+        "inside50_pct": 40.0,
+        "inside80_pct": 66.71428571428571,
+        "inside95_pct": 86.92857142857143,
+        "mean_width80_pct": 9.888116440295555,
+        "no_change_mape_pct": 3.9922669310066743
       }
     }
   },
@@ -50,5 +50,5 @@
     "inside80_pct": 80,
     "inside95_pct": 95
   },
-  "runtime_seconds": 111.9
+  "runtime_seconds": 136.4
 }
