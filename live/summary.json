@@ -1,6 +1,6 @@
 {
   "status": "ok",
-  "last_run_utc": "2026-11-10T18:44:02+00:00",
+  "last_run_utc": "2026-11-11T18:48:14+00:00",
   "as_of_date": "2026-11-09",
   "symbols_requested": 200,
   "symbols_ok": 200,
@@ -50,5 +50,5 @@
     "inside80_pct": 80,
     "inside95_pct": 95
   },
-  "runtime_seconds": 101.0
+  "runtime_seconds": 98.9
 }
