@@ -1,47 +1,47 @@
 {
   "status": "ok",
-  "last_run_utc": "2026-11-17T19:56:46+00:00",
-  "as_of_date": "2026-11-16",
+  "last_run_utc": "2026-11-18T19:27:39+00:00",
+  "as_of_date": "2026-11-17",
   "symbols_requested": 200,
   "symbols_ok": 200,
   "failed": [],
   "n_failed": 0,
   "new_forecasts": 400,
   "new_outcomes": 400,
-  "forecasts_total": 9600,
-  "outcomes_total": 8400,
+  "forecasts_total": 10000,
+  "outcomes_total": 8800,
   "point_forecast": "no change (latest close); ranges are the validated product",
   "coverage": {
     "1": {
-      "n": 4600,
-      "inside50_pct": 45.17391304347826,
-      "inside80_pct": 75.19565217391305,
-      "inside95_pct": 92.6086956521739,
-      "mean_width80_pct": 4.5689832002169295,
-      "no_change_mape_pct": 1.6419087130627001,
+      "n": 4800,
+      "inside50_pct": 45.520833333333336,
+      "inside80_pct": 75.41666666666667,
+      "inside95_pct": 92.8125,
+      "mean_width80_pct": 4.550063829485096,
+      "no_change_mape_pct": 1.6244816620120375,
       "last_60_sessions": {
-        "n": 4600,
-        "inside50_pct": 45.17391304347826,
-        "inside80_pct": 75.19565217391305,
-        "inside95_pct": 92.6086956521739,
-        "mean_width80_pct": 4.5689832002169295,
-        "no_change_mape_pct": 1.6419087130627001
+        "n": 4800,
+        "inside50_pct": 45.520833333333336,
+        "inside80_pct": 75.41666666666667,
+        "inside95_pct": 92.8125,
+        "mean_width80_pct": 4.550063829485096,
+        "no_change_mape_pct": 1.6244816620120375
       }
     },
     "5": {
-      "n": 3800,
-      "inside50_pct": 38.21052631578947,
-      "inside80_pct": 64.28947368421053,
-      "inside95_pct": 85.26315789473684,
-      "mean_width80_pct": 10.270896904414572,
-      "no_change_mape_pct": 4.461180336713191,
+      "n": 4000,
+      "inside50_pct": 38.775,
+      "inside80_pct": 65.14999999999999,
+      "inside95_pct": 85.775,
+      "mean_width80_pct": 10.250678642749543,
+      "no_change_mape_pct": 4.3982065881342916,
       "last_60_sessions": {
-        "n": 3800,
-        "inside50_pct": 38.21052631578947,
-        "inside80_pct": 64.28947368421053,
-        "inside95_pct": 85.26315789473684,
-        "mean_width80_pct": 10.270896904414572,
-        "no_change_mape_pct": 4.461180336713191
+        "n": 4000,
+        "inside50_pct": 38.775,
+        "inside80_pct": 65.14999999999999,
+        "inside95_pct": 85.775,
+        "mean_width80_pct": 10.250678642749543,
+        "no_change_mape_pct": 4.3982065881342916
       }
     }
   },
@@ -50,5 +50,5 @@
     "inside80_pct": 80,
     "inside95_pct": 95
   },
-  "runtime_seconds": 120.1
+  "runtime_seconds": 131.3
 }
